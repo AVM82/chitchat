@@ -1,0 +1,18 @@
+Проект Chitchat - є модульним проектом.
+
+Складається:
+  1. Модуль front - фронтенд на angular2+
+  2. Модуль chitchat - бекенд на java Spring-boot
+
+Проект має перевірку стиля кода - описано в Checkstyle.md5
+
+Проект збирається maven (mvn clean install),
+після клонування з гітхаба треба зробити збирання проекту.
+Точкою входу(пусковим файлом) в проект є  chitchat/src/main/java/com/group/chitchat/СhitchatApplication.java
+
+Фронтенд відповідає: http://localhost:5000
+
+При розробці:
+1. НЕ ЗМІНЮВАТИ в корені проекта pom.xml, а також ./front/pom.xml
+2. Вся розробка по java в ./chitchat/src/main/java/com/group/chitchat
+3. Всі необхідні для розробки залежності додавати ./chitchat/pom.xml
