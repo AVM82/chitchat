@@ -30,6 +30,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>com.group</groupId>
       <artifactId>front</artifactId>
       <version>${project.version}</version>
