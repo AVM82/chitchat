@@ -6,7 +6,7 @@
 
   <parent>
     <groupId>com.group</groupId>
-    <artifactId>CHITCHAT</artifactId>
+    <artifactId>CHITCHAT_PROJECT</artifactId>
     <version>0.0.1</version>
   </parent>
 
