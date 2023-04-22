@@ -1,7 +1,7 @@
 package com.group.chitchat.controller.exceptionhandling;
 
 import com.group.chitchat.data.restmessages.ErrorMessage;
-import com.group.chitchat.exception.RoleDoesntExistException;
+import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -27,6 +27,11 @@ public class AdviceController {
     return exceptionMessage;
   }
 
+  /**
+   * Exception handler for runtime exception in case when user already exist.
+   * @param exception UserAlreadyExistException.
+   * @return the answer with meaning of this exception.
+   */
   @ResponseBody
   @ExceptionHandler(UserAlreadyExistException.class)
   public ResponseEntity<ErrorMessage> userAlreadyExistException(
@@ -38,6 +43,11 @@ public class AdviceController {
         .build(), CONFLICT);
   }
 
+  /**
+   * Exception handler for runtime exception in case when user not found.
+   * @param exception UserNotFoundException.
+   * @return the answer with meaning of this exception.
+   */
   @ResponseBody
   @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<ErrorMessage> userNotFoundException(
@@ -49,10 +59,15 @@ public class AdviceController {
         .build(), NOT_FOUND);
   }
 
+  /**
+   * Exception handler for runtime exception in case when role not exist.
+   * @param exception RoleNotExistException.
+   * @return the answer with meaning of this exception.
+   */
   @ResponseBody
-  @ExceptionHandler(RoleDoesntExistException.class)
+  @ExceptionHandler(RoleNotExistException.class)
   public ResponseEntity<ErrorMessage> roleDoesntExistException(
-      RoleDoesntExistException exception) {
+      RoleNotExistException exception) {
     return new ResponseEntity<>(ErrorMessage.builder()
         .code(NOT_FOUND)
         .timestamp(LocalDateTime.now())
@@ -60,7 +75,11 @@ public class AdviceController {
         .build(), NOT_FOUND);
   }
 
-
+  /**
+   * Exception handler for runtime exception in case when jwt token is expired.
+   * @param exception ExpiredJwtException.
+   * @return the answer with meaning of this exception.
+   */
   @ResponseBody
   @ExceptionHandler(ExpiredJwtException.class)
   public ResponseEntity<ErrorMessage> expiredJwtException(

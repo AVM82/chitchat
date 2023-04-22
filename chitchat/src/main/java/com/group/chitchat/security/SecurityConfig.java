@@ -20,13 +20,19 @@ public class SecurityConfig {
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
 
+  /**
+   * Configuration for security.
+   * @param http http security.
+   * @return Security filter chain.
+   * @throws Exception exception.
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .antMatchers("/api/v1/**", "/v3/api-docs/**", "/swagger-ui*/**")
+        .antMatchers("/api/v1/auth**", "/v3/api-docs/**", "/swagger-ui*/**")
         .permitAll()
         .anyRequest()
         .authenticated()

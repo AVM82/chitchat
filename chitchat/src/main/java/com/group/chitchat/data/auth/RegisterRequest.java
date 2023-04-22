@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    private String username;
-    @Email(regexp = "^\\S+@\\S+\\.\\S+$",
-        message = "Sorry, but you've just entered wrong email, pls try again.")
-    private String email;
-    private String password;
+
+  private String username;
+  //Validation on email pattern.
+  @Email(regexp = "^\\S+@\\S+\\.\\S+$",
+      message = "Sorry, but you've just entered wrong email, pls try again.")
+  private String email;
+  private String password;
 }

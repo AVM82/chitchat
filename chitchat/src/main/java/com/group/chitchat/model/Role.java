@@ -19,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
+
   @Id
   @Column(name = "id")
   @SequenceGenerator(name = "roleIdSeq", sequenceName = "role_id_seq", allocationSize = 1)
@@ -29,9 +30,12 @@ public class Role {
 
   @Override
   public String toString() {
-    return "Role{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        '}';
+    return "Role{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + '}';
   }
 }

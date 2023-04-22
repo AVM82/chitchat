@@ -3,6 +3,7 @@ package com.group.chitchat.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,11 +46,11 @@ public class User implements UserDetails {
   private String email;
   @Column(name = "password")
   private String password;
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private transient Collection<Role> roles;
+  private transient Set<Role> roles;
   @Column(name = "is_enabled")
   private boolean enabled;
   @Column(name = "is_account_non_expired")
@@ -99,22 +100,28 @@ public class User implements UserDetails {
     return enabled;
   }
 
-  public void setRoles(Collection<Role> roles) {
-    this.roles = roles;
-  }
-
   @Override
   public String toString() {
-    return "UserEntity{" +
-        "id=" + id +
-        ", username='" + username + '\'' +
-        ", email='" + email + '\'' +
-        ", roles=" + roles +
-        ", enabled=" + enabled +
-        ", accountNonExpired=" + accountNonExpired +
-        ", accountNonLocked=" + accountNonLocked +
-        ", credentialsNonExpired=" + credentialsNonExpired +
-        '}';
+    return "UserEntity{"
+        + "id="
+        + id
+        + ", username='"
+        + username
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", roles="
+        + roles
+        + ", enabled="
+        + enabled
+        + ", accountNonExpired="
+        + accountNonExpired
+        + ", accountNonLocked="
+        + accountNonLocked
+        + ", credentialsNonExpired="
+        + credentialsNonExpired
+        + '}';
   }
 }
 

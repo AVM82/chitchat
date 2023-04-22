@@ -18,60 +18,70 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class JwtService {
-    Environment environment;
-    private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 24;
 
-    public String extractUsername(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getSubject);
-    }
+  private final Environment environment;
+  /**
+   * This constant is responsible for how long will code run.
+   */
+  private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 24;
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
+  public String extractUsername(String jwtToken) {
+    return extractClaim(jwtToken, Claims::getSubject);
+  }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
+  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    final Claims claims = extractAllClaims(token);
+    return claimsResolver.apply(claims);
+  }
 
-    public String generateToken(
-            Map<String, Object> extractClaims,
-            UserDetails userDetails
-    ) {
-        return Jwts
-                .builder()
-                .setClaims(extractClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_CODE_WORK))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
+  public String generateToken(UserDetails userDetails) {
+    return generateToken(new HashMap<>(), userDetails);
+  }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-    }
+  /**
+   * Generate and return token.
+   * @param extractClaims extract claims.
+   * @param userDetails user details.
+   * @return jwt token.
+   */
+  public String generateToken(
+      Map<String, Object> extractClaims,
+      UserDetails userDetails
+  ) {
+    return Jwts
+        .builder()
+        .setClaims(extractClaims)
+        .setSubject(userDetails.getUsername())
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_CODE_WORK))
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        .compact();
+  }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
+  public boolean isTokenValid(String token, UserDetails userDetails) {
+    final String username = extractUsername(token);
+    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+  }
 
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
+  private boolean isTokenExpired(String token) {
+    return extractExpiration(token).before(new Date());
+  }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+  private Date extractExpiration(String token) {
+    return extractClaim(token, Claims::getExpiration);
+  }
 
-    private Key getSignInKey() {
-        byte[] keyBites = Decoders.BASE64.decode(environment.getProperty("secret.key"));
-        return Keys.hmacShaKeyFor(keyBites);
-    }
+  private Claims extractAllClaims(String token) {
+    return Jwts
+        .parserBuilder()
+        .setSigningKey(getSignInKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody();
+  }
+
+  private Key getSignInKey() {
+    byte[] keyBites = Decoders.BASE64.decode(environment.getProperty("secret.key"));
+    return Keys.hmacShaKeyFor(keyBites);
+  }
 }

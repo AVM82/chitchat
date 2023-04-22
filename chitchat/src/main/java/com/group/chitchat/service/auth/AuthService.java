@@ -3,14 +3,13 @@ package com.group.chitchat.service.auth;
 import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
 import com.group.chitchat.data.auth.RegisterRequest;
-import com.group.chitchat.exception.RoleDoesntExistException;
+import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
 import java.util.HashSet;
-import java.util.Set;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service which manage registration and authentication.
+ */
 @Service
 @AllArgsConstructor
 @Log4j2
@@ -32,25 +34,40 @@ public class AuthService {
   private final RoleRepo roleRepository;
   private static final String USER_ROLE = "ROLE_USER";
 
+  /**
+   * Register method which take data from request and create new user.
+   * After all this steps saving this user to db.
+   * @param request request with info about user.
+   * @return JWT token.
+   */
   public AuthenticationResponse register(@Valid RegisterRequest request) {
+
     String username = request.getUsername();
     if (userRepository.existsByUsername(username)) {
       throw new UserAlreadyExistException(username);
     }
 
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    user.setRoles(setUserDefaultRole());
+    user.getRoles().add(getDefaultRoleOrThrowException());
+
     log.info(user.getRoles());
     userRepository.save(user);
 
     var jwtToken = service.generateToken(user);
+    // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();
   }
 
+  /**
+   * Authentication method which giving jwt token for user what have registered before.
+   * @param request request with username and password.
+   * @return JWT token.
+   */
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
     String username = request.getUsername();
 
     User user = userRepository.findByUsername(username)
@@ -58,7 +75,6 @@ public class AuthService {
                 "User with username " + username + " not found"
             )
         );
-
 
     log.info(user.getRoles());
 
@@ -81,17 +97,16 @@ public class AuthService {
         .username(username)
         .email(email)
         .password(passwordEncoder.encode(password))
+        .roles(new HashSet<>())
+        .enabled(true)
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
-        .enabled(true)
         .build();
   }
 
-  private Set<Role> setUserDefaultRole() {
-    Set<Role> userRoles = new HashSet<>();
-    userRoles.add(roleRepository.findRoleByName(USER_ROLE)
-        .orElseThrow(() -> new RoleDoesntExistException(USER_ROLE)));
-    return userRoles;
+  private Role getDefaultRoleOrThrowException() {
+    return roleRepository.findRoleByName(USER_ROLE)
+        .orElseThrow(() -> new RoleNotExistException(USER_ROLE));
   }
 }

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Log4j2
 public class AuthenticationAndRegistrationController {
+
   private final AuthService authenticateService;
+
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
       @RequestBody @Valid RegisterRequest request
