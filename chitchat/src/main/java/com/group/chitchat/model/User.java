@@ -2,9 +2,9 @@ package com.group.chitchat.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,11 +46,11 @@ public class User implements UserDetails {
   private String email;
   @Column(name = "password")
   private String password;
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany
   @JoinTable(name = "users_roles",
-      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private transient Set<Role> roles;
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Set<Role> roles = new LinkedHashSet<>();
   @Column(name = "is_enabled")
   private boolean enabled;
   @Column(name = "is_account_non_expired")
@@ -62,7 +62,6 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    log.info(roles);
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for (Role role : roles) {
       authorities.add(new SimpleGrantedAuthority(role.getName()));

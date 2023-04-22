@@ -48,9 +48,14 @@ public class AuthService {
     }
 
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    user.getRoles().add(getDefaultRoleOrThrowException());
+    //hot fix need to replace with not costul
+    Role defaultRole = getDefaultRoleOrThrowException();
+    defaultRole.setUsers(new HashSet<>());
+    defaultRole.getUsers().add(user);
+    user.getRoles().add(defaultRole);
 
     log.info(user.getRoles());
+    roleRepository.save(defaultRole);
     userRepository.save(user);
 
     var jwtToken = service.generateToken(user);
@@ -75,8 +80,6 @@ public class AuthService {
                 "User with username " + username + " not found"
             )
         );
-
-    log.info(user.getRoles());
 
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
