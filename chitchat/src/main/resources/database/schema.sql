@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS users(
-    id                          integer,
+    id                          int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
     username                    varchar(255) UNIQUE,
     email                       varchar(255) UNIQUE,
     password                    varchar(255),
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 
 CREATE TABLE IF NOT EXISTS roles(
-    id     integer,
+    id     int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
     name   varchar(255),
     PRIMARY KEY (id)
 );
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS roles(
 
 
 CREATE TABLE IF NOT EXISTS users_roles(
-    user_id     integer,
-    role_id     integer,
+    user_id     int4,
+    role_id     int4,
     PRIMARY KEY (user_id, role_id),
     CONSTRAINT fk_authorities_users FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT fk_authorities_roles FOREIGN KEY (role_id) REFERENCES roles (id)
