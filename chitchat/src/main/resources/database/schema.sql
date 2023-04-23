@@ -1,9 +1,9 @@
 
 CREATE TABLE IF NOT EXISTS users(
     id                          int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
-    username                    varchar(255) UNIQUE,
-    email                       varchar(255) UNIQUE,
-    password                    varchar(255),
+    username                    varchar(255) NOT NULL UNIQUE,
+    email                       varchar(255) NOT NULL UNIQUE,
+    password                    varchar(255) NOT NULL,
     is_enabled                  boolean,
     is_account_non_expired      boolean,
     is_account_non_locked       boolean,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS roles(
     id     int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
-    name   varchar(255),
+    name   varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 -- CREATE SEQUENCE IF NOT EXISTS role_id_seq START WITH 3 INCREMENT BY 1;
