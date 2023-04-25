@@ -3,10 +3,8 @@ package com.group.chitchat.controller;
 import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
 import com.group.chitchat.data.auth.RegisterRequest;
-
-import javax.validation.Valid;
-
 import com.group.chitchat.service.auth.AuthService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;

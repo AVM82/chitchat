@@ -5,14 +5,14 @@ import com.group.chitchat.model.dto.LanguageDto;
 
 public class LanguageDtoService {
 
-    private LanguageDtoService() {
-    }
+  private LanguageDtoService() {
+  }
 
-    public static LanguageDto getFromEntity(Language language) {
-        return new LanguageDto(language.getCodeIso(), language.getName());
-    }
+  public static LanguageDto getFromEntity(Language language) {
+    return new LanguageDto(language.getCodeIso(), language.getName());
+  }
 
-    public static Language getFromDto(LanguageDto languageDto) {
-        return new Language(languageDto.getCodeIso(), languageDto.getLanguageName());
-    }
+  public static Language getFromDto(LanguageDto languageDto) {
+    return new Language(languageDto.getCodeIso(), languageDto.getLanguageName());
+  }
 }
