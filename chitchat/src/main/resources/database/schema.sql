@@ -24,14 +24,23 @@ CREATE TABLE IF NOT EXISTS roles(
 
 
 CREATE TABLE IF NOT EXISTS users_roles(
-    user_id     int4,
-    role_id     int4,
-    PRIMARY KEY (user_id, role_id),
-    CONSTRAINT fk_authorities_users FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT fk_authorities_roles FOREIGN KEY (role_id) REFERENCES roles (id)
+                                          user_id int4,
+                                          role_id int4,
+                                          PRIMARY KEY (user_id, role_id),
+                                          CONSTRAINT fk_authorities_users FOREIGN KEY (user_id) REFERENCES users (id),
+                                          CONSTRAINT fk_authorities_roles FOREIGN KEY (role_id) REFERENCES roles (id)
 );
 
-CREATE TABLE IF NOT EXISTS Languages(
-    id varchar(2) PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS languages
+(
+    id   varchar(2) PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS topics
+(
+    id       int4         NOT NULL GENERATED ALWAYS AS IDENTITY,
+    name     varchar(255) NOT NULL UNIQUE,
+    priority int4 DEFAULT 0,
+    PRIMARY KEY (id)
 );
