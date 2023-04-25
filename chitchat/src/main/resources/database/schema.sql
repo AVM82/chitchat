@@ -33,5 +33,5 @@ CREATE TABLE IF NOT EXISTS users_roles(
 
 CREATE TABLE IF NOT EXISTS Languages(
     id varchar(2) PRIMARY KEY,
-    language varchar(255) NOT NULL UNIQUE
+    name varchar(255) NOT NULL UNIQUE
 );
