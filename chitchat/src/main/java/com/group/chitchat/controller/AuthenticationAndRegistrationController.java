@@ -4,7 +4,7 @@ import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
 import com.group.chitchat.data.auth.RegisterRequest;
 import com.group.chitchat.service.auth.AuthService;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Log4j2

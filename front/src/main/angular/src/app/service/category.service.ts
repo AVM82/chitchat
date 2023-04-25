@@ -13,7 +13,7 @@ export class CategoryService {
   constructor(private httpClient: HttpClient) {}
 
   add(obj: Category): Observable<Category> {
-    return  this.httpClient.post<Category>(this.url+'/',obj);
+    return  this.httpClient.post<Category>(this.url,obj);
   }
 
   get(id: number): Observable<Category> {
@@ -21,7 +21,7 @@ export class CategoryService {
   }
 
   getAll(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.url+'/');
+    return this.httpClient.get<Category[]>(this.url);
   }
 
   update(obj: Category): Observable<Category> {

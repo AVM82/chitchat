@@ -1,6 +1,6 @@
 package com.group.chitchat.data.auth;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
