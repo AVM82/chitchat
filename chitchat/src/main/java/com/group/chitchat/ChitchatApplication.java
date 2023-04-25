@@ -11,5 +11,4 @@ public class ChitchatApplication {
   public static void main(String[] args) {
     SpringApplication.run(ChitchatApplication.class, args);
   }
-
 }
