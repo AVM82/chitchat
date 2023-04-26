@@ -44,3 +44,26 @@ CREATE TABLE IF NOT EXISTS categories
     priority int4 DEFAULT 0,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS chitchats
+(
+    id          int8        NOT NULL GENERATED ALWAYS AS IDENTITY,
+    author_id   int4 REFERENCES users (id),
+    header      varchar(20) NOT NULL,
+    category_id int4 REFERENCES categories (id),
+    description varchar(255),
+    language_id varchar(2) REFERENCES languages (id),
+    level       varchar(6)  NOT NULL,
+    capacity    int4        NOT NULL,
+    time        TIMESTAMP WITHOUT TIME ZONE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS chitchat_users
+(
+    chitchat_id int4,
+    user_id     int4,
+    PRIMARY KEY (chitchat_id, user_id),
+    CONSTRAINT fk_participating_chitchats FOREIGN KEY (chitchat_id) REFERENCES chitchats (id),
+    CONSTRAINT fk_participating_users FOREIGN KEY (user_id) REFERENCES users (id)
+);
