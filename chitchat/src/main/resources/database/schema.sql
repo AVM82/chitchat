@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS languages
     name varchar(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS topics
+CREATE TABLE IF NOT EXISTS categories
 (
     id       int4         NOT NULL GENERATED ALWAYS AS IDENTITY,
     name     varchar(255) NOT NULL UNIQUE,
