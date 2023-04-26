@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,23 +39,34 @@ public class User implements UserDetails {
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Column(name = "username", unique = true)
   private String username;
+
   @Column(name = "email", unique = true)
   private String email;
+
   @Column(name = "password")
   private String password;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_roles",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id"))
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
   private Set<Role> roles = new LinkedHashSet<>();
+
+  @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
+  private transient Set<Chitchat> chitchats;
+
   @Column(name = "is_enabled")
   private boolean enabled;
+
   @Column(name = "is_account_non_expired")
   private boolean accountNonExpired;
+
   @Column(name = "is_account_non_locked")
   private boolean accountNonLocked;
+
   @Column(name = "is_credentials_non_expired")
   private boolean credentialsNonExpired;
 

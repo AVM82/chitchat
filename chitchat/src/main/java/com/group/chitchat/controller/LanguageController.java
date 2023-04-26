@@ -1,7 +1,7 @@
 package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.LanguageDto;
-import com.group.chitchat.service.LanguageService;
+import com.group.chitchat.service.language.LanguageService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

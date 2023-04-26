@@ -1,7 +1,7 @@
 package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.CategoryDto;
-import com.group.chitchat.service.CategoryService;
+import com.group.chitchat.service.category.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class CategoryController {
 
   private final CategoryService categoryService;
 
-  @GetMapping
+  @GetMapping("/all")
   public ResponseEntity<List<CategoryDto>> getAllCategories() {
     return categoryService.getAllCategories();
   }
