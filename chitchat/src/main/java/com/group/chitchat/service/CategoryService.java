@@ -35,7 +35,7 @@ public class CategoryService {
   }
 
   /**
-   * Return one category by id.
+   * Returns one category by id.
    *
    * @param categoryId id of category.
    * @return category by id.
@@ -46,6 +46,8 @@ public class CategoryService {
   }
 
   /**
+   * Adds new category to database.
+   *
    * @param categoryDto Incoming dto with data for adding to database;
    * @return Response with status and body.
    */
@@ -57,6 +59,13 @@ public class CategoryService {
         .body(CategoryDtoService.getFromEntity(category));
   }
 
+  /**
+   * Changes category by id to new data from incoming dto.
+   *
+   * @param categoryId  id of category.
+   * @param categoryDto Incoming dto with data for adding to database.
+   * @return Response with status and body with changed category.
+   */
   @Transactional
   public ResponseEntity<CategoryDto> changeCategory(Integer categoryId, CategoryDto categoryDto) {
     Category category = categoryRepo.findById(categoryId).orElseThrow();
