@@ -22,6 +22,7 @@ public class SecurityConfig {
 
   /**
    * Configuration for security.
+   *
    * @param http http security.
    * @return Security filter chain.
    * @throws Exception exception.
@@ -29,10 +30,9 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .csrf()
-        .disable()
+        .csrf().disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/v1/auth/**","/*","/v3/api-docs/**", "/swagger-ui/**")
+        .requestMatchers("/api/v1/auth/**", "/*", "/v3/api-docs/**", "/swagger-ui/**")
         .permitAll()
         .anyRequest()
         .authenticated()

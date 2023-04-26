@@ -12,14 +12,14 @@ public class CategoryDto {
 
   int id;
   @NotNull
-  String categoryName;
+  String name;
   int priority;
 
   @Override
   public String toString() {
     return "CategoryDto{"
         + "id=" + id
-        + ", categoryName='" + categoryName + '\''
+        + ", name='" + name + '\''
         + ", priority=" + priority
         + '}';
   }
