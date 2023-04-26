@@ -1,7 +1,7 @@
 package com.group.chitchat.controller;
 
-import com.group.chitchat.model.dto.TopicDto;
-import com.group.chitchat.service.TopicService;
+import com.group.chitchat.model.dto.CategoryDto;
+import com.group.chitchat.service.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("/api/v1/category")
-public class TopicController {
+public class CategoryController {
 
-  private final TopicService topicService;
+  private final CategoryService categoryService;
 
   @GetMapping
-  public ResponseEntity<List<TopicDto>> getAllTopics() {
-    return ResponseEntity.ok(topicService.getAllTopics());
+  public ResponseEntity<List<CategoryDto>> getAllCategories() {
+    return ResponseEntity.ok(categoryService.getAllCategories());
   }
 }

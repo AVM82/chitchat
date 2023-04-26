@@ -17,7 +17,7 @@ VALUES ('uk', 'українська'),
        ('en', 'english'),
        ('de', 'deutsch');
 
-INSERT INTO topics
+INSERT INTO categories
 VALUES (DEFAULT, 'Computer Science and IT', 10),
        (DEFAULT, 'Casual Conversation', 5),
        (DEFAULT, 'How beer can help you understand the theory of relativity', 3);
