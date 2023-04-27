@@ -90,6 +90,11 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
+    <dependency>
+      <artifactId>spring-boot-starter-mail</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
   </dependencies>
 
   <build>

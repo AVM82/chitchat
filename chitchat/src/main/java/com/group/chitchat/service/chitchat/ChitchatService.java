@@ -10,6 +10,7 @@ import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.UserRepo;
+import com.group.chitchat.service.email.EmailService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +24,12 @@ public class ChitchatService {
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
+  /**
+   * Messages for sending email.
+   */
+  private static final String MESSAGE_CONFIRM_CREATE = "You created a new chitchat";
+  private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
+  private final EmailService emailService;
 
   /**
    * Returns list of chitchats.
@@ -49,10 +56,28 @@ public class ChitchatService {
 
     Language language = languageRepo.findByName(chitchatDto.getLanguageName()).orElseThrow();
     Category category = categoryRepo.findByName(chitchatDto.getCategoryName()).orElseThrow();
-    Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(chitchatDto, author, language,
-        category);
-
+    Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
+        chitchatDto, author, language, category);
     chitchat.getUsersInChitchat().add(author);
-    return ChitchatDtoService.getFromEntity(chitchatRepo.save(chitchat));
+
+    chitchatRepo.save(chitchat);
+
+    sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
+
+    return ChitchatDtoService.getFromEntity(chitchat);
+  }
+
+  /**
+   * Sends a confirmation email.
+   *
+   * @param chitchat Entity with data.
+   * @param message  Message for sending
+   */
+  private void sendEmail(Chitchat chitchat, String message) {
+    emailService.sendEmail(
+        chitchat.getAuthor().getEmail(),
+        String.format("Chitchat: speak about %s", chitchat.getCategory()),
+        message
+    );
   }
 }
