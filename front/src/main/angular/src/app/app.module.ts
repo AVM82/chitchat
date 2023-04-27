@@ -10,6 +10,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from "@angular/material/dialog";
+import {CategoryComponent} from "./components/category/category.component";
+import {MatIconModule} from "@angular/material/icon";
+import { ChitchatComponent } from './components/chitchat/chitchat.component';
 
 
 const appRoutes: Routes = [
@@ -20,7 +23,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CategoryComponent,
+    ChitchatComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

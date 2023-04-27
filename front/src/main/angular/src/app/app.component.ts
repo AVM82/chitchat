@@ -12,18 +12,14 @@ import {RegisterComponent} from "./auth/register/register.component";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  categories: Category[] ;
 
-  constructor(private categoryService: CategoryService,private dialog: MatDialog) {
+
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.categoryService.getAll().subscribe(result=>{
-      this.categories = result;
-      console.log(result.length);
-    });
-  }
 
+  }
   login() {
     let dialogRef = this.dialog.open(LoginComponent, {
       data: ['Login in system'],
@@ -42,9 +38,5 @@ export class AppComponent implements OnInit{
       disableClose: false,
       autoFocus: true,
     });
-  }
-
-  openChitChat() {
-    
   }
 }

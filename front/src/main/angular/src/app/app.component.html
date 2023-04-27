@@ -1,103 +1,31 @@
-<!--<div class="d-flex">-->
-<!--  <main class="d-flex flex-column " style="width: 100%">-->
-<!--    <div>-->
-<!--      <h1>Chitchat</h1>-->
-<!--      <router-outlet></router-outlet>-->
+<div class="row">
+  <div class="col-2 mb-2">
+    <app-category></app-category>
+  </div>
 
-<!--    </div>-->
-<!--  </main>-->
-<!--</div>-->
-
-  <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 mx-4 shadow-none border-radius-xl" >
-    <div class="container-fluid py-1 px-3">
-      <nav aria-label="breadcrumb">
-        <h1 class="font-weight-bold mb-0 text-primary" >Speaking Club</h1>
-      </nav>
-      <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-        </div>
-        <ul class="navbar-nav  justify-content-end">
-          <li class="nav-item d-flex align-items-center">
-            <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary" target="_blank" (click)="login()">Log In</a>
-          </li>
-          <li class="nav-item d-flex align-items-center">
-            <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary" target="_blank" (click)="signup()">Sign Up</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-<div class="row gx-1 m-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-6 justify-content-center" >
-  <div class="col mb-5"  *ngFor="let category of categories">
-    <div class="card h-100 shadow p-3 mb-5 bg-white rounded ">
-      <!-- Product image-->
-      <img class="card-img-top" src="{{category.name}}" alt="..."/>
-      <!-- Product details-->
-      <div class="card-body p-1">
-        <div class="text-center">
-          <!-- Product name-->
-          <h6 class="fw-bolder text-truncate">Наша категорія</h6>
-          <h6 class="fw-bolder text-truncate"
-          >{{category.priority}}</h6>
-          <!-- Product price-->
-          <h5 class="fw-bolder text-primary"
-          >Дата створення</h5>
+  <div class="col-10">
+    <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 mx-5 shadow border-radius-xl">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <h1 class="font-weight-bold mb-0 align-items-start text-primary">Speaking Club</h1>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                 target="_blank" (click)="login()">Log In</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                 target="_blank" (click)="signup()">Sign Up</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <!-- Product actions-->
-      <div class="card-footer p-0 pt-0 border-top-0 bg-transparent">
-        <div class="text-center"><a class="btn btn-primary mt-auto" (click)="openChitChat()">
-          Детальніше</a></div>
-      </div>
-    </div>
+    </nav>
+    <app-chitchat></app-chitchat>
   </div>
 </div>
-  <!-- End Navbar -->
-  <div class="container-fluid py-0 mx-2">
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-2">
-        <div class="card border-primary mb-3" style="width: 21rem;">
-          <div class="card-header bg-transparent border-primary">Category....</div>
-          <div class="card-header bg-transparent border-primary">Topic....</div>
-          <div class="card-body text-primary">
-            <h5 class="card-title">Date of event ...</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-          <div class="card-footer bg-transparent border-success">Speakers...</div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-2">
-        <div class="card border-primary mb-3" style="width: 21rem;">
-          <div class="card-header bg-transparent border-primary">Category....</div>
-          <div class="card-header bg-transparent border-primary">Topic....</div>
-          <div class="card-body text-primary">
-            <h5 class="card-title">Date of event ...</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-          <div class="card-footer bg-transparent border-success">Speakers...</div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-2">
-        <div class="card border-primary mb-3" style="width: 21rem;">
-          <div class="card-header bg-transparent border-primary">Category....</div>
-          <div class="card-header bg-transparent border-primary">Topic....</div>
-          <div class="card-body text-primary">
-            <h5 class="card-title">Date of event ...</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-          <div class="card-footer bg-transparent border-success">Speakers...</div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-2">
-        <div class="card border-primary mb-3" style="width: 21rem;">
-          <div class="card-header bg-transparent border-primary">Category....</div>
-          <div class="card-header bg-transparent border-primary">Topic....</div>
-          <div class="card-body text-primary">
-            <h5 class="card-title">Date of event ...</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-          <div class="card-footer bg-transparent border-success">Speakers...</div>
-        </div>
-      </div>
-  </div>
-  </div>
+<!-- End Navbar -->
