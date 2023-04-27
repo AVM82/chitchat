@@ -27,7 +27,9 @@ public class ChitchatEmailService implements EmailService {
       helper.setText(textMessage);
     } catch (MessagingException e) {
       log.error("Failed to send email to {}", email, e);
+      //TODO response to front
     }
     mailSender.send(message);
+    log.info("Email to {} sent successfully", email);
   }
 }
