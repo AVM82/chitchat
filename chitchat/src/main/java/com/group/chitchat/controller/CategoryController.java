@@ -1,8 +1,10 @@
 package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.CategoryDto;
+import com.group.chitchat.service.ResourcesBundleService;
 import com.group.chitchat.service.category.CategoryService;
 import java.util.List;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,29 +23,41 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
   private final CategoryService categoryService;
+  private final ResourcesBundleService resourceBundleService;
 
   @GetMapping("/all")
-  public ResponseEntity<List<CategoryDto>> getAllCategories() {
+  public ResponseEntity<List<CategoryDto>> getAllCategories(
+      @RequestHeader(name = "Accept-Language", required = false, defaultValue = "en") Locale locale
+  ) {
+    resourceBundleService.setLocale(locale);
     return categoryService.getAllCategories();
   }
 
   @GetMapping("{categoryId}")
   public ResponseEntity<CategoryDto> getOneCategory(
-      @PathVariable("categoryId") Integer categoryId) {
+      @PathVariable("categoryId") Integer categoryId,
+      @RequestHeader(name = "Accept-Language", required = false, defaultValue = "en") Locale locale
+  ) {
+    resourceBundleService.setLocale(locale);
     return categoryService.getOneCategory(categoryId);
   }
 
   @PostMapping
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto) {
+  public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto,
+      @RequestHeader(name = "Accept-Language", required = false, defaultValue = "en") Locale locale
+  ) {
+    resourceBundleService.setLocale(locale);
     return categoryService.addCategory(categoryDto);
   }
 
   @PutMapping("{categoryId}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> updateCategory(@PathVariable("categoryId") Integer categoryId,
-      @RequestBody CategoryDto categoryDto) {
-
+      @RequestBody CategoryDto categoryDto,
+      @RequestHeader(name = "Accept-Language", required = false, defaultValue = "en") Locale locale
+  ) {
+    resourceBundleService.setLocale(locale);
     return categoryService.changeCategory(categoryId, categoryDto);
   }
 }
