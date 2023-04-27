@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "topics")
+@Table(name = "categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Topic {
+public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,13 +29,13 @@ public class Topic {
   @Column(columnDefinition = "int4 DEFAULT 0")
   private int priority;                         //TODO add automatic priority update
 
-  public Topic(String name) {
+  public Category(String name) {
     this.name = name;
   }
 
   @Override
   public String toString() {
-    return "Topic{"
+    return "Category{"
         + "id=" + id
         + ", name='" + name + '\''
         + ", priority=" + priority
