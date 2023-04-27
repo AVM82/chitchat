@@ -1,6 +1,5 @@
 package com.group.chitchat.model.dto;
 
-import com.group.chitchat.model.enums.Levels;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -22,7 +21,7 @@ public class ChitchatForResponseDto {
   private String categoryName;
   private String description;
   private String languageName;
-  private Levels level;
+  private String level;
   private int capacity;
   private LocalDateTime date;
   private List<String> usersInChitchat;

@@ -6,6 +6,7 @@ import com.group.chitchat.model.Language;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
+import com.group.chitchat.model.enums.Levels;
 import java.util.HashSet;
 
 public class ChitchatDtoService {
@@ -26,7 +27,7 @@ public class ChitchatDtoService {
         .description(chitchat.getDescription())
         .languageName(chitchat.getLanguage().getName())
         .categoryName(chitchat.getChatName())
-        .level(chitchat.getLevel())
+        .level(chitchat.getLevel().name())
         .capacity(chitchat.getCapacity())
         .authorName(chitchat.getAuthor().getUsername())
         .date(chitchat.getDate())
@@ -51,7 +52,7 @@ public class ChitchatDtoService {
         .description(chitchatDto.getDescription())
         .language(language)
         .category(category)
-        .level(chitchatDto.getLevel())
+        .level(Levels.valueOf(chitchatDto.getLevel()))
         .capacity(chitchatDto.getCapacity())
         .author(author)
         .date(chitchatDto.getDate())
