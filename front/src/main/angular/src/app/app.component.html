@@ -1,11 +1,31 @@
-<div class="d-flex">
-  <main class="d-flex flex-column " style="width: 100%">
-    <div>
-      <h1>Chitchat</h1>
-      <router-outlet>
-      </router-outlet>
-    </div>
-  </main>
+<div class="row">
+  <div class="col-2 mb-2">
+    <app-category></app-category>
+  </div>
+
+  <div class="col-10">
+    <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 mx-5 shadow border-radius-xl">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <h1 class="font-weight-bold mb-0 align-items-start text-primary">Speaking Club</h1>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                 target="_blank" (click)="login()">Log In</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                 target="_blank" (click)="signup()">Sign Up</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <app-chitchat></app-chitchat>
+  </div>
 </div>
-
-
+<!-- End Navbar -->
