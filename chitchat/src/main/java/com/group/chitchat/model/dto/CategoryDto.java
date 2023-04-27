@@ -8,18 +8,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TopicDto {
+public class CategoryDto {
 
   int id;
   @NotNull
-  String topicName;
+  String name;
   int priority;
 
   @Override
   public String toString() {
-    return "TopicDto{"
+    return "CategoryDto{"
         + "id=" + id
-        + ", topicName='" + topicName + '\''
+        + ", name='" + name + '\''
         + ", priority=" + priority
         + '}';
   }

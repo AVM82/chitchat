@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity()
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
@@ -22,6 +24,7 @@ public class SecurityConfig {
 
   /**
    * Configuration for security.
+   *
    * @param http http security.
    * @return Security filter chain.
    * @throws Exception exception.
@@ -29,10 +32,10 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .csrf()
-        .disable()
+        .csrf().disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/v1/auth/**","/*","/v3/api-docs/**", "/swagger-ui/**")
+        .requestMatchers("/api/v1/auth/**", "/*", "/v3/api-docs/**",
+            "/swagger-ui/**", "/api/v1/category/all**", "api/v1/chitchats/all**")
         .permitAll()
         .anyRequest()
         .authenticated()
