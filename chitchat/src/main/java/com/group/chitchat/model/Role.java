@@ -28,7 +28,7 @@ public class Role {
   private Long id;
   @Column(name = "name")
   private String name;
-  @ManyToMany(mappedBy = "roles")
+  @ManyToMany(mappedBy = "roles", targetEntity = User.class)
   private Set<User> users;
 
   @Override

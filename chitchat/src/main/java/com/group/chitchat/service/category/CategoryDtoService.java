@@ -1,4 +1,4 @@
-package com.group.chitchat.service;
+package com.group.chitchat.service.category;
 
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.dto.CategoryDto;

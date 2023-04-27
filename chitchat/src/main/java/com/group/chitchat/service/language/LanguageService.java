@@ -1,4 +1,4 @@
-package com.group.chitchat.service;
+package com.group.chitchat.service.language;
 
 import com.group.chitchat.model.dto.LanguageDto;
 import com.group.chitchat.repository.LanguageRepo;
