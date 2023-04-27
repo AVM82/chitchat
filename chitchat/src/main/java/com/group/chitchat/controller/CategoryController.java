@@ -5,6 +5,7 @@ import com.group.chitchat.service.category.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,11 +33,13 @@ public class CategoryController {
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto) {
     return categoryService.addCategory(categoryDto);
   }
 
   @PutMapping("{categoryId}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> updateCategory(@PathVariable("categoryId") Integer categoryId,
       @RequestBody CategoryDto categoryDto) {
 
