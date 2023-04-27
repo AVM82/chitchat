@@ -1,12 +1,15 @@
 package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.TopicDto;
+import com.group.chitchat.service.ResourcesBundleService;
 import com.group.chitchat.service.TopicService;
 import java.util.List;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,9 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TopicController {
 
   private final TopicService topicService;
+  private final ResourcesBundleService resourceBundleService;
 
   @GetMapping
-  public ResponseEntity<List<TopicDto>> getAllTopics() {
+  public ResponseEntity<List<TopicDto>> getAllTopics(
+      @RequestHeader(name = "Accept-Language", required = false, defaultValue = "en") Locale locale
+  ) {
+    resourceBundleService.setLocale(locale);
     return ResponseEntity.ok(topicService.getAllTopics());
   }
 }
