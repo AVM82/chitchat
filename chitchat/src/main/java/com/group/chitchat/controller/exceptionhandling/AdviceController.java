@@ -123,6 +123,7 @@ public class AdviceController {
         .build(), FORBIDDEN);
   }
 
+
   /**
    * Exception handler for runtime exceptions when any unhandled error occurs.
    *
