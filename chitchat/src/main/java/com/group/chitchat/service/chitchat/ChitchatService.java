@@ -12,7 +12,10 @@ import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,22 @@ public class ChitchatService {
     return chitchatRepo.findAll().stream()
         .map(ChitchatDtoService::getFromEntity)
         .toList();
+  }
+
+  /**
+   * Return chitcat by incoming id.
+   *
+   * @param chitchatId Incoming id.
+   * @return Chitchat by id.
+   */
+  public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
+    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
+    if (chitchatOptional.isEmpty()) {
+      throw new NoSuchElementException(String.format("Chitchat with id %s not found", chitchatId));
+    } else {
+      return ResponseEntity.ok(
+          ChitchatDtoService.getFromEntity(chitchatOptional.get()));
+    }
   }
 
   /**
