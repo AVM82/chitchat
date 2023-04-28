@@ -6,7 +6,7 @@ import com.group.chitchat.data.restmessages.ErrorMessage;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
-import com.group.chitchat.service.ResourcesBundleService;
+import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -131,7 +131,8 @@ public class AdviceController {
    */
   @ResponseBody
   @ExceptionHandler({Exception.class})
-  public ResponseEntity<ErrorMessage> error() {
+  public ResponseEntity<ErrorMessage> error(Exception e) {
+    log.info("Error: {}", e.getMessage());
     return new ResponseEntity<>(ErrorMessage.builder()
         .timestamp(LocalDateTime.now())
         .message(logInfoAndGiveMessage(

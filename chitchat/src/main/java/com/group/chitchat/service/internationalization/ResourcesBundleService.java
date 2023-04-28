@@ -1,4 +1,4 @@
-package com.group.chitchat.service;
+package com.group.chitchat.service.internationalization;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -13,6 +13,4 @@ public interface ResourcesBundleService {
   String getMessForLocale(String keyMessage, Locale locale);
 
   String getExceptionMessForLocale(HttpStatus httpStatus, Locale locale);
-
-  void setLocale(Locale locale);
 }
