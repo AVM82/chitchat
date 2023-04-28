@@ -26,11 +26,12 @@ export class LoginComponent {
     });
   }
   login() {
+    console.log(this.loginForm.value.username+'---'+this.loginForm.value.password)
     this.authService.login({
       username: this.loginForm.value.username,
       password: this.loginForm.value.password
     }).subscribe(data => {
-      console.log(data);
+      console.log('(****) '+data);
     });
   }
 }
