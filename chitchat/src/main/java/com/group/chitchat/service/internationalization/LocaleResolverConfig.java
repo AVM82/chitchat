@@ -31,6 +31,9 @@ public class LocaleResolverConfig implements LocaleResolver {
   public void setLocale(@NonNull HttpServletRequest request,
       HttpServletResponse response, Locale locale) {
 
+    if (response != null) {
+      response.setLocale(resolveLocale(request));
+    }
     Locale.setDefault(resolveLocale(request));
   }
 

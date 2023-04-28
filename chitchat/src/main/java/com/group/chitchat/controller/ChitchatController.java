@@ -6,6 +6,7 @@ import com.group.chitchat.service.chitchat.ChitchatService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,8 +34,8 @@ public class ChitchatController {
    */
   @GetMapping("/all")
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(
-      HttpServletRequest requestHeader) {
-    localeResolverConfig.setLocale(requestHeader, null, null);
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(chitchatService.getAllChitchats());
   }
 
@@ -48,8 +49,8 @@ public class ChitchatController {
   @PostMapping
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
-      HttpServletRequest requestHeader) {
-    localeResolverConfig.setLocale(requestHeader, null, null);
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(chitchatService
         .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
   }
