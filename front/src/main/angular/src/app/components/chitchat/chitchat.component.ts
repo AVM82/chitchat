@@ -3,6 +3,7 @@ import {Category} from "../../model/Category";
 import {CategoryService} from "../../service/category.service";
 import {Chitchat} from "../../model/Chitchat";
 import {ChitchatService} from "../../service/chitchat.service";
+import {TokenStorageService} from "../../service/token-storage.service";
 
 @Component({
   selector: 'app-chitchat',
@@ -11,8 +12,12 @@ import {ChitchatService} from "../../service/chitchat.service";
 })
 export class ChitchatComponent {
   chitchats: Chitchat[] ;
+  oneCitchat: Chitchat
 
-  constructor(private chitchatService: ChitchatService) {
+  constructor(
+      private chitchatService: ChitchatService
+
+      ) {
   }
 
   ngOnInit() {
@@ -21,7 +26,9 @@ export class ChitchatComponent {
     });
   }
 
-  openChitChat() {
-
+  openChitChat(chitchat: Chitchat) {
+    this.chitchatService.get(chitchat.id).subscribe(result=>{
+      this.oneCitchat = result;
+    });
   }
 }

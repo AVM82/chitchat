@@ -62,7 +62,7 @@ public class ChitchatService {
 
     chitchatRepo.save(chitchat);
 
-    sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
+    //sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
 
     return ChitchatDtoService.getFromEntity(chitchat);
   }

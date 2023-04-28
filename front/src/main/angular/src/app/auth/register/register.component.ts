@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
+import {NotificationService} from "../../service/notification.service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-register',
@@ -14,6 +16,8 @@ export class RegisterComponent {
   constructor(
       private authService: AuthService,
       private router: Router,
+      private dialogRef: MatDialogRef<RegisterComponent>,
+      private notificationService: NotificationService,
       private fb: FormBuilder) {
   }
   ngOnInit(): void {
@@ -23,16 +27,23 @@ export class RegisterComponent {
     return this.fb.group({
         email: ['', Validators.compose([Validators.required, Validators.email])],
         username: ['', Validators.compose([Validators.required])],
-        password: ['', Validators.compose([Validators.required])]
+        password: ['', Validators.compose([Validators.required])],
+        confirmPassword: ['', Validators.compose([Validators.required])]
       });
   }
   register() {
-    this.authService.register({
-      username: this.registerForm.value.username,
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password
-    }).subscribe(data => {
-      console.log(data);
-    });
+    if (this.registerForm.value.password == this.registerForm.value.confirmPassword) {
+      this.authService.register({
+        username: this.registerForm.value.username,
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password
+      }).subscribe(data => {
+        console.log(data);
+        this.notificationService.showSnackBar('Successfully Registered!');
+        this.dialogRef.close();
+      }, error => {
+        this.notificationService.showSnackBar('Some data errors during registration');
+      });
+    }
   }
 }

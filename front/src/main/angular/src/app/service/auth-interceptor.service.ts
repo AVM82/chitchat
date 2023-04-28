@@ -22,6 +22,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     if (token != null) {
       authRequest = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, token)});
     }
+    console.log(token)
     return next.handle(authRequest);
   }
 }
