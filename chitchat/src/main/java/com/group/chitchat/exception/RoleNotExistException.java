@@ -1,6 +1,6 @@
 package com.group.chitchat.exception;
 
-import com.group.chitchat.service.ResourceBundleService;
+import com.group.chitchat.service.internationalization.ResourceBundleService;
 import java.util.Locale;
 
 public class RoleNotExistException extends RuntimeException {
