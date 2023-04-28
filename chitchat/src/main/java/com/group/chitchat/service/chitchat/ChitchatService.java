@@ -11,7 +11,9 @@ import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
+import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import java.util.List;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ public class ChitchatService {
   private static final String MESSAGE_CONFIRM_CREATE = "You created a new chitchat";
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
+  private final ResourcesBundleService resourceBundleService;
 
   /**
    * Returns list of chitchats.
@@ -76,8 +79,9 @@ public class ChitchatService {
   private void sendEmail(Chitchat chitchat, String message) {
     emailService.sendEmail(
         chitchat.getAuthor().getEmail(),
-        String.format("Chitchat: speak about %s", chitchat.getCategory()),
-        message
+        String.format(resourceBundleService.getMessForLocale(
+                "Chitchat_speak_about_%s", Locale.getDefault()),
+            chitchat.getCategory()), message
     );
   }
 }

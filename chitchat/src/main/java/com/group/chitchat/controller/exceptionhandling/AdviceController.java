@@ -123,7 +123,6 @@ public class AdviceController {
         .build(), FORBIDDEN);
   }
 
-
   /**
    * Exception handler for runtime exceptions when any unhandled error occurs.
    *
@@ -132,7 +131,8 @@ public class AdviceController {
   @ResponseBody
   @ExceptionHandler({Exception.class})
   public ResponseEntity<ErrorMessage> error(Exception e) {
-    log.info("Error: {}", e.getMessage());
+    log.error("Error: {}", e.getMessage());
+    e.printStackTrace();
     return new ResponseEntity<>(ErrorMessage.builder()
         .timestamp(LocalDateTime.now())
         .message(logInfoAndGiveMessage(
