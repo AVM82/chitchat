@@ -21,7 +21,7 @@ export class CategoryService {
   }
 
   getAll(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.url);
+    return this.httpClient.get<Category[]>(this.url+"/all");
   }
 
   update(obj: Category): Observable<Category> {

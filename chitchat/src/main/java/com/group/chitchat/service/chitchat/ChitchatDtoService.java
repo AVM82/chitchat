@@ -25,7 +25,7 @@ public class ChitchatDtoService {
         .chatName(chitchat.getChatName())
         .description(chitchat.getDescription())
         .languageName(chitchat.getLanguage().getName())
-        .categoryName(chitchat.getChatName())
+        .categoryName(chitchat.getCategory().getName())
         .level(chitchat.getLevel())
         .capacity(chitchat.getCapacity())
         .authorName(chitchat.getAuthor().getUsername())
