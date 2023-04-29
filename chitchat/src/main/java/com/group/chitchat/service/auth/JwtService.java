@@ -47,8 +47,7 @@ public class JwtService {
    */
   public String generateToken(
       Map<String, Object> extractClaims,
-      UserOfChitchatDetails userDetails
-  ) {
+      UserOfChitchatDetails userDetails) {
     return Jwts
         .builder()
         .setClaims(extractClaims)

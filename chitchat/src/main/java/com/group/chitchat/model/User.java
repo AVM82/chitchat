@@ -1,5 +1,6 @@
 package com.group.chitchat.model;
 
+import com.group.chitchat.interfaces.UserOfChitchatDetails;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +24,6 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Table(name = "users")
 @Log4j2
-public class User implements UserDetails {
+public class User implements UserOfChitchatDetails {
 
   @Id
   @Column(name = "id")
@@ -90,6 +90,11 @@ public class User implements UserDetails {
   }
 
   @Override
+  public long getId() {
+    return this.id;
+  }
+
+  @Override
   public boolean isAccountNonExpired() {
     return accountNonExpired;
   }
@@ -108,6 +113,7 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return enabled;
   }
+
 
   @Override
   public String toString() {
