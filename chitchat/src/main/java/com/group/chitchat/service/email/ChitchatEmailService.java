@@ -23,7 +23,7 @@ public class ChitchatEmailService implements EmailService {
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
       helper.setTo(email);
-      helper.setSubject("Confirmation of Chitchat creation");
+      helper.setSubject(title);
       helper.setText(textMessage);
     } catch (MessagingException e) {
       log.error("Failed to send email to {}", email, e);

@@ -32,7 +32,9 @@ public class ChitchatService {
   /**
    * Messages for sending email.
    */
-  private static final String MESSAGE_CONFIRM_CREATE = "You created a new chitchat";
+  private static final String MESSAGE_CONFIRM_CREATE =
+      "You created a new chitchat. Follow the link to add it to Google Calendar";
+
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
   private final ResourcesBundleService resourceBundleService;
