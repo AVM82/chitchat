@@ -5,10 +5,21 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class EventService {
+public class CalendarService {
 
   private static final String CALENDAR_URL = "https://www.google.com/calendar/render";
 
+  private CalendarService() {
+  }
+
+  /**
+   * Generate an external link to Google calendar.
+   *
+   * @param chatName    Name of chitchat.
+   * @param description Description of chitchat.
+   * @param time        Date and Time of chitchat.
+   * @return External link to Google calendar.
+   */
   public static String generateCalendarLink(String chatName, String description,
       LocalDateTime time) {
 
@@ -20,6 +31,8 @@ public class EventService {
         + URLEncoder.encode(chatName, StandardCharsets.UTF_8)
         + "&details="
         + URLEncoder.encode(description, StandardCharsets.UTF_8)
-        + "&dates=" + eventStartDate;
+        + "&dates=" + eventStartDate
+        + "/"
+        + time.plusHours(1).format(formatter);
   }
 }
