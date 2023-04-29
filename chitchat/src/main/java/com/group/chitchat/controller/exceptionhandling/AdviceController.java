@@ -132,7 +132,7 @@ public class AdviceController {
   @ResponseBody
   @ExceptionHandler({Exception.class})
   public ResponseEntity<ErrorMessage> error(Exception e) {
-    log.info("Error: {}", e.getMessage());
+    log.error("Error: {}", e.getMessage());
     e.printStackTrace();
     return new ResponseEntity<>(ErrorMessage.builder()
         .timestamp(LocalDateTime.now())

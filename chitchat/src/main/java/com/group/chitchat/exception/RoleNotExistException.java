@@ -14,8 +14,8 @@ public class RoleNotExistException extends RuntimeException {
 
     super(new ResourceBundleService().getMessForLocale(
         "Sorry_but", Locale.getDefault())
-        + " \"" + userRole + "\" "
+        + "\"" + userRole + "\""
         + new ResourceBundleService().getMessForLocale(
-        "doesn't_exist_in_db!", Locale.getDefault()));
+        "doesn't_exist_in_db", Locale.getDefault()));
   }
 }

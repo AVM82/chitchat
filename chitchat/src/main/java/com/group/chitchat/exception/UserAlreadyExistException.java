@@ -14,7 +14,7 @@ public class UserAlreadyExistException extends RuntimeException {
   public UserAlreadyExistException(String username) {
     super(new ResourceBundleService().getMessForLocale(
         "Sorry_but_username_with_username", Locale.getDefault())
-        + " \"" + username + "\" " + new ResourceBundleService().getMessForLocale(
-        "already_exist._Try_another_username.", Locale.getDefault()));
+        + "\"" + username + "\"" + new ResourceBundleService().getMessForLocale(
+        "already_exist._Try_another_username", Locale.getDefault()));
   }
 }

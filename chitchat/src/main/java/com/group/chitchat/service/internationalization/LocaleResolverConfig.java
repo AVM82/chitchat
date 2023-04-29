@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.LocaleResolver;
 
 @Configuration
@@ -27,15 +28,13 @@ public class LocaleResolverConfig implements LocaleResolver {
   }
 
   @Override
-  public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+  public void setLocale(@NonNull HttpServletRequest request,
+      HttpServletResponse response, Locale locale) {
 
-    String language = request.getHeader("Accept-Language");
-    if (language == null || language.isEmpty()) {
-      Locale.setDefault(Locale.US);
-    } else if (SUPPORTED_LANGUAGES.contains(language)) {
-      Locale.setDefault(Locale.forLanguageTag(language));
-    } else {
-      Locale.setDefault(Locale.US);
+    if (response != null) {
+      response.setLocale(resolveLocale(request));
     }
+    Locale.setDefault(resolveLocale(request));
   }
+
 }

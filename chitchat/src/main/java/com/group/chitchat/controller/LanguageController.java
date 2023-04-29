@@ -4,6 +4,7 @@ import com.group.chitchat.model.dto.LanguageDto;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.language.LanguageService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +26,17 @@ public class LanguageController {
 
   @GetMapping
   public ResponseEntity<Set<LanguageDto>> getAllLanguages(
-      HttpServletRequest requestHeader) {
-    localeResolverConfig.setLocale(requestHeader, null, null);
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(languageService.getAvailableLanguages());
   }
 
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
   public ResponseEntity<LanguageDto> addLanguage(
-      HttpServletRequest requestHeader,
+      HttpServletRequest requestHeader, HttpServletResponse response,
       @RequestBody LanguageDto languageDto) {
-    localeResolverConfig.setLocale(requestHeader, null, null);
+    localeResolverConfig.setLocale(requestHeader, response, null);
     return languageService.addLanguage(languageDto);
   }
 }
