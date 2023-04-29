@@ -1,5 +1,6 @@
 package com.group.chitchat.service.auth;
 
+import com.group.chitchat.interfaces.UserOfChitchatDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,7 +35,7 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails) {
+  public String generateToken(UserOfChitchatDetails userDetails) {
     return generateToken(new HashMap<>(), userDetails);
   }
 
@@ -46,12 +47,13 @@ public class JwtService {
    */
   public String generateToken(
       Map<String, Object> extractClaims,
-      UserDetails userDetails
+      UserOfChitchatDetails userDetails
   ) {
     return Jwts
         .builder()
         .setClaims(extractClaims)
         .setSubject(userDetails.getUsername())
+        .setId(String.valueOf(userDetails.getId()))
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_CODE_WORK))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
