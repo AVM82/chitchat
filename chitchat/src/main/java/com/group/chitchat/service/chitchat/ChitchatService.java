@@ -10,10 +10,10 @@ import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.UserRepo;
+import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,9 @@ public class ChitchatService {
   /**
    * Messages for sending email.
    */
-  private static final String MESSAGE_CONFIRM_CREATE = "You created a new chitchat";
+  private static final String MESSAGE_CONFIRM_CREATE =
+      "You created a new chitchat. Follow the link to add it to Google Calendar: \n";
+
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
   private final ResourcesBundleService resourceBundleService;
@@ -98,9 +100,11 @@ public class ChitchatService {
   private void sendEmail(Chitchat chitchat, String message) {
     emailService.sendEmail(
         chitchat.getAuthor().getEmail(),
-        String.format(resourceBundleService.getMessForLocale(
-                "Chitchat_speak_about_%s", Locale.getDefault()),
-            chitchat.getCategory()), message
+        String.format("New chitchat: %s", chitchat.getChatName()),
+        message + CalendarService.generateCalendarLink(
+            chitchat.getChatName(),
+            chitchat.getDescription(),
+            chitchat.getDate())
     );
   }
 }

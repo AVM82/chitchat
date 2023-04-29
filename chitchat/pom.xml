@@ -96,6 +96,20 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
 
+    <dependency>
+      <artifactId>google-api-services-calendar</artifactId>
+      <groupId>com.google.apis</groupId>
+      <version>v3-rev20220715-2.0.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
+    <dependency>
+      <artifactId>google-api-client</artifactId>
+      <groupId>com.google.api-client</groupId>
+      <version>2.2.0</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
