@@ -14,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -64,6 +66,15 @@ public class ChitchatController {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(chitchatService
         .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
+  }
+
+  @PutMapping("{chitchatId}")
+  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
+      @PathVariable("chitchatId") Long chitchatId,
+      @RequestParam("userId") Long userId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return chitchatService.addUserToChitchat(chitchatId, userId);
   }
 
 }
