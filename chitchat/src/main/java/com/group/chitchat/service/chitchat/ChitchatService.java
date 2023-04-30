@@ -21,6 +21,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -55,7 +57,9 @@ public class ChitchatService {
     if (chitchatOptional.isEmpty()) {
       throw new NoSuchElementException(String.format("Chitchat with id %s not found", chitchatId));
     } else {
-      return ResponseEntity.ok(
+      HttpHeaders header = new HttpHeaders();
+      header.set("Access-Control-Allow-Origin", "*");
+      return ResponseEntity.status(HttpStatus.OK).headers(header).body(
           ChitchatDtoService.getFromEntity(chitchatOptional.get()));
     }
   }
@@ -139,8 +143,10 @@ public class ChitchatService {
       chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
           .toList();
     }
-
-    return ResponseEntity.ok(chitchatFiltration(chitchats, dateFrom, dateTo));
+    HttpHeaders header = new HttpHeaders();
+    header.set("Access-Control-Allow-Origin", "*");
+    return ResponseEntity.status(HttpStatus.OK).headers(header)
+        .body(chitchatFiltration(chitchats, dateFrom, dateTo));
 
   }
 
