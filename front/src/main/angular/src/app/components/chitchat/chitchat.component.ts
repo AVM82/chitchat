@@ -37,7 +37,7 @@ export class ChitchatComponent {
       this.dialog.open(OneChitchatComponent, {
         data: [this.oneChitchat],
         hasBackdrop: true,
-        disableClose: false,
+        disableClose: true,
         autoFocus: true,
       });
     });
