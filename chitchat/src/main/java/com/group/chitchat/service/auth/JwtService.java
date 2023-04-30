@@ -1,7 +1,6 @@
 package com.group.chitchat.service.auth;
 
 import com.group.chitchat.model.User;
-import com.group.chitchat.repository.UserRepo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class JwtService {
 
   private final Environment environment;
-  private UserRepo userRepo;
   /**
    * This constant is responsible for how long will code run.
    */
@@ -37,7 +36,7 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(User userDetails) {
+  public String generateToken(UserDetails userDetails) {
     return generateToken(new HashMap<>(), userDetails);
   }
 
@@ -49,14 +48,14 @@ public class JwtService {
    */
   public String generateToken(
       Map<String, Object> extractClaims,
-      User userDetails
-
+      UserDetails userDetails
   ) {
+    User userMy = (User) userDetails;
+    extractClaims.put("id", userMy.getId());
     return Jwts
         .builder()
         .setClaims(extractClaims)
         .setSubject(userDetails.getUsername())
-        .setId(String.valueOf(userDetails.getId()))
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_CODE_WORK))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)

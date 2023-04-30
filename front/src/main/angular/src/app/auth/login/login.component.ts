@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
+import {TokenStorageService} from "../../service/token-storage.service";
+import {NotificationService} from "../../service/notification.service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-login',
@@ -14,8 +17,12 @@ export class LoginComponent {
   constructor(
       private authService: AuthService,
       private router: Router,
+      private dialogRef: MatDialogRef<LoginComponent>,
+      private tokenStorage: TokenStorageService,
+      private notificationService: NotificationService,
       private fb: FormBuilder) {
   }
+
   ngOnInit(): void {
     this.loginForm = this.createLoginForm();
   }
@@ -30,7 +37,13 @@ export class LoginComponent {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password
     }).subscribe(data => {
-      console.log(data);
+      this.tokenStorage.saveToken(data.token);
+      this.tokenStorage.saveUser(data);
+      this.notificationService.showSnackBar('Successfully logged in');
+      this.dialogRef.close();
+    }, error => {
+      console.log(error.message);
+      this.notificationService.showSnackBar('Error data for login');
     });
   }
 }

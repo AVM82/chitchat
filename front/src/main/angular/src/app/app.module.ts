@@ -13,6 +13,10 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {CategoryComponent} from "./components/category/category.component";
 import {MatIconModule} from "@angular/material/icon";
 import { ChitchatComponent } from './components/chitchat/chitchat.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {authInterceptorProviders} from "./service/auth-interceptor.service";
+import {authErrorInterceptorProviders} from "./service/error-interceptor.service";
+import { OneChitchatComponent } from './components/one-chitchat/one-chitchat.component';
 
 
 const appRoutes: Routes = [
@@ -25,7 +29,8 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     CategoryComponent,
-    ChitchatComponent
+    ChitchatComponent,
+    OneChitchatComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +40,11 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     MatDialogModule,
     MatIconModule
   ],
-  providers: [],
+  providers: [authInterceptorProviders,authErrorInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
