@@ -124,6 +124,7 @@ public class ChitchatService {
         ChitchatDtoService.getFromEntity(chitchat));
   }
 
+
   /**
    * Sends a confirmation email.
    *
@@ -139,28 +140,5 @@ public class ChitchatService {
             chitchat.getDescription(),
             chitchat.getDate())
     );
-  }
-
-  @Transactional
-  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId) {
-    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
-    Optional<User> userOptional = userRepo.findById(userId);
-
-    if (chitchatOptional.isEmpty() || userOptional.isEmpty()) {
-      throw new NoSuchElementException(String.format(
-          "Chitchat with id %s or user with id %s not found", chitchatId, userId));
-    }
-    Chitchat chitchat = chitchatOptional.get();
-    User user = userOptional.get();
-
-    if (chitchat.getUsersInChitchat().contains(user)) {
-      throw new UserAlreadyExistException("user is already in this chitchat");
-    }
-    Set<User> usersInChitchat = chitchat.getUsersInChitchat();
-    usersInChitchat.add(user);
-    chitchat.setUsersInChitchat(usersInChitchat);
-
-    return ResponseEntity.ok(
-        ChitchatDtoService.getFromEntity(chitchat));
   }
 }
