@@ -18,6 +18,7 @@ import {authInterceptorProviders} from "./service/auth-interceptor.service";
 import {authErrorInterceptorProviders} from "./service/error-interceptor.service";
 import { OneChitchatComponent } from './components/one-chitchat/one-chitchat.component';
 import { AddNewChitchatComponent } from './components/add-new-chitchat/add-new-chitchat.component';
+import { ChitchatFilterComponent } from './components/chitchat-filter/chitchat-filter.component';
 
 
 const appRoutes: Routes = [
@@ -31,8 +32,7 @@ const appRoutes: Routes = [
     RegisterComponent,
     CategoryComponent,
     ChitchatComponent,
-    OneChitchatComponent,
-    AddNewChitchatComponent
+    ChitchatFilterComponent
   ],
   imports: [
     BrowserModule,
