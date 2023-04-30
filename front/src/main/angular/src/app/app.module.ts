@@ -32,6 +32,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     CategoryComponent,
     ChitchatComponent,
+    OneChitchatComponent,
+    AddNewChitchatComponent,
     ChitchatFilterComponent
   ],
   imports: [
