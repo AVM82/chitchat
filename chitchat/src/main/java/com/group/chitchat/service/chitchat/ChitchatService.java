@@ -47,9 +47,9 @@ public class ChitchatService {
   /**
    * Returns list of chitchats.
    *
+   * @param chitchatId incoming chitchat id.
    * @return list of chitchats.
    */
-
   public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
     Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
     if (chitchatOptional.isEmpty()) {
@@ -70,12 +70,13 @@ public class ChitchatService {
     User author = userRepo.findByUsername(authorName)
         .orElseThrow(() -> new UsernameNotFoundException(authorName));
 
-    //TODO add exceptions for two throws below
-
-    Language language = languageRepo.findByName(chitchatDto.getLanguageName()).orElseThrow();
-    Category category = categoryRepo.findByName(chitchatDto.getCategoryName()).orElseThrow();
+    Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
+    Category category = categoryRepo.findById(chitchatDto.getCategoryId()).orElseThrow();
     Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
         chitchatDto, author, language, category);
+
+    //TODO add exceptions for two throws below
+
     chitchat.getUsersInChitchat().add(author);
 
     chitchatRepo.save(chitchat);

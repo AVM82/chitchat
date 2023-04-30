@@ -44,10 +44,10 @@ public class ChitchatDtoService {
    * @return Entity of chitchat
    */
   public static Chitchat getFromDtoForCreate(
-      ForCreateChitchatDto chitchatDto, User author, Language language, Category category
-  ) {
+      ForCreateChitchatDto chitchatDto, User author,
+      Language language, Category category) {
     return Chitchat.builder()
-        .chatName(chitchatDto.getChatName())
+        .chatName(chitchatDto.getChatHeader())
         .description(chitchatDto.getDescription())
         .language(language)
         .category(category)
