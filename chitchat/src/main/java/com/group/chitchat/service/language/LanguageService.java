@@ -2,6 +2,7 @@ package com.group.chitchat.service.language;
 
 import com.group.chitchat.model.Language;
 import com.group.chitchat.model.dto.LanguageDto;
+import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import java.util.Arrays;
@@ -32,6 +33,15 @@ public class LanguageService {
     return languageRepository.findAll()
         .stream().map(LanguageDtoService::getFromEntity)
         .collect(Collectors.toSet());
+  }
+
+  /**
+   * Returns the array of currently available levels.
+   *
+   * @return array available language levels.
+   */
+  public Levels[] getAllLevels(){
+    return Levels.values() ;
   }
 
   /**

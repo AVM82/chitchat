@@ -1,6 +1,7 @@
 package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.LanguageDto;
+import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.language.LanguageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,12 +25,20 @@ public class LanguageController {
   private final LanguageService languageService;
   private final LocaleResolverConfig localeResolverConfig;
 
-  @GetMapping
+  @GetMapping("/all")
   public ResponseEntity<Set<LanguageDto>> getAllLanguages(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(languageService.getAvailableLanguages());
   }
+
+  @GetMapping("/levels")
+  public ResponseEntity<Levels[]> getAllLevels(
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(languageService.getAllLevels());
+  }
+
 
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
