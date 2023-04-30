@@ -57,10 +57,7 @@ public class ChitchatService {
     if (chitchatOptional.isEmpty()) {
       throw new NoSuchElementException(String.format("Chitchat with id %s not found", chitchatId));
     } else {
-      HttpHeaders header = new HttpHeaders();
-      header.set("Access-Control-Allow-Origin", "*");
-      return ResponseEntity.status(HttpStatus.OK).headers(header).body(
-          ChitchatDtoService.getFromEntity(chitchatOptional.get()));
+      return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchatOptional.get()));
     }
   }
 
@@ -143,10 +140,7 @@ public class ChitchatService {
       chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
           .toList();
     }
-    HttpHeaders header = new HttpHeaders();
-    header.set("Access-Control-Allow-Origin", "*");
-    return ResponseEntity.status(HttpStatus.OK).headers(header)
-        .body(chitchatFiltration(chitchats, dateFrom, dateTo));
+    return ResponseEntity.ok(chitchatFiltration(chitchats, dateFrom, dateTo));
 
   }
 

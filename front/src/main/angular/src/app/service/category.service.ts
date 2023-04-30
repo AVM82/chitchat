@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Category} from "../model/Category";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,10 @@ export class CategoryService {
   }
 
   getAll(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.url+"/all");
+    const headers = new HttpHeaders({ "Access-Control-Allow-Origin": "*" });
+    return this.httpClient.get<Category[]>(this.url+"/all",{
+      headers: headers
+    });
   }
 
   update(obj: Category): Observable<Category> {
