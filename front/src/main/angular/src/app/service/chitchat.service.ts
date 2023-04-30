@@ -36,5 +36,14 @@ export class ChitchatService {
     return this.httpClient.put<Chitchat>(this.url+'/',obj);
   }
 
+  filter(filteredLanguage: string, filteredLevel: string,
+         filteredDateFrom: string, filteredDateTo: string): Observable<Chitchat> {
+    return this.httpClient.get<Chitchat>(this.url + "/all" +
+        "&language=" + filteredLanguage +
+        "&level=" + filteredLevel +
+        "&dateFrom=" + filteredDateFrom +
+        "&dateTo=" + filteredDateTo);
+  }
+
 }
 
