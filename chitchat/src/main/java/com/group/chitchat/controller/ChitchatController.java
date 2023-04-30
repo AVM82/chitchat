@@ -38,9 +38,13 @@ public class ChitchatController {
    */
   @GetMapping("/all")
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(
+      @RequestParam(value = "languageId", required = false) String languageId,
+      @RequestParam(value = "levelId", required = false) String level,
       HttpServletRequest requestHeader, HttpServletResponse response) {
+
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return ResponseEntity.ok(chitchatService.getAllChitchats());
+
+    return chitchatService.getAllChitchats(languageId, level);
   }
 
   @GetMapping("{chitchatId}")
@@ -56,7 +60,7 @@ public class ChitchatController {
    *
    * @param forCreateChitchatDto An object that contains the necessary data to create a chat.
    * @param requestHeader        An object for obtaining request header parameters.
-   * @param response object that sets the locale.
+   * @param response             object that sets the locale.
    * @return response about the status of creating a new chat.
    */
   @PostMapping
@@ -76,5 +80,4 @@ public class ChitchatController {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return chitchatService.addUserToChitchat(chitchatId, userId);
   }
-
 }

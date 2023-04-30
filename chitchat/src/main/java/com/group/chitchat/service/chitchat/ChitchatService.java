@@ -14,6 +14,8 @@ import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -47,18 +49,7 @@ public class ChitchatService {
    *
    * @return list of chitchats.
    */
-  public List<ChitchatForResponseDto> getAllChitchats() {
-    return chitchatRepo.findAll().stream()
-        .map(ChitchatDtoService::getFromEntity)
-        .toList();
-  }
 
-  /**
-   * Return chitcat by incoming id.
-   *
-   * @param chitchatId Incoming id.
-   * @return Chitchat by id.
-   */
   public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
     Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
     if (chitchatOptional.isEmpty()) {
@@ -122,6 +113,32 @@ public class ChitchatService {
 
     return ResponseEntity.ok(
         ChitchatDtoService.getFromEntity(chitchat));
+  }
+
+  /**
+   * Return all chitchats by parameters.
+   *
+   * @param languageId incoming languageId.
+   * @param level      Incoming level of language.
+   * @return Chitchats by parameters.
+   */
+  public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
+      String level) {
+    List<Chitchat> chitchats;
+    if (languageId != null) {
+      Language language = languageRepo.findById(languageId).orElseThrow();
+      chitchats = chitchatRepo.findAllByLanguage(language);
+    } else {
+      chitchats = chitchatRepo.findAll();
+    }
+    if (level != null) {
+      chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
+          .toList();
+    }
+    return ResponseEntity.ok(chitchats.stream()
+        .filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
+        .sorted(Comparator.comparing(Chitchat::getDate))
+        .map(ChitchatDtoService::getFromEntity).toList());
   }
 
   /**
