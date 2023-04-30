@@ -1,5 +1,6 @@
 package com.group.chitchat.service.chitchat;
 
+import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
@@ -14,10 +15,12 @@ import com.group.chitchat.service.email.EmailService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -98,5 +101,28 @@ public class ChitchatService {
         String.format("Chitchat: speak about %s", chitchat.getCategory()),
         message
     );
+  }
+
+  @Transactional
+  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId) {
+    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
+    Optional<User> userOptional = userRepo.findById(userId);
+
+    if (chitchatOptional.isEmpty() || userOptional.isEmpty()) {
+      throw new NoSuchElementException(String.format(
+          "Chitchat with id %s or user with id %s not found", chitchatId, userId));
+    }
+    Chitchat chitchat = chitchatOptional.get();
+    User user = userOptional.get();
+
+    if (chitchat.getUsersInChitchat().contains(user)) {
+      throw new UserAlreadyExistException("user is already in this chitchat");
+    }
+    Set<User> usersInChitchat = chitchat.getUsersInChitchat();
+    usersInChitchat.add(user);
+    chitchat.setUsersInChitchat(usersInChitchat);
+
+    return ResponseEntity.ok(
+        ChitchatDtoService.getFromEntity(chitchat));
   }
 }

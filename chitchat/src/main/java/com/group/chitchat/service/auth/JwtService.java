@@ -1,5 +1,6 @@
 package com.group.chitchat.service.auth;
 
+import com.group.chitchat.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,6 @@ public class JwtService {
    * This constant is responsible for how long will code run.
    */
   private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 60 * 48;
-
   public String extractUsername(String jwtToken) {
     return extractClaim(jwtToken, Claims::getSubject);
   }
@@ -48,6 +49,8 @@ public class JwtService {
       Map<String, Object> extractClaims,
       UserDetails userDetails
   ) {
+    User userMy = (User) userDetails;
+    extractClaims.put("id", userMy.getId());
     return Jwts
         .builder()
         .setClaims(extractClaims)
