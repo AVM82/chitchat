@@ -40,8 +40,8 @@ public class LanguageService {
    *
    * @return array available language levels.
    */
-  public Levels[] getAllLevels(){
-    return Levels.values() ;
+  public Levels[] getAllLevels() {
+    return Levels.values();
   }
 
   /**
