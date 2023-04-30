@@ -39,8 +39,8 @@ export class ChitchatService {
   filter(filteredLanguage: string, filteredLevel: string,
          filteredDateFrom: string, filteredDateTo: string): Observable<Chitchat> {
     return this.httpClient.get<Chitchat>(this.url + "/all" +
-        "&language=" + filteredLanguage +
-        "&level=" + filteredLevel +
+        "?languageId=" + filteredLanguage +
+        "&levelId=" + filteredLevel +
         "&dateFrom=" + filteredDateFrom +
         "&dateTo=" + filteredDateTo);
   }
