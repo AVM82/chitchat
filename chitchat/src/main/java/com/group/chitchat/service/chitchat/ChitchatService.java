@@ -47,9 +47,9 @@ public class ChitchatService {
   /**
    * Returns list of chitchats.
    *
+   * @param chitchatId incoming chitchat id.
    * @return list of chitchats.
    */
-
   public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
     Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
     if (chitchatOptional.isEmpty()) {
@@ -70,12 +70,13 @@ public class ChitchatService {
     User author = userRepo.findByUsername(authorName)
         .orElseThrow(() -> new UsernameNotFoundException(authorName));
 
-    //TODO add exceptions for two throws below
-
-    Language language = languageRepo.findByName(chitchatDto.getLanguageName()).orElseThrow();
-    Category category = categoryRepo.findByName(chitchatDto.getCategoryName()).orElseThrow();
+    Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
+    Category category = categoryRepo.findById(chitchatDto.getCategoryId()).orElseThrow();
     Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
         chitchatDto, author, language, category);
+
+    //TODO add exceptions for two throws below
+
     chitchat.getUsersInChitchat().add(author);
 
     chitchatRepo.save(chitchat);
@@ -115,16 +116,18 @@ public class ChitchatService {
         ChitchatDtoService.getFromEntity(chitchat));
   }
 
-
   /**
    * Return all chitchats by parameters.
    *
-   * @param languageId incoming languageId.
+   * @param languageId Incoming languageId.
    * @param level      Incoming level of language.
+   * @param dateFrom   Date of start;
+   * @param dateTo     Date of end;
    * @return Chitchats by parameters.
    */
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level) {
+      String level, LocalDateTime dateFrom, LocalDateTime dateTo) {
+
     List<Chitchat> chitchats;
     if (languageId != null) {
       Language language = languageRepo.findById(languageId).orElseThrow();
@@ -136,10 +139,33 @@ public class ChitchatService {
       chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
           .toList();
     }
-    return ResponseEntity.ok(chitchats.stream()
+
+    return ResponseEntity.ok(chitchatFiltration(chitchats, dateFrom, dateTo));
+
+  }
+
+  private List<ChitchatForResponseDto> chitchatFiltration(List<Chitchat> chitchats,
+      LocalDateTime dateFrom,
+      LocalDateTime dateTo) {
+
+    return chitchats.stream()
+        .filter(chitchat -> {
+          if (dateFrom != null) {
+            return chitchat.getDate().isAfter(dateFrom);
+          } else {
+            return true;
+          }
+        })
+        .filter(chitchat -> {
+          if (dateTo != null) {
+            return chitchat.getDate().isBefore(dateTo);
+          } else {
+            return true;
+          }
+        })
         .filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
         .sorted(Comparator.comparing(Chitchat::getDate))
-        .map(ChitchatDtoService::getFromEntity).toList());
+        .map(ChitchatDtoService::getFromEntity).toList();
   }
 
   /**

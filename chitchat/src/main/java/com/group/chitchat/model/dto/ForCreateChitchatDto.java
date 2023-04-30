@@ -15,10 +15,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ForCreateChitchatDto {
 
-  private String chatName;
-  private String categoryName;
+  private String chatHeader;
+  private Integer categoryId;
   private String description;
-  private String languageName;
+  private String languageId;
   private Levels level;
   private int capacity;
   private LocalDateTime date;
