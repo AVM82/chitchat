@@ -22,12 +22,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.languageService.getAll().subscribe(result=>{
-      this.languages = result;
-    });
-    this.languageService.getLevels().subscribe(result=>{
-      this.levels = result;
-    });
 
   }
 

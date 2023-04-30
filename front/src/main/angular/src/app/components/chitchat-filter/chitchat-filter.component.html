@@ -5,7 +5,7 @@
     <label style=" font-size: 16px">Filter</label>
     Language: <select class="marg"
                       [(ngModel)]="filteredLanguage">
-    <option [ngValue]="null" disabled>Select language</option>
+<!--    <option [ngValue]="null" disabled>Select language</option>-->
     <option *ngFor="let language of languages"
             [ngValue]="language.codeIso">{{language.languageName}}</option>
   </select>

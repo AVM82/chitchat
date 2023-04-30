@@ -3,6 +3,10 @@ import {Chitchat} from "../../model/Chitchat";
 import {ChitchatService} from "../../service/chitchat.service";
 import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
 import {MatDialog} from "@angular/material/dialog";
+import {AddNewChitchatComponent} from "../add-new-chitchat/add-new-chitchat.component";
+import {Language} from "../../model/Language";
+import {Level} from "../../model/Level";
+import {Category} from "../../model/Category";
 
 @Component({
   selector: 'app-chitchat',
@@ -12,6 +16,9 @@ import {MatDialog} from "@angular/material/dialog";
 export class ChitchatComponent {
   chitchats: Chitchat[] ;
   oneChitchat: Chitchat | null;
+  languages: Language[];
+  levels: Level[];
+  categories: Category[];
 
   constructor(
       private chitchatService: ChitchatService,
@@ -38,6 +45,12 @@ export class ChitchatComponent {
     }
 
   openAddTaskDialog() {
-
+    this.dialog.open(AddNewChitchatComponent, {
+      data: [this.categories,this.levels,this.languages],
+      hasBackdrop: true,
+      width: "550px",
+      disableClose: true,
+      autoFocus: true,
+    });
   }
 }
