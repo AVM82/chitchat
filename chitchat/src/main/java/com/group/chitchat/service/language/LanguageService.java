@@ -3,6 +3,7 @@ package com.group.chitchat.service.language;
 import com.group.chitchat.model.Language;
 import com.group.chitchat.model.dto.LanguageDto;
 import com.group.chitchat.repository.LanguageRepo;
+import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class LanguageService {
 
   private final LanguageRepo languageRepository;
+  private final ResourcesBundleService resourceBundleService;
 
   /**
    * Returns the set of currently available languages.
@@ -42,7 +44,9 @@ public class LanguageService {
     String codeIso = languageDto.getCodeIso();
     if (!isLanguageCorrect(codeIso)) {
       throw new IllegalArgumentException(
-          String.format("Code ISO %s of language is not correct", codeIso));
+          String.format(resourceBundleService.getMessForLocale(
+                  "Code_ISO_%s_of_language_is_not_correct", Locale.getDefault()),
+              codeIso));
     } else {
       Language language = LanguageDtoService.getFromDto(languageDto);
       languageRepository.save(language);

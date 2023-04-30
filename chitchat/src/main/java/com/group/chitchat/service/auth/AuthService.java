@@ -9,8 +9,10 @@ import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
+import com.group.chitchat.service.internationalization.ResourcesBundleService;
 import jakarta.validation.Valid;
 import java.util.HashSet;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,10 +35,12 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
   private static final String USER_ROLE = "ROLE_USER";
+  private final ResourcesBundleService resourceBundleService;
 
   /**
-   * Register method which take data from request and create new user.
-   * After all this steps saving this user to db.
+   * Register method which take data from request and create new user. After all this steps saving
+   * this user to db.
+   *
    * @param request request with info about user.
    * @return JWT token.
    */
@@ -68,6 +72,7 @@ public class AuthService {
 
   /**
    * Authentication method which giving jwt token for user what have registered before.
+   *
    * @param request request with username and password.
    * @return JWT token.
    */
@@ -77,7 +82,10 @@ public class AuthService {
 
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException(
-                "User with username " + username + " not found"
+                resourceBundleService.getMessForLocale(
+                    "User_with_username", Locale.getDefault())
+                    + username + resourceBundleService.getMessForLocale(
+                    "not_found", Locale.getDefault())
             )
         );
 
