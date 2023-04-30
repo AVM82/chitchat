@@ -9,6 +9,7 @@ import {
 import {TokenStorageService} from "./token-storage.service";
 import {Observable} from "rxjs";
 const TOKEN_HEADER_KEY = 'Authorization';
+const TOKEN_PREFIX = "Bearer ";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
@@ -20,9 +21,8 @@ export class AuthInterceptorService implements HttpInterceptor {
     let authRequest = req;
     const token = this.tokenService.getToken();
     if (token != null) {
-      authRequest = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, token)});
+      authRequest = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY,TOKEN_PREFIX+token)});
     }
-    console.log(token)
     return next.handle(authRequest);
   }
 }

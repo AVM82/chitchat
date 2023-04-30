@@ -16,6 +16,7 @@ import { ChitchatComponent } from './components/chitchat/chitchat.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {authInterceptorProviders} from "./service/auth-interceptor.service";
 import {authErrorInterceptorProviders} from "./service/error-interceptor.service";
+import { OneChitchatComponent } from './components/one-chitchat/one-chitchat.component';
 
 
 const appRoutes: Routes = [
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     CategoryComponent,
-    ChitchatComponent
+    ChitchatComponent,
+    OneChitchatComponent
   ],
   imports: [
     BrowserModule,

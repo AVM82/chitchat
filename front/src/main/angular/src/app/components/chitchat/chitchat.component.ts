@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import {Category} from "../../model/Category";
-import {CategoryService} from "../../service/category.service";
+import {Component} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
 import {ChitchatService} from "../../service/chitchat.service";
-import {TokenStorageService} from "../../service/token-storage.service";
+import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-chitchat',
@@ -12,13 +11,12 @@ import {TokenStorageService} from "../../service/token-storage.service";
 })
 export class ChitchatComponent {
   chitchats: Chitchat[] ;
-  oneCitchat: Chitchat
+  oneChitchat: Chitchat | null;
 
   constructor(
-      private chitchatService: ChitchatService
-
-      ) {
-  }
+      private chitchatService: ChitchatService,
+      private dialog: MatDialog
+      ) {  }
 
   ngOnInit() {
     this.chitchatService.getAll().subscribe(result=>{
@@ -27,8 +25,15 @@ export class ChitchatComponent {
   }
 
   openChitChat(chitchat: Chitchat) {
-    this.chitchatService.get(chitchat.id).subscribe(result=>{
-      this.oneCitchat = result;
+    this.chitchatService.get(chitchat.id).subscribe(result => {
+      this.oneChitchat = result;
+      this.dialog.open(OneChitchatComponent, {
+        data: [this.oneChitchat],
+        hasBackdrop: true,
+        disableClose: false,
+        autoFocus: true,
+      });
     });
-  }
+
+    }
 }

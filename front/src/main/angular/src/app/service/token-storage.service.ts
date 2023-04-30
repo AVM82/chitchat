@@ -18,13 +18,22 @@ export class TokenStorageService {
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveUser(user: any): void {
+  public saveUser(user: any) {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): any {
     return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}' );
+  }
+
+  public getUserId(): any {
+    let token = sessionStorage.getItem(TOKEN_KEY);
+    if (token != null) {
+      let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
+      console.log('user_id: ' + decodedJWT.id);
+      return decodedJWT.id;
+    }
   }
 
   logOut(): void {
