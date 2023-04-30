@@ -1,4 +1,13 @@
-<div class="row gx-1 m-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
+<div class = "row my-0">
+  <div class="col-10 ">
+  </div>
+  <div class="col-1 m-0" >
+    <div class="text-right col-6">
+      <button class="btn btn-primary align-items-end mb-0" (click)="openAddTaskDialog()">Add new</button>
+    </div>
+  </div>
+</div>
+<div class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
   <div class="col mb-5" *ngFor="let chitchat of chitchats">
     <div class="card h-100 shadow text-center  p-1 mb-1 bg-white rounded "
          style="width: 15rem;">
@@ -24,8 +33,9 @@
         </div>
       </div>
       <!-- Product actions-->
-      <a class="btn btn-primary mx-4 mb-2" (click)="openChitChat()">
+      <a class="btn btn-primary mx-4 mb-2" (click)="openChitChat(chitchat)">
         Детальніше</a>
     </div>
   </div>
+
 </div>

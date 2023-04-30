@@ -33,7 +33,6 @@ public class ChitchatController {
    * Takes a list of all chats.
    *
    * @param requestHeader An object for obtaining request header parameters.
-   * @param response      object that sets the locale.
    * @return list of all chats.
    */
   @GetMapping("/all")
@@ -47,11 +46,11 @@ public class ChitchatController {
     return chitchatService.getAllChitchats(languageId, level);
   }
 
-  @GetMapping("{chitchatId}")
+  @GetMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getChitchat(
       @PathVariable("chitchatId") Long chitchatId,
-      HttpServletRequest requestHeader, HttpServletResponse response) {
-    localeResolverConfig.setLocale(requestHeader, response, null);
+      HttpServletRequest requestHeader) {
+    localeResolverConfig.setLocale(requestHeader, null, null);
     return chitchatService.getChitchat(chitchatId);
   }
 
@@ -66,8 +65,8 @@ public class ChitchatController {
   @PostMapping
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
-      HttpServletRequest requestHeader, HttpServletResponse response) {
-    localeResolverConfig.setLocale(requestHeader, response, null);
+      HttpServletRequest requestHeader) {
+    localeResolverConfig.setLocale(requestHeader, null, null);
     return ResponseEntity.ok(chitchatService
         .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
   }

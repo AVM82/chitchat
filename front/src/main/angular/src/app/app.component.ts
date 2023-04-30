@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Category} from "./model/Category";
-import {CategoryService} from "./service/category.service";
 import {LoginComponent} from "./auth/login/login.component";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./auth/register/register.component";
+import {LanguageService} from "./service/language.service";
+import {Language} from "./model/Language";
+import {Level} from "./model/Level";
 
 
 @Component({
@@ -11,20 +12,30 @@ import {RegisterComponent} from "./auth/register/register.component";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
+  languages: Language[];
+  levels: Level[]
 
-
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private languageService: LanguageService
+  ) {
   }
 
   ngOnInit() {
+    this.languageService.getAll().subscribe(result=>{
+      this.languages = result;
+    });
+    this.languageService.getLevels().subscribe(result=>{
+      this.levels = result;
+    });
 
   }
+
   login() {
     let dialogRef = this.dialog.open(LoginComponent, {
       data: ['Login in system'],
       hasBackdrop: true,
-      width:"40%",
+      width: "40%",
       disableClose: false,
       autoFocus: true,
     });
@@ -34,7 +45,7 @@ export class AppComponent implements OnInit{
     let dialogRef = this.dialog.open(RegisterComponent, {
       data: ['Register in system'],
       hasBackdrop: true,
-      width:"40%",
+      width: "40%",
       disableClose: false,
       autoFocus: true,
     });

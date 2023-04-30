@@ -33,9 +33,11 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf().disable()
+        .cors().and()
         .authorizeHttpRequests()
         .requestMatchers("/api/v1/auth/**", "/*", "/v3/api-docs/**",
-            "/swagger-ui/**", "/api/v1/category/all**", "api/v1/chitchats/all**")
+            "/swagger-ui/**", "/api/v1/category/all**", "api/v1/chitchats/all**",
+            "api/v1/languages/**")
         .permitAll()
         .anyRequest()
         .authenticated()

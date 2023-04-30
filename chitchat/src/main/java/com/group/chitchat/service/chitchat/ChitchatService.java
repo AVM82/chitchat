@@ -80,7 +80,7 @@ public class ChitchatService {
 
     chitchatRepo.save(chitchat);
 
-    sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
+    //sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
 
     return ChitchatDtoService.getFromEntity(chitchat);
   }
@@ -114,6 +114,7 @@ public class ChitchatService {
     return ResponseEntity.ok(
         ChitchatDtoService.getFromEntity(chitchat));
   }
+
 
   /**
    * Return all chitchats by parameters.

@@ -18,7 +18,13 @@ class CorsConfig {
                 "http://localhost:80/",
                 "http://localhost:4200/",
                 "http://localhost:5000/")
-            .allowedMethods("*");
+            .allowedMethods(
+                "GET",
+                "PUT",
+                "POST",
+                "DELETE",
+                "PATCH",
+                "OPTIONS");
       }
     };
   }
