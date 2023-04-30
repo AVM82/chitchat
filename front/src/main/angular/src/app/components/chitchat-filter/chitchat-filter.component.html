@@ -7,7 +7,7 @@
                       [(ngModel)]="filteredLanguage">
     <option [ngValue]="null" disabled>Select language</option>
     <option *ngFor="let language of languages"
-            [ngValue]="language.codeIso">{{language.codeIso}}</option>
+            [ngValue]="language.codeIso">{{language.languageName}}</option>
   </select>
     Level: <select class="marg"
                    [(ngModel)]="filteredLevel">

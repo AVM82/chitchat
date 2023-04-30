@@ -40,6 +40,8 @@ public class ChitchatController {
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(
       @RequestParam(value = "languageId", required = false) String languageId,
       @RequestParam(value = "levelId", required = false) String level,
+      @RequestParam(value = "dateFrom", required = false) String dateFrom,
+      @RequestParam(value = "dateTo", required = false) String dateTo,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
