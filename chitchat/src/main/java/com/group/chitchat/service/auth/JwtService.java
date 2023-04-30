@@ -51,7 +51,7 @@ public class JwtService {
       UserDetails userDetails
   ) {
     User userMy = (User) userDetails;
-    extractClaims.put("id", userMy.getId());
+    extractClaims.put("user_id", userMy.getId());
     return Jwts
         .builder()
         .setClaims(extractClaims)

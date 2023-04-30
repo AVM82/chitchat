@@ -31,8 +31,8 @@ export class TokenStorageService {
     let token = sessionStorage.getItem(TOKEN_KEY);
     if (token != null) {
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
-      console.log('user_id: ' + decodedJWT.id);
-      return decodedJWT.id;
+      console.log('user_id: ' + decodedJWT.user_id);
+      return decodedJWT.user_id;
     }
   }
 
