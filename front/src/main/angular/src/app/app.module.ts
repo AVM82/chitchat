@@ -19,6 +19,9 @@ import {authErrorInterceptorProviders} from "./service/error-interceptor.service
 import { OneChitchatComponent } from './components/one-chitchat/one-chitchat.component';
 import { AddNewChitchatComponent } from './components/add-new-chitchat/add-new-chitchat.component';
 import { ChitchatFilterComponent } from './components/chitchat-filter/chitchat-filter.component';
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 const appRoutes: Routes = [
@@ -32,6 +35,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     CategoryComponent,
     ChitchatComponent,
+    OneChitchatComponent,
+    AddNewChitchatComponent,
     ChitchatFilterComponent
   ],
   imports: [
@@ -44,7 +49,12 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatIconModule
+    MatDatepickerModule,
+    MatIconModule,
+    MatNativeDateModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDatepickerModule
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders],
   bootstrap: [AppComponent]
