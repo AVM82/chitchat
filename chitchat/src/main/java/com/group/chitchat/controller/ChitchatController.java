@@ -42,6 +42,7 @@ public class ChitchatController {
       @RequestParam(value = "levelId", required = false) String level,
       @RequestParam(value = "dateFrom", required = false) String dateFrom,
       @RequestParam(value = "dateTo", required = false) String dateTo,
+      @RequestParam(value = "categoryId", required = false) String categoryId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
