@@ -7,7 +7,8 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li *ngFor="let category of categories" (click)="selectCategory(category)" class="nav-item">
+      <li *ngFor="let category of categories" (click)="selectCategory(category)"
+          [class.active]="category === selectedCategory" class="nav-item">
         <a class="nav-link">
           <p class="text-truncate text-uppercase">{{category.name}}</p>
         </a>
