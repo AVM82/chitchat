@@ -1,9 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Category} from "../../model/Category";
 import {CategoryService} from "../../service/category.service";
-import {MatDialog} from "@angular/material/dialog";
-import {LoginComponent} from "../../auth/login/login.component";
-import {RegisterComponent} from "../../auth/register/register.component";
 
 @Component({
   selector: 'app-category',
@@ -12,6 +9,8 @@ import {RegisterComponent} from "../../auth/register/register.component";
 })
 export class CategoryComponent implements OnInit {
   categories: Category[] ;
+  @Output()
+  selectCategoryEvent = new EventEmitter<Category>();
 
   constructor(private categoryService: CategoryService) {
   }
@@ -24,5 +23,9 @@ export class CategoryComponent implements OnInit {
 
   openChitChat() {
 
+  }
+
+  selectCategory(category: Category) {
+    this.selectCategoryEvent.emit(category);
   }
 }

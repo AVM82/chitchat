@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LoginComponent} from "./auth/login/login.component";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./auth/register/register.component";
 import {LanguageService} from "./service/language.service";
 import {Language} from "./model/Language";
 import {Level} from "./model/Level";
+import {Category} from "./model/Category";
 
 
 @Component({
@@ -14,7 +15,8 @@ import {Level} from "./model/Level";
 })
 export class AppComponent implements OnInit {
   languages: Language[];
-  levels: Level[]
+  levels: Level[];
+  selectedCategory: Category;
 
   constructor(private dialog: MatDialog,
               private languageService: LanguageService
@@ -43,5 +45,9 @@ export class AppComponent implements OnInit {
       disableClose: false,
       autoFocus: true,
     });
+  }
+
+  selectCategory(category: Category) {
+    this.selectedCategory = category;
   }
 }
