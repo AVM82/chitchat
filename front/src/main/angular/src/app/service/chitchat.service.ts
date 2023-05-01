@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Chitchat} from "../model/Chitchat";
+import {Category} from "../model/Category";
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +38,14 @@ export class ChitchatService {
   }
 
   filter(filteredLanguage: string, filteredLevel: string,
-         filteredDateFrom: string, filteredDateTo: string): Observable<Chitchat> {
+         filteredDateFrom: string, filteredDateTo: string,
+         category: Category): Observable<Chitchat> {
     return this.httpClient.get<Chitchat>(this.url + "/all" +
         "?languageId=" + filteredLanguage +
         "&levelId=" + filteredLevel +
         "&dateFrom=" + filteredDateFrom +
-        "&dateTo=" + filteredDateTo);
+        "&dateTo=" + filteredDateTo +
+        "&categoryId=" + (category ? category.id : ''));
   }
 
 }
