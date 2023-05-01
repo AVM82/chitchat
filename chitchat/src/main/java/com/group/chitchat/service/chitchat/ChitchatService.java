@@ -14,15 +14,15 @@ import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -122,23 +122,31 @@ public class ChitchatService {
    *
    * @param languageId Incoming languageId.
    * @param level      Incoming level of language.
-   * @param dateFrom   Date of start;
-   * @param dateTo     Date of end;
+   * @param dateFromStr   Date of start;
+   * @param dateToStr     Date of end;
    * @return Chitchats by parameters.
    */
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level, LocalDateTime dateFrom, LocalDateTime dateTo) {
+      String level, String dateFromStr, String dateToStr) {
 
+    LocalDateTime dateFrom = null;
+    LocalDateTime dateTo = null;
     List<Chitchat> chitchats;
-    if (languageId != null) {
+    if (languageId != null && !languageId.isEmpty()) {
       Language language = languageRepo.findById(languageId).orElseThrow();
       chitchats = chitchatRepo.findAllByLanguage(language);
     } else {
       chitchats = chitchatRepo.findAll();
     }
-    if (level != null) {
+    if (level != null && !level.isEmpty()) {
       chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
           .toList();
+    }
+    if (dateFromStr != null && !dateFromStr.isEmpty()) {
+      dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
+    }
+    if (dateToStr != null && !dateToStr.isEmpty()) {
+      dateTo = LocalDate.parse(dateToStr).atTime(LocalTime.MAX);
     }
     return ResponseEntity.ok(chitchatFiltration(chitchats, dateFrom, dateTo));
 

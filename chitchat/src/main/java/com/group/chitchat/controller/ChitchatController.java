@@ -7,7 +7,6 @@ import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,8 +40,8 @@ public class ChitchatController {
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(
       @RequestParam(value = "languageId", required = false) String languageId,
       @RequestParam(value = "levelId", required = false) String level,
-      @RequestParam(value = "dateFrom", required = false) LocalDateTime dateFrom,
-      @RequestParam(value = "dateTo", required = false) LocalDateTime dateTo,
+      @RequestParam(value = "dateFrom", required = false) String dateFrom,
+      @RequestParam(value = "dateTo", required = false) String dateTo,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
