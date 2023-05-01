@@ -116,46 +116,6 @@ public class ChitchatService {
         ChitchatDtoService.getFromEntity(chitchat));
   }
 
-//  @PersistenceContext
-//  private EntityManager entityManager;
-//
-//  public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats1(String languageId,
-//      String level, String dateFromStr, String dateToStr) {
-//
-//    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//    CriteriaQuery<Chitchat> query = builder.createQuery(Chitchat.class);
-//    Root<Chitchat> root = query.from(Chitchat.class);
-//    List<Predicate> predicates = new ArrayList<>();
-//
-//    if (languageId != null && !languageId.isEmpty()) {
-//      Language language = languageRepo.findById(languageId).orElseThrow();
-//      predicates.add(builder.equal(root.get("language"), language));
-//    }
-//
-//    if (level != null && !level.isEmpty()) {
-//      predicates.add(builder.equal(root.get("level"), Levels.valueOf(level)));
-//    }
-//
-//    if (dateFromStr != null && !dateFromStr.isEmpty()) {
-//      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
-//      predicates.add(builder.greaterThanOrEqualTo(root.get("date"), dateFrom));
-//    }
-//
-//    if (dateToStr != null && !dateToStr.isEmpty()) {
-//      LocalDateTime dateTo = LocalDate.parse(dateToStr).atTime(LocalTime.MAX);
-//      predicates.add(builder.lessThanOrEqualTo(root.get("date"), dateTo));
-//    }
-//
-//    predicates.add(builder.greaterThanOrEqualTo(root.get("date"), LocalDateTime.now()));
-//    query.where(builder.and(predicates.toArray(new Predicate[0])))
-//        .orderBy(builder.asc(root.get("date")));
-//
-//    List<ChitchatForResponseDto> filteredEntities = entityManager.createQuery(query)
-//        .getResultList().stream().map(ChitchatDtoService::getFromEntity).toList();
-//
-//    return ResponseEntity.ok(filteredEntities);
-//  }
-
   /**
    * Return all chitchats by parameters.
    *
@@ -163,10 +123,11 @@ public class ChitchatService {
    * @param level       Incoming level of language.
    * @param dateFromStr Date of start;
    * @param dateToStr   Date of end;
+   * @param categoryId  Category id.
    * @return Chitchats by parameters.
    */
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level, String dateFromStr, String dateToStr) {
+      String level, String dateFromStr, String dateToStr, Integer categoryId) {
 
     List<Chitchat> chitchats;
 
@@ -175,19 +136,23 @@ public class ChitchatService {
       chitchats = chitchatRepo.findAllByLanguage(language);
 
       if (level != null && !level.isEmpty()) {
-        chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
-            .toList();
+        chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name()
+            .equals(level)).toList();
       }
     } else {
       chitchats = chitchatRepo.findAll();
+    }
+    if (categoryId != null) {
+      Category category = categoryRepo.findById(categoryId).orElseThrow();
+      chitchats = chitchats.stream().filter(chat -> chat.getCategory().equals(category)).toList();
     }
     if (dateFromStr != null && !dateFromStr.isEmpty()) {
       chitchats = chitchats.stream().filter(
           chat -> chat.getDate().isAfter(LocalDate.parse(dateFromStr).atStartOfDay())).toList();
     }
     if (dateToStr != null && !dateToStr.isEmpty()) {
-      chitchats = chitchats.stream().filter(
-              chat -> chat.getDate().isBefore(LocalDate.parse(dateToStr).atTime(LocalTime.MAX)))
+      chitchats = chitchats.stream()
+          .filter(chat -> chat.getDate().isBefore(LocalDate.parse(dateToStr).atTime(LocalTime.MAX)))
           .toList();
     }
     return ResponseEntity.ok(chitchats.stream()
