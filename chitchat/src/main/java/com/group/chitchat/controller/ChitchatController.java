@@ -42,12 +42,12 @@ public class ChitchatController {
       @RequestParam(value = "levelId", required = false) String level,
       @RequestParam(value = "dateFrom", required = false) String dateFrom,
       @RequestParam(value = "dateTo", required = false) String dateTo,
-      @RequestParam(value = "categoryId", required = false) String categoryId,
+      @RequestParam(value = "categoryId", required = false) Integer categoryId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return chitchatService.getAllChitchats(languageId, level, dateFrom, dateTo);
+    return chitchatService.getAllChitchats(languageId, level, dateFrom, dateTo, categoryId);
   }
 
   @GetMapping("/{chitchatId}")
