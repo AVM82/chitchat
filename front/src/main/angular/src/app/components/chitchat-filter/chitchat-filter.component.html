@@ -11,7 +11,7 @@
   </select>
     Level: <select class="marg"
                    [(ngModel)]="filteredLevel">
-    <option [ngValue]="null" disabled>Select level</option>
+<!--    <option [ngValue]="null" disabled>Select level</option>-->
     <option *ngFor="let level of levels" [ngValue]="level">{{level}}</option>
   </select>
     Date from <input type="date"

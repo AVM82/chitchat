@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Language} from "../../model/Language";
 import {LanguageService} from "../../service/language.service";
 import {ChitchatService} from "../../service/chitchat.service";
@@ -17,6 +17,8 @@ export class ChitchatFilterComponent implements OnInit {
   languages: Language[] = [];
   levels: Level[] = [];
   chitchats = [];
+  @Output()
+  chitchatsEvent = new EventEmitter<any>();
 
   constructor(private languageService: LanguageService, private chitchatService: ChitchatService) {
   }
@@ -36,9 +38,11 @@ export class ChitchatFilterComponent implements OnInit {
         this.filteredLevel,
         this.filteredDateFrom,
         this.filteredDateTo)
-    .subscribe({next: (data: any) => {
-      this.chitchats = data;
-      console.log(this.chitchats);
-    }})
+    .subscribe({
+      next: (data: any) => {
+        this.chitchats = data;
+        this.chitchatsEvent.emit(this.chitchats);
+      }
+    })
   }
 }

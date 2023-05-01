@@ -53,4 +53,8 @@ export class ChitchatComponent {
       autoFocus: true,
     });
   }
+
+  filter(chitchats: Chitchat[]) {
+    this.chitchats = chitchats;
+  }
 }
