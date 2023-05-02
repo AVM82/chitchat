@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
 import {ChitchatService} from "../../service/chitchat.service";
 import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
@@ -19,6 +19,8 @@ export class ChitchatComponent {
   languages: Language[];
   levels: Level[];
   categories: Category[];
+  @Input()
+  selectedCategory: Category | null;
 
   constructor(
       private chitchatService: ChitchatService,
@@ -52,5 +54,9 @@ export class ChitchatComponent {
       disableClose: true,
       autoFocus: true,
     });
+  }
+
+  filter(chitchats: Chitchat[]) {
+    this.chitchats = chitchats;
   }
 }

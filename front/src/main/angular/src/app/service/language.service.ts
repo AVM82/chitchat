@@ -4,12 +4,13 @@ import {Category} from "../model/Category";
 import {Observable} from "rxjs";
 import {Language} from "../model/Language";
 import {Level} from "../model/Level";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  url = 'http://localhost:5000/api/v1/languages';
+  url = environment.appApi + '/api/v1/languages';
 
   constructor(private httpClient: HttpClient) {}
 

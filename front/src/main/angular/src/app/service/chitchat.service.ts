@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Chitchat} from "../model/Chitchat";
+import {Category} from "../model/Category";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChitchatService {
-  url = 'http://localhost:5000/api/v1/chitchats';
+  url = environment.appApi + '/api/v1/chitchats';
 
   constructor(
       private httpClient: HttpClient
@@ -23,7 +25,6 @@ export class ChitchatService {
 
   addUserInChat(user_id: number, chitchat_id: number ): Observable<Chitchat> {
      const urla = this.url+'/'+chitchat_id+'?userId='+user_id;
-     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
      console.log(urla);
      return this.httpClient.put<Chitchat>(urla,null);
   }
@@ -37,12 +38,14 @@ export class ChitchatService {
   }
 
   filter(filteredLanguage: string, filteredLevel: string,
-         filteredDateFrom: string, filteredDateTo: string): Observable<Chitchat> {
+         filteredDateFrom: string, filteredDateTo: string,
+         category: Category | null): Observable<Chitchat> {
     return this.httpClient.get<Chitchat>(this.url + "/all" +
         "?languageId=" + filteredLanguage +
         "&levelId=" + filteredLevel +
         "&dateFrom=" + filteredDateFrom +
-        "&dateTo=" + filteredDateTo);
+        "&dateTo=" + filteredDateTo +
+        "&categoryId=" + (category ? category.id : ''));
   }
 
 }

@@ -14,15 +14,14 @@ import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.ResourcesBundleService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -120,52 +119,45 @@ public class ChitchatService {
   /**
    * Return all chitchats by parameters.
    *
-   * @param languageId Incoming languageId.
-   * @param level      Incoming level of language.
-   * @param dateFrom   Date of start;
-   * @param dateTo     Date of end;
+   * @param languageId  Incoming languageId.
+   * @param level       Incoming level of language.
+   * @param dateFromStr Date of start;
+   * @param dateToStr   Date of end;
+   * @param categoryId  Category id.
    * @return Chitchats by parameters.
    */
   public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level, LocalDateTime dateFrom, LocalDateTime dateTo) {
+      String level, String dateFromStr, String dateToStr, Integer categoryId) {
 
     List<Chitchat> chitchats;
-    if (languageId != null) {
+
+    if (languageId != null && !languageId.isEmpty()) {
       Language language = languageRepo.findById(languageId).orElseThrow();
       chitchats = chitchatRepo.findAllByLanguage(language);
+
+      if (level != null && !level.isEmpty()) {
+        chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name()
+            .equals(level)).toList();
+      }
     } else {
       chitchats = chitchatRepo.findAll();
     }
-    if (level != null) {
-      chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name().equals(level))
+    if (categoryId != null) {
+      Category category = categoryRepo.findById(categoryId).orElseThrow();
+      chitchats = chitchats.stream().filter(chat -> chat.getCategory().equals(category)).toList();
+    }
+    if (dateFromStr != null && !dateFromStr.isEmpty()) {
+      chitchats = chitchats.stream().filter(
+          chat -> chat.getDate().isAfter(LocalDate.parse(dateFromStr).atStartOfDay())).toList();
+    }
+    if (dateToStr != null && !dateToStr.isEmpty()) {
+      chitchats = chitchats.stream()
+          .filter(chat -> chat.getDate().isBefore(LocalDate.parse(dateToStr).atTime(LocalTime.MAX)))
           .toList();
     }
-    return ResponseEntity.ok(chitchatFiltration(chitchats, dateFrom, dateTo));
-
-  }
-
-  private List<ChitchatForResponseDto> chitchatFiltration(List<Chitchat> chitchats,
-      LocalDateTime dateFrom,
-      LocalDateTime dateTo) {
-
-    return chitchats.stream()
-        .filter(chitchat -> {
-          if (dateFrom != null) {
-            return chitchat.getDate().isAfter(dateFrom);
-          } else {
-            return true;
-          }
-        })
-        .filter(chitchat -> {
-          if (dateTo != null) {
-            return chitchat.getDate().isBefore(dateTo);
-          } else {
-            return true;
-          }
-        })
-        .filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
+    return ResponseEntity.ok(chitchats.stream()
         .sorted(Comparator.comparing(Chitchat::getDate))
-        .map(ChitchatDtoService::getFromEntity).toList();
+        .map(ChitchatDtoService::getFromEntity).toList());
   }
 
   /**

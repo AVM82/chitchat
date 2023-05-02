@@ -55,7 +55,7 @@ public class LanguageService {
     if (!isLanguageCorrect(codeIso)) {
       throw new IllegalArgumentException(
           String.format(resourceBundleService.getMessForLocale(
-                  "Code_ISO_%s_of_language_is_not_correct", Locale.getDefault()),
+                          "message.code_ISO_not_correct", Locale.getDefault()),
               codeIso));
     } else {
       Language language = LanguageDtoService.getFromDto(languageDto);

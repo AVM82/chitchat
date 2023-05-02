@@ -3,24 +3,21 @@
   </div>
   <div class="col-10">
     <label style=" font-size: 16px">Filter</label>
-    Language: <select class="marg"
+    Language: <select class="marg" [value]='' (change)="getFilter()"
                       [(ngModel)]="filteredLanguage">
-<!--    <option [ngValue]="null" disabled>Select language</option>-->
+    <option [ngValue]="''">All</option>
     <option *ngFor="let language of languages"
             [ngValue]="language.codeIso">{{language.languageName}}</option>
   </select>
-    Level: <select class="marg"
+    Level: <select class="marg" [value]='' (change)="getFilter()"
                    [(ngModel)]="filteredLevel">
-    <option [ngValue]="null" disabled>Select level</option>
-    <option *ngFor="let level of levels" [ngValue]="level">{{level}}</option>
+    <option [ngValue]="''">All</option>
+    <option *ngFor="let level of levels"
+            [ngValue]="level">{{level}}</option>
   </select>
-    Date from <input type="date"
+    Date from <input type="date" (change)="getFilter()"
                      max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
-    to <input class="marg" type="date"
+    to <input class="marg" type="date" (change)="getFilter()"
               min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
-    <button class="btn"
-            name="filter" style="border-radius: 4px"
-            (click)="getFilter()">Filter
-    </button>
   </div>
 </div>
