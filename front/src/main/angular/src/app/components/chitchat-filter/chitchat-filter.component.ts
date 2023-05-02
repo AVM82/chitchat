@@ -41,6 +41,7 @@ export class ChitchatFilterComponent implements OnInit {
   }
 
   getFilter() {
+    console.log(this.filteredLanguage,this.filteredLevel,this.filteredDateFrom,this.filteredDateTo,this.filteredCategory);
     this.chitchatService.filter(
         this.filteredLanguage,
         this.filteredLevel,

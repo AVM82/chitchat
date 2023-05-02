@@ -3,21 +3,29 @@
   </div>
   <div class="col-10">
     <label style=" font-size: 16px">Filter</label>
-    Language: <select class="marg"
+    Language: <select id="language" class="marg"
                       [(ngModel)]="filteredLanguage">
 <!--    <option [ngValue]="null" disabled>Select language</option>-->
     <option *ngFor="let language of languages" (click)="getFilter()"
             [ngValue]="language.codeIso">{{language.languageName}}</option>
   </select>
-    Level: <select class="marg"
+    <button onclick="document.getElementById('language').value = ''"
+            (click)="filteredLanguage=''; getFilter()">x</button>
+    Level: <select id="level" class="marg"
                    [(ngModel)]="filteredLevel">
 <!--    <option [ngValue]="null" disabled>Select level</option>-->
     <option *ngFor="let level of levels" (click)="getFilter()"
             [ngValue]="level">{{level}}</option>
   </select>
-    Date from <input type="date" (click)="getFilter()"
+    <button onclick="document.getElementById('level').value = ''"
+            (click)="filteredLevel=''; getFilter()">x</button>
+    Date from <input id="dateFrom" type="date" (change)="getFilter()"
                      max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
-    to <input class="marg" type="date" (click)="getFilter()"
+    <button onclick="document.getElementById('dateFrom').value = ''"
+            (click)="filteredDateFrom=''; getFilter()">x</button>
+    to <input id="dateTo" class="marg" type="date" (change)="getFilter()"
               min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
+    <button onclick="document.getElementById('dateTo').value = ''"
+            (click)="filteredDateTo=''; getFilter()">x</button>
   </div>
 </div>
