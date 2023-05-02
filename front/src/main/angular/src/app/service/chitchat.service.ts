@@ -39,7 +39,7 @@ export class ChitchatService {
 
   filter(filteredLanguage: string, filteredLevel: string,
          filteredDateFrom: string, filteredDateTo: string,
-         category: Category): Observable<Chitchat> {
+         category: Category | null): Observable<Chitchat> {
     return this.httpClient.get<Chitchat>(this.url + "/all" +
         "?languageId=" + filteredLanguage +
         "&levelId=" + filteredLevel +

@@ -20,7 +20,7 @@ export class ChitchatComponent {
   levels: Level[];
   categories: Category[];
   @Input()
-  selectedCategory: Category;
+  selectedCategory: Category | null;
 
   constructor(
       private chitchatService: ChitchatService,

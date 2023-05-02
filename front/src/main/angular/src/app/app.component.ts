@@ -16,7 +16,7 @@ import {Category} from "./model/Category";
 export class AppComponent implements OnInit {
   languages: Language[];
   levels: Level[];
-  selectedCategory: Category;
+  selectedCategory: Category | null;
 
   constructor(private dialog: MatDialog,
               private languageService: LanguageService
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  selectCategory(category: Category) {
+  selectCategory(category: Category | null) {
     this.selectedCategory = category;
   }
 }
