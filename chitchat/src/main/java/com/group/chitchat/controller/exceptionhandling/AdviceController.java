@@ -28,7 +28,7 @@ public class AdviceController {
   private static final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
   private static final HttpStatus FORBIDDEN = HttpStatus.FORBIDDEN;
   private static final HttpStatus CONFLICT = HttpStatus.CONFLICT;
-  private static final String MESSAGE_ERROR = "error";
+  private static final String MESSAGE_ERROR = "exception.general_error";
 
   private static String logInfoAndGiveMessage(String exceptionMessage) {
     log.info(LOG_INFO_FOR_EXCEPTIONS, exceptionMessage);

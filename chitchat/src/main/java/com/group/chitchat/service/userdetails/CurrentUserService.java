@@ -30,7 +30,7 @@ public class CurrentUserService {
       return authentication.getName();
     }
     throw new UsernameNotFoundException(resourceBundleService.getMessForLocale(
-        "User_with_username", Locale.getDefault()));
+            "exception.username", Locale.getDefault()));
   }
 
 }
