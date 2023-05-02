@@ -83,9 +83,9 @@ public class AuthService {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException(
                 resourceBundleService.getMessForLocale(
-                    "User_with_username", Locale.getDefault())
+                        "exception.username", Locale.getDefault())
                     + username + resourceBundleService.getMessForLocale(
-                    "not_found", Locale.getDefault())
+                        "exception.not_found", Locale.getDefault())
             )
         );
 

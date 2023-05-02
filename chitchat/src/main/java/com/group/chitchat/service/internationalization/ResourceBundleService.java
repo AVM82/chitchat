@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 public class ResourceBundleService implements ResourcesBundleService {
 
   public static final String MESSAGES = "messages";
-  private static final String MESSAGE_NOT_FOUND = "notExists";
-  private static final String MESSAGE_FORBIDDEN = "forbidden";
-  private static final String MESSAGE_CONFLICT = "conflict";
-  private static final String MESSAGE_ERROR = "error";
+  private static final String MESSAGE_NOT_FOUND = "exception.not_exists";
+  private static final String MESSAGE_FORBIDDEN = "exception.forbidden";
+  private static final String MESSAGE_CONFLICT = "exception.conflict";
+  private static final String MESSAGE_ERROR = "exception.general_error";
 
 
   @Override
