@@ -10,8 +10,8 @@ import {CategoryService} from "../../service/category.service";
 export class CategoryComponent implements OnInit {
   categories: Category[] ;
   @Output()
-  selectCategoryEvent = new EventEmitter<Category>();
-  selectedCategory: Category;
+  selectCategoryEvent = new EventEmitter<Category | null>();
+  selectedCategory: Category | null = null;
 
   constructor(private categoryService: CategoryService) {
   }
@@ -26,7 +26,7 @@ export class CategoryComponent implements OnInit {
 
   }
 
-  selectCategory(category: Category) {
+  selectCategory(category: Category | null) {
     this.selectedCategory = category;
     this.selectCategoryEvent.emit(this.selectedCategory);
   }
