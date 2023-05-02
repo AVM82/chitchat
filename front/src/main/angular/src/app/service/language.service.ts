@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Category} from "../model/Category";
 import {Observable} from "rxjs";
 import {Language} from "../model/Language";
 import {Level} from "../model/Level";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  url = '/api/v1/languages';
+  url = environment.appApi + '/api/v1/languages';
 
   constructor(private httpClient: HttpClient) {}
 
