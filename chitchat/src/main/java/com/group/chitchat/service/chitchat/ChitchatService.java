@@ -13,7 +13,7 @@ import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
-import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import com.group.chitchat.service.internationalization.BundlesService;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Comparator;
@@ -43,7 +43,7 @@ public class ChitchatService {
 
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
-  private final ResourcesBundleService resourceBundleService;
+  private final BundlesService bundlesService;
 
   /**
    * Returns list of chitchats.

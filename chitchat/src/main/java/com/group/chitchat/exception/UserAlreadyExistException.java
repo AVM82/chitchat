@@ -1,6 +1,6 @@
 package com.group.chitchat.exception;
 
-import com.group.chitchat.service.internationalization.ResourceBundleService;
+import com.group.chitchat.service.internationalization.BundleService;
 import java.util.Locale;
 
 public class UserAlreadyExistException extends RuntimeException {
@@ -12,9 +12,11 @@ public class UserAlreadyExistException extends RuntimeException {
    * @param username Name of the user.
    */
   public UserAlreadyExistException(String username) {
-    super(new ResourceBundleService().getMessForLocale(
-            "exception.sorry_but_username", Locale.getDefault())
-        + "\"" + username + "\"" + new ResourceBundleService().getMessForLocale(
-            "exception.already_exist", Locale.getDefault()));
+
+    super(String.format(
+        new BundleService()
+            .getMessForLocale("e.already_exist",
+                Locale.getDefault()),
+        username));
   }
 }
