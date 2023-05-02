@@ -9,7 +9,7 @@ import {Level} from "../model/Level";
   providedIn: 'root'
 })
 export class LanguageService {
-  url = '/api/v1/languages';
+  url = 'http://localhost:5000/api/v1/languages';
 
   constructor(private httpClient: HttpClient) {}
 

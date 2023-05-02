@@ -7,7 +7,7 @@ import {Chitchat} from "../model/Chitchat";
   providedIn: 'root'
 })
 export class ChitchatService {
-  url = '/api/v1/chitchats';
+  url = 'http://localhost:5000/api/v1/chitchats';
 
   constructor(
       private httpClient: HttpClient

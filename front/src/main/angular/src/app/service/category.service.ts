@@ -8,7 +8,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class CategoryService {
 
-  url = '/api/v1/category';
+  url = 'http://localhost:5000/api/v1/category';
 
   constructor(private httpClient: HttpClient) {}
 

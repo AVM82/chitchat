@@ -4,35 +4,45 @@
       <span class="input-group-text" id="inputGroup-sizing-default">Header</span>
     </div>
     <input type="text" class="form-control" aria-label="Default"
-           aria-describedby="inputGroup-sizing-default">
+           aria-describedby="inputGroup-sizing-default" [value]="tmpHeader">
   </div>
   <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text">Description</span>
     </div>
-    <textarea class="form-control" aria-label="With textarea"></textarea>
+    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="tmpDescription"></textarea>
   </div>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <label class="input-group-text" for="inputGroupSelect01">Category</label>
     </div>
-    <select class="custom-select text-uppercase" id="inputGroupSelect01">
+    <select class="custom-select text-uppercase" id="inputGroupSelect01"  [(ngModel)]="tmpCategory">
       <!--    <option selected>Choose...</option>-->
       <option class="text-uppercase text-start" *ngFor="let category of newCategory"
-              [ngValue]="category.id">{{category.name}}</option>
+              [ngValue]="category">{{category.name}}</option>
     </select>
   </div>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <label class="input-group-text" for="inputGroupSelect01">Language</label>
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Language</label>
+        </div>
+        <select class="custom-select text-uppercase" id="inputGroupSelect02" [(ngModel)]="tmpLanguage">
+          <!--    <option selected>Choose...</option>-->
+          <option class="text-uppercase text-start"  *ngFor="let language of newLanguage"
+                  [ngValue]="language">{{language.languageName}}</option>
+        </select>
+      </div>
     </div>
-    <select class="custom-select text-uppercase" id="inputGroupSelect02">
-      <!--    <option selected>Choose...</option>-->
-      <option class="text-uppercase text-start" *ngFor="let language of newLanguage"
-              [ngValue]="language.codeIso">{{language.languageName}}</option>
-    </select>
+    <div class="col">
+      <mat-form-field class = "mt-0 p-0" [(ngModel)]="tmpDate">
+        <input matInput class="mt-0 p-0"  type="datetime-local" placeholder="start date">
+      </mat-form-field>
+    </div>
   </div>
+
 
   <div class="row">
     <div class="col">
@@ -42,18 +52,24 @@
         </div>
         <select class="custom-select text-uppercase" id="inputGroupSelect03">
           <!--    <option selected>Choose...</option>-->
-          <option class="text-uppercase text-center" *ngFor="let level of newLevel"
+          <option class="text-uppercase text-center" [(ngModel)]="tmpLevel" *ngFor="let level of newLevel"
                   [ngValue]="level">{{level}}</option>
         </select>
       </div>
     </div>
-      <div class="col">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-2">Capacity</span>
-          </div>
-          <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    <div class="col">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-2">Capacity</span>
         </div>
+        <input type="text" class="form-control" aria-label="Default"
+               aria-describedby="inputGroup-sizing-default">
       </div>
     </div>
   </div>
+  <div class="card-body text-center">
+    <a (click)="addNewChitchat()" class="card-link text-primary">+ChitChat</a>
+    <a href="#" class="card-link">Close</a>
+  </div>
+
+</div>
