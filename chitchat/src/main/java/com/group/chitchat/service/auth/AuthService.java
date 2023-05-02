@@ -9,7 +9,7 @@ import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
-import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.validation.Valid;
 import java.util.HashSet;
 import java.util.Locale;
@@ -35,7 +35,7 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
   private static final String USER_ROLE = "ROLE_USER";
-  private final ResourcesBundleService resourceBundleService;
+  private final BundlesService bundlesService;
 
   /**
    * Register method which take data from request and create new user. After all this steps saving
@@ -82,11 +82,11 @@ public class AuthService {
 
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException(
-                resourceBundleService.getMessForLocale(
-                        "exception.username", Locale.getDefault())
-                    + username + resourceBundleService.getMessForLocale(
-                        "exception.not_found", Locale.getDefault())
-            )
+
+            String.format(bundlesService
+                    .getMessForLocale("e.not_exist",
+                        Locale.getDefault()),
+                username))
         );
 
     authenticationManager.authenticate(

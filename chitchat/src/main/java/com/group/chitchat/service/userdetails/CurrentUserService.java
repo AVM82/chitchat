@@ -1,7 +1,7 @@
 package com.group.chitchat.service.userdetails;
 
-import com.group.chitchat.service.internationalization.ResourceBundleService;
-import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import com.group.chitchat.service.internationalization.BundleService;
+import com.group.chitchat.service.internationalization.BundlesService;
 import java.util.Locale;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,8 +16,8 @@ public class CurrentUserService {
     //Some empty constructor
   }
 
-  private static final ResourcesBundleService resourceBundleService =
-      new ResourceBundleService();
+  private static final BundlesService resourceBundleService =
+      new BundleService();
 
   /**
    * Method which helps to get username of user who send request.
@@ -30,7 +30,7 @@ public class CurrentUserService {
       return authentication.getName();
     }
     throw new UsernameNotFoundException(resourceBundleService.getMessForLocale(
-            "exception.username", Locale.getDefault()));
+        "e.user_not_found", Locale.getDefault()));
   }
 
 }

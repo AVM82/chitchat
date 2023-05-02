@@ -53,8 +53,8 @@ public class ChitchatController {
   @GetMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getChitchat(
       @PathVariable("chitchatId") Long chitchatId,
-      HttpServletRequest requestHeader) {
-    localeResolverConfig.setLocale(requestHeader, null, null);
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
     return chitchatService.getChitchat(chitchatId);
   }
 

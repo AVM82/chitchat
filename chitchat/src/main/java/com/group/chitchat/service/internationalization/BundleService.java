@@ -6,19 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResourceBundleService implements ResourcesBundleService {
+public class BundleService implements BundlesService {
 
   public static final String MESSAGES = "messages";
-  private static final String MESSAGE_NOT_FOUND = "exception.not_exists";
-  private static final String MESSAGE_FORBIDDEN = "exception.forbidden";
-  private static final String MESSAGE_CONFLICT = "exception.conflict";
-  private static final String MESSAGE_ERROR = "exception.general_error";
-
-
-  @Override
-  public ResourceBundle getResourceBundle(Locale locale) {
-    return ResourceBundle.getBundle(MESSAGES, locale);
-  }
+  private static final String MESSAGE_NOT_FOUND = "e.not_exists";
+  private static final String MESSAGE_FORBIDDEN = "e.forbidden";
+  private static final String MESSAGE_CONFLICT = "e.conflict";
+  private static final String MESSAGE_ERROR = "e.general_error";
 
   @Override
   public String getMessForLocale(String keyMessage, Locale locale) {
