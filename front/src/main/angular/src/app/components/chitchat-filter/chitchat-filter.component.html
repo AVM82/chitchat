@@ -6,21 +6,18 @@
     Language: <select class="marg"
                       [(ngModel)]="filteredLanguage">
 <!--    <option [ngValue]="null" disabled>Select language</option>-->
-    <option *ngFor="let language of languages"
+    <option *ngFor="let language of languages" (click)="getFilter()"
             [ngValue]="language.codeIso">{{language.languageName}}</option>
   </select>
     Level: <select class="marg"
                    [(ngModel)]="filteredLevel">
 <!--    <option [ngValue]="null" disabled>Select level</option>-->
-    <option *ngFor="let level of levels" [ngValue]="level">{{level}}</option>
+    <option *ngFor="let level of levels" (click)="getFilter()"
+            [ngValue]="level">{{level}}</option>
   </select>
-    Date from <input type="date"
+    Date from <input type="date" (click)="getFilter()"
                      max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
-    to <input class="marg" type="date"
+    to <input class="marg" type="date" (click)="getFilter()"
               min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
-    <button class="btn"
-            name="filter" style="border-radius: 4px"
-            (click)="getFilter()">Filter
-    </button>
   </div>
 </div>

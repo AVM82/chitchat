@@ -20,8 +20,7 @@ export class ChitchatFilterComponent implements OnInit {
   chitchats = [];
   @Output()
   chitchatsEvent = new EventEmitter<any>();
-  @Input()
-  selectedCategory: Category;
+  filteredCategory: Category;
 
   constructor(private languageService: LanguageService, private chitchatService: ChitchatService) {
   }
@@ -35,13 +34,19 @@ export class ChitchatFilterComponent implements OnInit {
     });
   }
 
+  @Input()
+  set selectedCategory(category: Category) {
+    this.filteredCategory = category;
+    this.getFilter();
+  }
+
   getFilter() {
     this.chitchatService.filter(
         this.filteredLanguage,
         this.filteredLevel,
         this.filteredDateFrom,
         this.filteredDateTo,
-        this.selectedCategory)
+        this.filteredCategory)
     .subscribe({
       next: (data: any) => {
         this.chitchats = data;
