@@ -1,15 +1,17 @@
-<div class = "row my-0">
+<div class="row my-0">
   <div class="col-10 ">
     <app-chitchat-filter [selectedCategory]="selectedCategory"
-        (chitchatsEvent)="filter($event)"></app-chitchat-filter>
+                         (chitchatsEvent)="filter($event)"></app-chitchat-filter>
   </div>
-  <div class="col-1 m-0" >
+  <div class="col-1 m-0">
     <div class="text-right col-6">
-      <button class="btn btn-primary align-items-end mb-0" (click)="openAddTaskDialog()">Add new</button>
+      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">Add new
+      </button>
     </div>
   </div>
 </div>
-<div class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
+<div
+    class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
   <div class="col mb-5" *ngFor="let chitchat of chitchats">
     <div class="card h-100 shadow text-center  p-1 mb-1 bg-white rounded "
          style="width: 15rem;">
@@ -22,6 +24,8 @@
         <div class="text-center">
           <!-- Product name-->
           <h4 class="fw-bolder my-0 text-danger text-truncate">{{chitchat.authorName}}</h4>
+          <h4 class="fw-bolder my-0" style="color: black"
+          >{{chitchat.date|date: 'dd MMM yyyy HH:mm'}}</h4>
           <h3 class="fw-bolder my-0 text-success "
           >{{chitchat.languageName}}</h3>
           <!-- Product price-->
