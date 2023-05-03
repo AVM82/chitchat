@@ -22,6 +22,11 @@ import { ChitchatFilterComponent } from './components/chitchat-filter/chitchat-f
 import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatInputModule} from "@angular/material/input";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule
+} from "@angular-material-components/datetime-picker";
 
 
 const appRoutes: Routes = [
@@ -54,7 +59,10 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatOptionModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    MatInputModule
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders],
   bootstrap: [AppComponent]

@@ -24,7 +24,12 @@ export class TokenStorageService {
   }
 
   public getUser(): any {
-    return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}' );
+    let token = sessionStorage.getItem(TOKEN_KEY);
+    if (token != null) {
+      let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
+      return decodedJWT.user_name;
+    }
+    // return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}' );
   }
 
   public getUserId(): any {
