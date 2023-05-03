@@ -1,1 +1,2 @@
-<router-outlet></router-outlet>
+<app-main *ngIf="!chitchatId"></app-main>
+<app-chitchat-ref *ngIf="chitchatId"></app-chitchat-ref>
