@@ -6,8 +6,8 @@ import {ChitchatRefComponent} from "./components/chitchat-ref/chitchat-ref.compo
 import {MainComponent} from "./components/main/main.component";
 
 const routes: Routes = [
-  {path: '', component: MainComponent},
   {path: 'chitchat', component: ChitchatRefComponent},
+  {path: '', component: MainComponent},
   {path: '**', component: NotFoundComponent}
 ];
 
