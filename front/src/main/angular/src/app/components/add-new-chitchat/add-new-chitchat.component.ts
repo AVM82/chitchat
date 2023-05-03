@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Language} from "../../model/Language";
 import {Level} from "../../model/Level";
 import {Category} from "../../model/Category";
@@ -34,6 +34,7 @@ export class AddNewChitchatComponent {
               private categoryService: CategoryService,
               private languageService: LanguageService,
               private chitchatService : ChitchatService ,
+              private dialogRef: MatDialogRef<AddNewChitchatComponent>,
               private tokenStorageService: TokenStorageService,
               private dialog: MatDialog) {
   }
@@ -63,6 +64,7 @@ export class AddNewChitchatComponent {
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
       });
+      this.dialogRef.close();
     }
   }
 }
