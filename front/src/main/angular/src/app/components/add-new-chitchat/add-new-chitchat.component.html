@@ -61,9 +61,9 @@
   <!--    календарь - срок выполнения-->
   <div class="input-group">
 
-  <mat-form-field >
+  <mat-form-field>
 
-    <input
+    <input style="width: 160px"
         #inputDate (click)="picker.open()" [(ngModel)]="tmpDate"
         [matDatepicker]="picker"
 
@@ -80,7 +80,7 @@
     <button
         (click)="tmpDate = null"
 
-        *ngIf="inputDate.value.trim().length > 0" aria-label="Clear" class="size25 text-primary" mat-button
+        *ngIf="inputDate.value.trim().length > 0" aria-label="Clear" class="text-dark" mat-button
 
         matSuffix>
 
@@ -90,7 +90,7 @@
 
   </mat-form-field>
 
-  <label class="ml-5 mt-4 text-dark " style="font-size: 16px" for="itme">Time</label>
+  <label class="ml-3 mt-4 text-dark " style="font-size: 16px" for="itme">Time</label>
   <input class="form-control mt-3 ml-4" style=" font-size: 16px; width: 100px; height: 40px" type="time" id="itme" name="itme" [(ngModel)]="tmpTime">
   </div>
 
