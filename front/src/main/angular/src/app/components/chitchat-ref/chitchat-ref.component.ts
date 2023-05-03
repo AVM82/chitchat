@@ -1,19 +1,18 @@
 import {Component} from '@angular/core';
-import {Chitchat} from "./model/Chitchat";
-import {Subscription} from "rxjs";
-import {ChitchatService} from "./service/chitchat.service";
-import {TokenStorageService} from "./service/token-storage.service";
+import {Chitchat} from "../../model/Chitchat";
+import {ChitchatService} from "../../service/chitchat.service";
+import {TokenStorageService} from "../../service/token-storage.service";
 import {ActivatedRoute} from "@angular/router";
-
+import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-chitchat-ref',
+  templateUrl: './chitchat-ref.component.html',
+  styleUrls: ['./chitchat-ref.component.scss']
 })
-export class AppComponent {
-  chitchatId: any = null;
+export class ChitchatRefComponent {
   oneChitChat: Chitchat;
+  chitchatId: any;
   private querySubscription: Subscription;
 
   constructor(
@@ -28,6 +27,12 @@ export class AppComponent {
           this.chitchatService.get(this.chitchatId).subscribe(value => this.oneChitChat = value);
         }
     );
+  }
+
+  addToChitchat(chitchat: Chitchat) {
+    this.chitchatService.addUserInChat(this.tokenStorageService.getUserId(), chitchat.id).subscribe(result => {
+      this.oneChitChat = result;
+    });
   }
 
 }
