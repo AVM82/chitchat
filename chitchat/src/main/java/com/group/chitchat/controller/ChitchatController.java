@@ -66,7 +66,7 @@ public class ChitchatController {
    * @param response             object that sets the locale.
    * @return response about the status of creating a new chat.
    */
-  @PostMapping
+  @PostMapping()
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
@@ -75,7 +75,7 @@ public class ChitchatController {
         .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
   }
 
-  @PutMapping("{chitchatId}")
+  @PutMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       @RequestParam("userId") Long userId,

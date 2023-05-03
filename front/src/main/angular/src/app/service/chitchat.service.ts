@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Chitchat} from "../model/Chitchat";
 import {Category} from "../model/Category";
 import {environment} from "../../environments/environment";
+import {NewChitChatDTO} from "../model/NewChitChatDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class ChitchatService {
       private httpClient: HttpClient
       ) {}
 
-  add(obj: Chitchat): Observable<Chitchat> {
-    return  this.httpClient.post<Chitchat>(this.url,obj);
+  add(obj: NewChitChatDTO): Observable<any> {
+    return  this.httpClient.post<any>(this.url,obj);
   }
 
   get(id: number): Observable<Chitchat> {
