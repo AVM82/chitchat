@@ -27,6 +27,7 @@ public class ApplicationConfig {
 
   /**
    * get Authentication provider.
+   *
    * @return authentication provider.
    */
   @Bean

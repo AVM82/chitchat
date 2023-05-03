@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +41,9 @@ public class JwtService {
 
   /**
    * Generate and return token.
+   *
    * @param extractClaims extract claims.
-   * @param userDetails user details.
+   * @param userDetails   user details.
    * @return jwt token.
    */
   public String generateToken(

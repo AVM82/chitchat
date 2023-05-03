@@ -1,6 +1,6 @@
 package com.group.chitchat.exception;
 
-import com.group.chitchat.service.internationalization.ResourceBundleService;
+import com.group.chitchat.service.internationalization.BundleService;
 import java.util.Locale;
 
 public class RoleNotExistException extends RuntimeException {
@@ -12,10 +12,10 @@ public class RoleNotExistException extends RuntimeException {
    */
   public RoleNotExistException(String userRole) {
 
-    super(new ResourceBundleService().getMessForLocale(
-            "exception.sorry_but", Locale.getDefault())
-        + "\"" + userRole + "\""
-        + new ResourceBundleService().getMessForLocale(
-            "exception.not_exist", Locale.getDefault()));
+    super(String.format(
+        new BundleService()
+            .getMessForLocale("e.not_exist",
+                Locale.getDefault()),
+        userRole));
   }
 }

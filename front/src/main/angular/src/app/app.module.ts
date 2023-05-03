@@ -25,6 +25,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
+import { ChitchatRefComponent } from './components/chitchat-ref/chitchat-ref.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MainComponent } from './components/main/main.component';
 
 
 const appRoutes: Routes = [
@@ -40,7 +43,10 @@ const appRoutes: Routes = [
     ChitchatComponent,
     OneChitchatComponent,
     AddNewChitchatComponent,
-    ChitchatFilterComponent
+    ChitchatFilterComponent,
+    ChitchatRefComponent,
+    NotFoundComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

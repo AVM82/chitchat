@@ -6,7 +6,7 @@ import com.group.chitchat.data.restmessages.ErrorMessage;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
-import com.group.chitchat.service.internationalization.ResourcesBundleService;
+import com.group.chitchat.service.internationalization.BundlesService;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -28,14 +28,14 @@ public class AdviceController {
   private static final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
   private static final HttpStatus FORBIDDEN = HttpStatus.FORBIDDEN;
   private static final HttpStatus CONFLICT = HttpStatus.CONFLICT;
-  private static final String MESSAGE_ERROR = "exception.general_error";
+  private static final String MESSAGE_ERROR = "e.general_error";
 
   private static String logInfoAndGiveMessage(String exceptionMessage) {
     log.info(LOG_INFO_FOR_EXCEPTIONS, exceptionMessage);
     return exceptionMessage;
   }
 
-  private final ResourcesBundleService resourceBundleService;
+  private final BundlesService bundlesService;
 
   /**
    * Exception handler for runtime exception in case when user already exist.
@@ -117,7 +117,7 @@ public class AdviceController {
         .code(FORBIDDEN)
         .timestamp(LocalDateTime.now())
         .message(logInfoAndGiveMessage(
-            resourceBundleService
+            bundlesService
                 .getExceptionMessForLocale(FORBIDDEN,
                     Locale.getDefault())))
         .build(), FORBIDDEN);
@@ -137,7 +137,7 @@ public class AdviceController {
     return new ResponseEntity<>(ErrorMessage.builder()
         .timestamp(LocalDateTime.now())
         .message(logInfoAndGiveMessage(
-            resourceBundleService
+            bundlesService
                 .getMessForLocale(MESSAGE_ERROR,
                     Locale.getDefault())))
         .build(), BAD_REQUEST);
