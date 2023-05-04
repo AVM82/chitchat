@@ -14,6 +14,7 @@ import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Comparator;
@@ -22,6 +23,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class ChitchatService {
 
   private final ChitchatRepo chitchatRepo;
@@ -39,7 +42,7 @@ public class ChitchatService {
    * Messages for sending email.
    */
   private static final String MESSAGE_CONFIRM_CREATE =
-      "You created a new chitchat. Follow the link to add it to Google Calendar: \n";
+      "You created a new chitchat: \n%s\nFollow the link to add it to Google Calendar: \n";
 
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
@@ -66,10 +69,11 @@ public class ChitchatService {
    * @param chitchatDto Dto for create chitchat.
    * @return response with info of chitchat.
    */
-  public ChitchatForResponseDto addChitchat(ForCreateChitchatDto chitchatDto, String authorName) {
+  public ResponseEntity<ChitchatForResponseDto> addChitchat(
+      ForCreateChitchatDto chitchatDto, String authorName, HttpServletRequest request) {
+
     User author = userRepo.findByUsername(authorName)
         .orElseThrow(() -> new UsernameNotFoundException(authorName));
-
     Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
     Category category = categoryRepo.findById(chitchatDto.getCategoryId()).orElseThrow();
     Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
@@ -81,9 +85,12 @@ public class ChitchatService {
 
     chitchatRepo.save(chitchat);
 
-    sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
+    String url = request.getRequestURL().toString().replace("api/v1/chitchats", "")
+        + "?id=" + chitchat.getId();
 
-    return ChitchatDtoService.getFromEntity(chitchat);
+    sendEmail(chitchat, String.format(MESSAGE_CONFIRM_CREATE, url));
+
+    return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
 
   /**

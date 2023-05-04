@@ -24,8 +24,6 @@ export class AppComponent {
     this.querySubscription = route.queryParams.subscribe(
         (queryParam: any) => {
           this.chitchatId = queryParam['id'];
-          console.log(this.chitchatId);
-          this.chitchatService.get(this.chitchatId).subscribe(value => this.oneChitChat = value);
         }
     );
   }
