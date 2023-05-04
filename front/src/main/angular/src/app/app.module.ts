@@ -28,6 +28,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { ChitchatRefComponent } from './components/chitchat-ref/chitchat-ref.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MainComponent } from './components/main/main.component';
+import { TranslocoRootModule } from './transloco-root.module';
 
 
 const appRoutes: Routes = [
@@ -66,7 +67,8 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatDatepickerModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    TranslocoRootModule
 
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders],
