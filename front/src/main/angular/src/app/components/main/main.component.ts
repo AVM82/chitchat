@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LanguageService} from "../../service/language.service";
 import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-main',
@@ -16,14 +17,18 @@ export class MainComponent implements OnInit {
   languages: Language[];
   levels: Level[];
   selectedCategory: Category | null;
+  selectedLanguage: string = 'en';
 
   constructor(private dialog: MatDialog,
-              private languageService: LanguageService
+              private languageService: LanguageService,
+              private translocoService: TranslocoService
   ) {
   }
 
   ngOnInit() {
-
+    this.languageService.getAll().subscribe(result => {
+      this.languages = result;
+    });
   }
 
   login() {
@@ -48,5 +53,9 @@ export class MainComponent implements OnInit {
 
   selectCategory(category: Category | null) {
     this.selectedCategory = category;
+  }
+
+  changeLanguage(lang: string) {
+    this.translocoService.setActiveLang(lang);
   }
 }

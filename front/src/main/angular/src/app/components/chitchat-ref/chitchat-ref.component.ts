@@ -24,15 +24,8 @@ export class ChitchatRefComponent {
         (queryParam: any) => {
           this.chitchatId = queryParam['id'];
           console.log(this.chitchatId);
-          this.chitchatService.get(this.chitchatId).subscribe(value => this.oneChitChat = value);
+          this.chitchatService.getPublic(this.chitchatId).subscribe(value => this.oneChitChat = value);
         }
     );
   }
-
-  addToChitchat(chitchat: Chitchat) {
-    this.chitchatService.addUserInChat(this.tokenStorageService.getUserId(), chitchat.id).subscribe(result => {
-      this.oneChitChat = result;
-    });
-  }
-
 }
