@@ -58,6 +58,14 @@ public class ChitchatController {
     return chitchatService.getChitchat(chitchatId);
   }
 
+  @GetMapping("/all/{chitchatId}")
+  public ResponseEntity<ChitchatForResponseDto> getPublicChitchat(
+      @PathVariable("chitchatId") Long chitchatId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return chitchatService.getChitchat(chitchatId);
+  }
+
   /**
    * Creates and adds a new chat.
    *
