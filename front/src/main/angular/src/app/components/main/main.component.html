@@ -1,31 +1,41 @@
-<div class="row">
-  <div class="col-2 mb-2">
-    <app-category (selectCategoryEvent)="selectCategory($event)"></app-category>
-  </div>
+<ng-container *transloco="let t;">
+  <div class="row">
+    <div class="col-2 mb-2">
+      <app-category (selectCategoryEvent)="selectCategory($event)"></app-category>
+    </div>
 
-  <div class="col-10">
-    <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 mx-5 shadow border-radius-xl">
-      <div class="container-fluid py-1 px-2">
-        <nav aria-label="breadcrumb">
-          <h1 class="font-weight-bold mb-0 align-items-start text-primary">Speaking Club</h1>
-        </nav>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+    <div class="col-10">
+      <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 mx-5 shadow border-radius-xl">
+        <div class="container-fluid py-1 px-2">
+          <nav aria-label="breadcrumb">
+            <h1 class="font-weight-bold mb-0 align-items-start text-primary">Speaking Club</h1>
+          </nav>
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+              <li class="nav-item d-flex align-items-center">
+                <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                   target="_blank" (click)="login()">{{t('Log In')}}</a>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+                   target="_blank" (click)="signup()">{{t('Sign Up')}}</a>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <select class="custom-select text-uppercase" id="inputGroupSelect01"
+                        [value]='' (change)="changeLanguage(selectedLanguage)"
+                        [(ngModel)]="selectedLanguage">
+                  <option class="text-uppercase text-start" *ngFor="let language of languages"
+                          [ngValue]="language.codeIso">{{language.codeIso}}</option>
+                </select>
+              </li>
+            </ul>
           </div>
-          <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
-                 target="_blank" (click)="login()">Log In</a>
-            </li>
-            <li class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
-                 target="_blank" (click)="signup()">Sign Up</a>
-            </li>
-          </ul>
         </div>
-      </div>
-    </nav>
-    <app-chitchat [selectedCategory]="selectedCategory"></app-chitchat>
+      </nav>
+      <app-chitchat [selectedCategory]="selectedCategory"></app-chitchat>
+    </div>
   </div>
-</div>
-<!-- End Navbar -->
+  <!-- End Navbar -->
+</ng-container>
