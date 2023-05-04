@@ -70,9 +70,11 @@ public class ChitchatController {
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
+
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return ResponseEntity.ok(chitchatService
-        .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
+
+    return chitchatService.addChitchat(
+        forCreateChitchatDto, CurrentUserService.getCurrentUsername(), requestHeader);
   }
 
   @PutMapping("/{chitchatId}")
