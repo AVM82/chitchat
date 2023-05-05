@@ -1,28 +1,31 @@
-<div class="card my-0" style="width: 18rem;">
-  <div class = "row mx-0">
-  <div class="col-6 ">
-    <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden" style="width: 7rem">
-      <img class="card-img-top"  src="assets/img/faces/team-4.jpg" alt="..."/>
+<ng-container *transloco="let translate;">
+  <div class="card my-0" style="width: 18rem;">
+    <div class="row mx-0">
+      <div class="col-6 ">
+        <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden" style="width: 7rem">
+          <img class="card-img-top" src="assets/img/faces/team-4.jpg" alt="..."/>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <ul class="list-group list-group-flush mt-1"
+            *ngFor="let user of oneChitChat.usersInChitchat">
+          <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body py-0 my-1">
+      <h5 class="card-title text-primary py-0 my-0">{{translate('Description')}}</h5>
+      <p class="card-text py-0 my-0"> {{oneChitChat.description}}</p>
+    </div>
+    <ul class="list-group py-0 my-0 list-group-flush">
+      <li class="list-group-item py-0 my-1">{{oneChitChat.authorName}}</li>
+      <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
+      <li class="list-group-item py-0 my-1">{{oneChitChat.languageName}}</li>
+    </ul>
+    <div class="card-body text-center">
+      <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary">+ to Chat</a>
+      <a href="#" class="card-link">{{translate('Close')}}</a>
     </div>
   </div>
-
-  <div class="col-5" >
-    <ul class="list-group list-group-flush mt-1" *ngFor="let user of oneChitChat.usersInChitchat">
-      <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>
-    </ul>
-  </div>
-  </div>
-  <div class="card-body py-0 my-1">
-    <h5 class="card-title text-primary py-0 my-0">Description</h5>
-    <p class="card-text py-0 my-0"> {{oneChitChat.description}}</p>
-  </div>
-  <ul class="list-group py-0 my-0 list-group-flush">
-    <li class="list-group-item py-0 my-1">{{oneChitChat.authorName}}</li>
-    <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
-    <li class="list-group-item py-0 my-1">{{oneChitChat.languageName}}</li>
-  </ul>
-  <div class="card-body text-center">
-    <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary">+ to Chat</a>
-    <a href="#" class="card-link">Close</a>
-  </div>
-</div>
+</ng-container>

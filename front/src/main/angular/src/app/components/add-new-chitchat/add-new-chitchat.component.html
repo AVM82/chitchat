@@ -1,102 +1,111 @@
-<div class="container mt-2">
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroup-sizing-default">Header</span>
+<ng-container *transloco="let translate;">
+  <div class="container mt-2">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">{{translate('Header')}}</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default" [(ngModel)]="tmpHeader"
+             aria-describedby="inputGroup-sizing-default">
     </div>
-    <input type="text" class="form-control" aria-label="Default" [(ngModel)]="tmpHeader"
-           aria-describedby="inputGroup-sizing-default">
-  </div>
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Description</span>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{translate('Description')}}</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea"
+                [(ngModel)]="tmpDescription"></textarea>
     </div>
-    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="tmpDescription"></textarea>
-  </div>
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <label class="input-group-text" for="inputGroupSelect01">Category</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">{{translate('Category')}}</label>
+      </div>
+      <select class="custom-select text-uppercase" id="inputGroupSelect01" [value]="0"
+              [(ngModel)]="tmpCategory">
+        <!--    <option selected>Choose...</option>-->
+        <option class="text-uppercase text-start" *ngFor="let category of newCategory"
+                [ngValue]="category.id">{{category.name}}</option>
+      </select>
     </div>
-    <select class="custom-select text-uppercase" id="inputGroupSelect01" [value]="0" [(ngModel)]="tmpCategory">
-      <!--    <option selected>Choose...</option>-->
-      <option class="text-uppercase text-start" *ngFor="let category of newCategory"
-              [ngValue]="category.id">{{category.name}}</option>
-    </select>
-  </div>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <label class="input-group-text" for="inputGroupSelect01">Language</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">{{translate('Language')}}</label>
+      </div>
+      <select class="custom-select text-uppercase" id="inputGroupSelect02"
+              [(ngModel)]="tmpLanguage">
+        <!--    <option selected>Choose...</option>-->
+        <option class="text-uppercase text-start" *ngFor="let language of newLanguage"
+                [ngValue]="language.codeIso">{{language.languageName}}</option>
+      </select>
     </div>
-    <select class="custom-select text-uppercase" id="inputGroupSelect02" [(ngModel)]="tmpLanguage">
-      <!--    <option selected>Choose...</option>-->
-      <option class="text-uppercase text-start" *ngFor="let language of newLanguage"
-              [ngValue]="language.codeIso">{{language.languageName}}</option>
-    </select>
-  </div>
 
-  <div class="row">
-    <div class="col">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect03">Level</label>
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect03">{{translate('Level')}}</label>
+          </div>
+          <select class="custom-select text-uppercase" id="inputGroupSelect03"
+                  [(ngModel)]="tmpLevel">
+            <!--    <option selected>Choose...</option>-->
+            <option class="text-uppercase text-center" *ngFor="let level of newLevel"
+                    [ngValue]="level">{{level}}</option>
+          </select>
         </div>
-        <select class="custom-select text-uppercase" id="inputGroupSelect03" [(ngModel)]="tmpLevel">
-          <!--    <option selected>Choose...</option>-->
-          <option class="text-uppercase text-center" *ngFor="let level of newLevel"
-                  [ngValue]="level">{{level}}</option>
-        </select>
+      </div>
+      <div class="col">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-2">{{translate('Capacity')}}</span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="tmpCapacity"
+                 aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-2">Capacity</span>
-        </div>
-        <input type="text" class="form-control" [(ngModel)]="tmpCapacity"
-               aria-label="Default" aria-describedby="inputGroup-sizing-default">
-      </div>
+
+    <!--    календарь - срок выполнения-->
+    <div class="input-group">
+
+      <mat-form-field>
+
+        <input style="width: 160px"
+               #inputDate (click)="picker.open()" [(ngModel)]="tmpDate"
+               [matDatepicker]="picker"
+
+               matInput
+               placeholder="Set the date"
+               data-background-color="light"
+               readonly="true">
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <!-- иконка календаря (для открытия календаря) -->
+
+        <mat-datepicker #picker></mat-datepicker>
+        <!-- компонент календаря (открывается по нажатию)-->
+
+        <!--кнопка очистки даты -->
+        <button
+            (click)="tmpDate = null"
+
+            *ngIf="inputDate.value.trim().length > 0" aria-label="Clear" class="text-dark"
+            mat-button
+
+            matSuffix>
+
+          <mat-icon>clear</mat-icon>
+
+        </button>
+
+      </mat-form-field>
+
+      <label class="ml-3 mt-4 text-dark " style="font-size: 16px" for="itme">{{translate('Time')}}</label>
+      <input class="form-control mt-3 ml-4" style=" font-size: 16px; width: 100px; height: 40px"
+             type="time" id="itme" name="itme" [(ngModel)]="tmpTime">
     </div>
+
+    <div class="card-body text-center">
+      <a (click)="addNewChitchat()" class="card-link text-success">{{translate('Create')}}</a>
+      <a href="#" class="card-link">{{translate('Close')}}</a>
+    </div>
+
   </div>
-
-  <!--    календарь - срок выполнения-->
-  <div class="input-group">
-
-  <mat-form-field>
-
-    <input style="width: 160px"
-        #inputDate (click)="picker.open()" [(ngModel)]="tmpDate"
-        [matDatepicker]="picker"
-
-        matInput
-        placeholder="Set the date"
-        data-background-color="light"
-        readonly="true">
-    <mat-datepicker-toggle  [for]="picker" matSuffix></mat-datepicker-toggle>
-    <!-- иконка календаря (для открытия календаря) -->
-
-    <mat-datepicker #picker></mat-datepicker> <!-- компонент календаря (открывается по нажатию)-->
-
-    <!--кнопка очистки даты -->
-    <button
-        (click)="tmpDate = null"
-
-        *ngIf="inputDate.value.trim().length > 0" aria-label="Clear" class="text-dark" mat-button
-
-        matSuffix>
-
-      <mat-icon>clear</mat-icon>
-
-    </button>
-
-  </mat-form-field>
-
-  <label class="ml-3 mt-4 text-dark " style="font-size: 16px" for="itme">Time</label>
-  <input class="form-control mt-3 ml-4" style=" font-size: 16px; width: 100px; height: 40px" type="time" id="itme" name="itme" [(ngModel)]="tmpTime">
-  </div>
-
-  <div class="card-body text-center">
-    <a (click)="addNewChitchat()" class="card-link text-success">Create</a>
-    <a href="#" class="card-link">Close</a>
-  </div>
-
-</div>
+</ng-container>

@@ -14,24 +14,29 @@ export class ChitchatService {
 
   constructor(
       private httpClient: HttpClient
-      ) {}
+  ) {
+  }
 
   add(obj: NewChitChatDTO): Observable<any> {
-    return  this.httpClient.post<any>(this.url,obj);
+    return this.httpClient.post<any>(this.url, obj);
   }
 
   get(id: number): Observable<Chitchat> {
-    return this.httpClient.get<Chitchat>(this.url+'/'+id);
+    return this.httpClient.get<Chitchat>(this.url + '/' + id);
   }
 
-  addUserInChat(user_id: number, chitchat_id: number ): Observable<Chitchat> {
-     const urla = this.url+'/'+chitchat_id+'?userId='+user_id;
-     console.log(urla);
-     return this.httpClient.put<Chitchat>(urla,null);
+  getPublic(id: number): Observable<Chitchat> {
+    return this.httpClient.get<Chitchat>(this.url + '/all/' + id);
+  }
+
+  addUserInChat(user_id: number, chitchat_id: number): Observable<Chitchat> {
+    const urla = this.url + '/' + chitchat_id + '?userId=' + user_id;
+    console.log(urla);
+    return this.httpClient.put<Chitchat>(urla, null);
   }
 
   getAll(): Observable<Chitchat[]> {
-    return this.httpClient.get<Chitchat[]>(this.url+"/all");
+    return this.httpClient.get<Chitchat[]>(this.url + "/all");
   }
 
   update(obj: Chitchat): Observable<Chitchat> {

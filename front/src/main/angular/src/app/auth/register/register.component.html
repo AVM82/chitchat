@@ -1,14 +1,17 @@
-<form [formGroup]="registerForm">
+<ng-container *transloco="let translate;">
+  <form [formGroup]="registerForm">
 
-  <div class="container">
-    <label ><b>Username</b></label>
-    <input type="text" formControlName="username" placeholder="Enter Username"  required>
-    <label ><b>Email</b></label>
-    <input type="text" formControlName="email" placeholder="Enter Email"  required>
-    <label ><b>Password</b></label>
-    <input type="password" formControlName="password" placeholder="Enter Password" required>
-    <label ><b>Confirm password</b></label>
-    <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" required>
-    <button type="submit" (click)="register()">Register</button>
-  </div>
-</form>
+    <div class="container">
+      <label><b>{{translate('Username')}}</b></label>
+      <input type="text" formControlName="username" placeholder="{{translate('Enter Username')}}" required>
+      <label><b>{{translate('Email')}}</b></label>
+      <input type="text" formControlName="email" placeholder="{{translate('Enter Email')}}" required>
+      <label><b>{{translate('Password')}}</b></label>
+      <input type="password" formControlName="password" placeholder="{{translate('Enter Password')}}" required>
+      <label><b>{{translate('Confirm password')}}</b></label>
+      <input type="password" formControlName="confirmPassword" placeholder="{{translate('Confirm Password')}}"
+             required>
+      <button type="submit" (click)="register()">{{translate('Register')}}</button>
+    </div>
+  </form>
+</ng-container>
