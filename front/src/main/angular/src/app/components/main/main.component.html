@@ -1,4 +1,4 @@
-<ng-container *transloco="let t;">
+<ng-container *transloco="let translate;">
   <div class="row">
     <div class="col-2 mb-2">
       <app-category (selectCategoryEvent)="selectCategory($event)"></app-category>
@@ -16,14 +16,14 @@
             <ul class="navbar-nav  justify-content-end">
               <li class="nav-item d-flex align-items-center">
                 <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
-                   target="_blank" (click)="login()">{{t('Log In')}}</a>
+                   target="_blank" (click)="login()">{{translate('Log In')}}</a>
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
-                   target="_blank" (click)="signup()">{{t('Sign Up')}}</a>
+                   target="_blank" (click)="signup()">{{translate('Sign Up')}}</a>
               </li>
               <li class="nav-item d-flex align-items-center">
-                <select class="custom-select text-uppercase" id="inputGroupSelect01"
+                <select class="btn btn-link btn-sm mb-0 me-3 text-primary" id="inputGroupSelect01"
                         [value]='' (change)="changeLanguage(selectedLanguage)"
                         [(ngModel)]="selectedLanguage">
                   <option class="text-uppercase text-start" *ngFor="let language of languages"

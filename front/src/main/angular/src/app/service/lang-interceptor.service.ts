@@ -22,7 +22,7 @@ export class LangInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let langRequest = req.clone({headers: req.headers
-      .set('Accept-Language', this.locals[this.translocoService.getActiveLang()])});
+      .set('Accept-Language', this.translocoService.getActiveLang())});
     return next.handle(langRequest);
   }
 }
