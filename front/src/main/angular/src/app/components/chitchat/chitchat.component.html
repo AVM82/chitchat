@@ -1,3 +1,4 @@
+<ng-container *transloco="let translate;">
 <div class="row my-0">
   <div class="col-10 ">
     <app-chitchat-filter [selectedCategory]="selectedCategory"
@@ -5,7 +6,8 @@
   </div>
   <div class="col-1 m-0">
     <div class="text-right col-6">
-      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">Add new
+      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">
+        {{translate('Add new')}}
       </button>
     </div>
   </div>
@@ -49,15 +51,15 @@
 
           <div class="progress">
             <div class="progress-bar progress-bar-success" role="progressbar"
-                 aria-valuemin="0" aria-valuemax="100" style="width:{{100*chitchat.usersInChitchat.length/chitchat.capacity}}%">
+                 aria-valuemin="0" aria-valuemax="100" style="width: {{100*chitchat.usersInChitchat.length/chitchat.capacity}}%">
             </div>
           </div>
         </div>
       </div>
       <!-- Product actions-->
       <a class="btn btn-primary mx-4 mb-2" (click)="openChitChat(chitchat)">
-        Детальніше</a>
+        {{translate('More details')}}</a>
     </div>
   </div>
-
 </div>
+</ng-container>
