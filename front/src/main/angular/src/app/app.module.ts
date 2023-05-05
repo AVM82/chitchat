@@ -29,6 +29,7 @@ import { ChitchatRefComponent } from './components/chitchat-ref/chitchat-ref.com
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MainComponent } from './components/main/main.component';
 import { TranslocoRootModule } from './transloco-root.module';
+import {langInterceptorProviders} from "./service/lang-interceptor.service";
 
 
 const appRoutes: Routes = [
@@ -71,7 +72,7 @@ const appRoutes: Routes = [
     TranslocoRootModule
 
   ],
-  providers: [authInterceptorProviders,authErrorInterceptorProviders],
+  providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
