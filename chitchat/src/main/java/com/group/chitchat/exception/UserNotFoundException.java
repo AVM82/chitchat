@@ -15,8 +15,17 @@ public class UserNotFoundException extends RuntimeException {
 
     super(String.format(
         new BundleService()
-            .getMessForLocale("e.not_exist",
+            .getMessForLocale("e.userName_not_exist",
                 Locale.getDefault()),
         username));
+  }
+
+  public UserNotFoundException(Long id) {
+
+    super(String.format(
+        new BundleService()
+            .getMessForLocale("e.userId_not_exist",
+                Locale.getDefault()),
+        id));
   }
 }

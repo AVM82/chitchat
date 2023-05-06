@@ -3,6 +3,7 @@ package com.group.chitchat.controller.exceptionhandling;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import com.group.chitchat.data.restmessages.ErrorMessage;
+import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
@@ -64,6 +65,17 @@ public class AdviceController {
   @ExceptionHandler({UserNotFoundException.class})
   public ResponseEntity<ErrorMessage> userNotFoundException(
       UserNotFoundException exception) {
+    return new ResponseEntity<>(ErrorMessage.builder()
+        .code(NOT_FOUND)
+        .timestamp(LocalDateTime.now())
+        .message(logInfoAndGiveMessage(exception.getMessage()))
+        .build(), NOT_FOUND);
+  }
+
+  @ResponseBody
+  @ExceptionHandler({ChitchatsNotFoundException.class})
+  public ResponseEntity<ErrorMessage> ChitchatsNotFoundException(
+      ChitchatsNotFoundException exception) {
     return new ResponseEntity<>(ErrorMessage.builder()
         .code(NOT_FOUND)
         .timestamp(LocalDateTime.now())

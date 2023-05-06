@@ -61,9 +61,65 @@ CREATE TABLE IF NOT EXISTS chitchats
 
 CREATE TABLE IF NOT EXISTS chitchat_users
 (
-    chitchat_id int4,
-    user_id     int4,
-    PRIMARY KEY (chitchat_id, user_id),
-    CONSTRAINT fk_participating_chitchats FOREIGN KEY (chitchat_id) REFERENCES chitchats (id),
-    CONSTRAINT fk_participating_users FOREIGN KEY (user_id) REFERENCES users (id)
-);
+    chitchat_id
+    int4,
+    user_id
+    int4,
+    PRIMARY
+    KEY
+(
+    chitchat_id,
+    user_id
+),
+    CONSTRAINT fk_participating_chitchats FOREIGN KEY
+(
+    chitchat_id
+) REFERENCES chitchats
+(
+    id
+),
+    CONSTRAINT fk_participating_users FOREIGN KEY
+(
+    user_id
+) REFERENCES users
+(
+    id
+)
+    );
+
+CREATE TABLE IF NOT EXISTS user_data
+(
+    user_id
+    int4
+    PRIMARY
+    KEY,
+    firstname
+    varchar
+(
+    20
+) NOT NULL,
+    lastname varchar
+(
+    20
+) NOT NULL,
+    avatar varchar
+(
+    100
+) NULL,
+    gender varchar
+(
+    6
+) NOT NULL,
+    dob DATE NOT NULL,
+    native_language varchar
+(
+    2
+) NOT NULL,
+    FOREIGN KEY
+(
+    user_id
+) REFERENCES users
+(
+    id
+)
+    );
