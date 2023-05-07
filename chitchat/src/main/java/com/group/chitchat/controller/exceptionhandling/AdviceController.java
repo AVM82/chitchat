@@ -16,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -74,13 +75,9 @@ public class AdviceController {
 
   @ResponseBody
   @ExceptionHandler({ChitchatsNotFoundException.class})
-  public ResponseEntity<ErrorMessage> ChitchatsNotFoundException(
-      ChitchatsNotFoundException exception) {
-    return new ResponseEntity<>(ErrorMessage.builder()
-        .code(NOT_FOUND)
-        .timestamp(LocalDateTime.now())
-        .message(logInfoAndGiveMessage(exception.getMessage()))
-        .build(), NOT_FOUND);
+  public ErrorResponse chitchatsNotFoundException(ChitchatsNotFoundException exception) {
+    return ErrorResponse.create(exception, HttpStatus.FORBIDDEN,
+        logInfoAndGiveMessage(exception.getMessage()));
   }
 
   /**
@@ -134,7 +131,6 @@ public class AdviceController {
                     Locale.getDefault())))
         .build(), FORBIDDEN);
   }
-
 
   /**
    * Exception handler for runtime exceptions when any unhandled error occurs.

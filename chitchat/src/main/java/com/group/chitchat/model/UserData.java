@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -52,8 +54,9 @@ public class UserData {
   private LocalDate dob;
 
   @NotNull
-  @Column(name = "native_language")
-  private String nativeLanguage;
+  @ManyToOne(targetEntity = Language.class)
+  @JoinColumn(name = "native_language", referencedColumnName = "id")
+  private Language nativeLanguage;
 
   @OneToOne
   @MapsId
@@ -61,15 +64,15 @@ public class UserData {
 
   @Override
   public String toString() {
-    return "UserData{" +
-        "userId=" + userId +
-        ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
-        ", avatar='" + avatar + '\'' +
-        ", gender=" + gender +
-        ", dob=" + dob +
-        ", nativeLanguage='" + nativeLanguage + '\'' +
-        ", user=" + user +
-        '}';
+    return "UserData{"
+        + "userId=" + userId
+        + ", firstName='" + firstName + '\''
+        + ", lastName='" + lastName + '\''
+        + ", avatar='" + avatar + '\''
+        + ", gender=" + gender
+        + ", dob=" + dob
+        + ", nativeLanguage=" + nativeLanguage
+        + ", user=" + user
+        + '}';
   }
 }

@@ -13,7 +13,7 @@ public interface ChitchatRepo extends JpaRepository<Chitchat, Long> {
 
   List<Chitchat> findAllByLanguage(Language language);
 
-  Optional<List<Chitchat>> findAllByAuthorId(Long id);
+  Optional<List<Chitchat>> findAllByAuthorId(Long authorId);
 
   Optional<List<Chitchat>> findByUsersInChitchatContaining(User user);
 }

@@ -20,6 +20,11 @@ public class UserNotFoundException extends RuntimeException {
         username));
   }
 
+  /**
+   * The exception is when the user tries to enter the site with id that is not found.
+   *
+   * @param id username.
+   */
   public UserNotFoundException(Long id) {
 
     super(String.format(
