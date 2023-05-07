@@ -2,6 +2,7 @@ package com.group.chitchat.controller;
 
 import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
+import com.group.chitchat.data.auth.RefreshRequest;
 import com.group.chitchat.data.auth.RegisterRequest;
 import com.group.chitchat.service.auth.AuthService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
@@ -58,5 +59,14 @@ public class AuthenticationAndRegistrationController {
     localeResolverConfig.setLocale(requestHeader, response, null);
     log.info("User with username {} trying to log in.", request.getUsername());
     return ResponseEntity.ok(authenticateService.authenticate(request));
+  }
+
+  @PostMapping("/refresh")
+  public ResponseEntity<AuthenticationResponse> refresh (HttpServletRequest requestHeader,
+      HttpServletResponse response,
+      @RequestBody RefreshRequest request
+  ) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(authenticateService.refreshAllTokens(request));
   }
 }

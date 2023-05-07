@@ -12,19 +12,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class JwtService {
 
   private final Environment environment;
+
   /**
    * This constant is responsible for how long will code run.
    */
-  private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 60 * 48;
+  private static final long HOW_LONG_WILL_REFRESH_WORK = 1000L * 60L * 60L * 10;
+
+  /**
+   * This constant is responsible for how long will code run.
+   */
+  private static final int HOW_LONG_WILL_TOKEN_WORK = 1000 * 60 * 60 * 8;
 
   public String extractUsername(String jwtToken) {
     return extractClaim(jwtToken, Claims::getSubject);
@@ -35,8 +43,18 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
+  public String extractTokenId(String jwtToken) {
+    final Claims claims = extractAllClaims(jwtToken);
+    log.info("id {}", claims.getId() );
+    return claims.getId();
+  }
+
   public String generateToken(UserDetails userDetails) {
     return generateToken(new HashMap<>(), userDetails);
+  }
+
+  public String generateRefreshToken(UserDetails userDetails, Long tokenId) {
+    return generateRefreshToken(new HashMap<>(), userDetails, tokenId);
   }
 
   /**
@@ -57,7 +75,25 @@ public class JwtService {
         .setClaims(extractClaims)
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_CODE_WORK))
+        .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_TOKEN_WORK))
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        .compact();
+  }
+
+  public String generateRefreshToken(
+      Map<String, Object> extractClaims,
+      UserDetails userDetails,
+      Long tokenId
+  ) {
+    User userMy = (User) userDetails;
+    extractClaims.put("user_id", userMy.getId());
+    return Jwts
+        .builder()
+        .setClaims(extractClaims)
+        .setSubject(userDetails.getUsername())
+        .setId(String.valueOf(tokenId))
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + HOW_LONG_WILL_REFRESH_WORK))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   }
@@ -67,8 +103,15 @@ public class JwtService {
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
+  public boolean isTokenValid(String token, UserDetails userDetails, long tokenId) {
+    final String username = extractUsername(token);
+    final long tokenIdNumber = Long.parseLong(extractTokenId(token));
+    return (username.equals(userDetails.getUsername())) &&
+        (tokenIdNumber == tokenId) && isTokenExpired(token);
+  }
+
   private boolean isTokenExpired(String token) {
-    return extractExpiration(token).before(new Date());
+    return !extractExpiration(token).before(new Date());
   }
 
   private Date extractExpiration(String token) {

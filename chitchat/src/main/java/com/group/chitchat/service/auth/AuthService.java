@@ -2,11 +2,14 @@ package com.group.chitchat.service.auth;
 
 import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
+import com.group.chitchat.data.auth.RefreshRequest;
 import com.group.chitchat.data.auth.RegisterRequest;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
+import com.group.chitchat.model.RefreshToken;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
+import com.group.chitchat.repository.RefreshTokenRepo;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.internationalization.BundlesService;
@@ -34,6 +37,7 @@ public class AuthService {
   private final JwtService service;
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
+  private final RefreshTokenRepo refreshTokenRepo;
   private static final String USER_ROLE = "ROLE_USER";
   private final BundlesService bundlesService;
 
@@ -52,22 +56,19 @@ public class AuthService {
     }
 
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    //hot fix need to replace with not costul
     Role defaultRole = getDefaultRoleOrThrowException();
     defaultRole.setUsers(new HashSet<>());
     defaultRole.getUsers().add(user);
     user.getRoles().add(defaultRole);
 
-    log.info(user.getRoles());
     roleRepository.save(defaultRole);
     userRepository.save(user);
 
-    var jwtToken = service.generateToken(user);
+
+
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
-    return AuthenticationResponse.builder()
-        .token(jwtToken)
-        .build();
+    return buildTokens(user);
   }
 
   /**
@@ -96,11 +97,18 @@ public class AuthService {
         )
     );
 
-    var jwtToken = service.generateToken(user);
     log.info("User have log in successfully.");
-    return AuthenticationResponse.builder()
-        .token(jwtToken)
-        .build();
+    return buildTokens(user);
+  }
+
+  public AuthenticationResponse refreshAllTokens(RefreshRequest request) {
+    RefreshToken oldRefreshToken = refreshTokenRepo
+        .findRefreshTokenByTokenForRefresh(request.getRefreshToken())
+        .orElseThrow(() -> new TokenNotFoundException());
+    User userFromToken = oldRefreshToken.getOwnerOfToken();
+
+    refreshTokenRepo.delete(oldRefreshToken);
+    return buildTokens(userFromToken);
   }
 
   private User buildNewUser(String username, String email, String password) {
@@ -113,6 +121,22 @@ public class AuthService {
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
+        .build();
+  }
+
+  private AuthenticationResponse buildTokens(User user) {
+    RefreshToken refreshTokenForDb = new RefreshToken();
+    refreshTokenForDb.setOwnerOfToken(user);
+
+    var jwtToken = service.generateToken(user);
+
+    var refreshToken = service.generateRefreshToken(user,refreshTokenForDb.getId());
+    refreshTokenForDb.setTokenForRefresh(refreshToken);
+    refreshTokenRepo.save(refreshTokenForDb);
+
+    return AuthenticationResponse.builder()
+        .token(jwtToken)
+        .refreshToken(refreshToken)
         .build();
   }
 
