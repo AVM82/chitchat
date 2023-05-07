@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from "../../environments/environment";
@@ -17,6 +17,13 @@ export class AuthService {
       username: user.username,
       password: user.password
     });
+  }
+
+  public newUserEmailConfirm(clickToken: string): Observable<any> {
+   return this.http.post(AUTH_API + '/click', {
+     username:'',
+     password:clickToken
+   });
   }
 
   public register(user: { email: any; username: any; password: any; }): Observable<any> {

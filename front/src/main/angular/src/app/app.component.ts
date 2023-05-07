@@ -15,6 +15,7 @@ export class AppComponent {
   chitchatId: any = null;
   oneChitChat: Chitchat;
   private querySubscription: Subscription;
+  click: any = null ;
 
   constructor(
       private chitchatService: ChitchatService,
@@ -24,6 +25,7 @@ export class AppComponent {
     this.querySubscription = route.queryParams.subscribe(
         (queryParam: any) => {
           this.chitchatId = queryParam['id'];
+          this.click = queryParam['click'];
         }
     );
   }

@@ -30,6 +30,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MainComponent } from './components/main/main.component';
 import { TranslocoRootModule } from './transloco-root.module';
 import {langInterceptorProviders} from "./service/lang-interceptor.service";
+import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
 
 
 const appRoutes: Routes = [
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
+    EmailConfirmComponent,
     AppComponent,
     LoginComponent,
     RegisterComponent,
