@@ -1,8 +1,9 @@
+<ng-container *transloco="let translate;">
 <div class="sidebar mt-2 ml-2" data-background-color="white"
      data-color="purple" data-image="../assets/img/sidebar-1.jpg">
   <div class="logo">
     <b class="simple-text text-primary logo-normal">
-      Category
+      {{translate('Category')}}
     </b>
   </div>
   <div class="sidebar-wrapper">
@@ -10,7 +11,7 @@
       <li [class.active]="null === selectedCategory" class="nav-item"
           (click)="selectCategory(null)">
         <a class="nav-link">
-          <p class="text-truncate text-uppercase">All</p>
+          <p class="text-truncate text-uppercase">{{translate('All')}}</p>
         </a>
       </li>
       <li *ngFor="let category of categories" (click)="selectCategory(category)"
@@ -22,3 +23,4 @@
     </ul>
   </div>
 </div>
+</ng-container>
