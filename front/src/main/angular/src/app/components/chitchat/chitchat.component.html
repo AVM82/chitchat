@@ -23,23 +23,23 @@
         <img class="card-img-top" src="assets/img/faces/marc.jpg" alt="..."/>
       </div>
       <div class="badge bg-warning text-dark position-absolute"
-           style="font-size:24px; top: 0.1rem; left: 0.1rem">{{chitchat.level}}
+           style="font-size:24px; top: 0.2rem; left: 0.2rem">{{chitchat.level}}
       </div>
       <div class="badge bg-white position-absolute"
-           style="font-size:24px; top: 0.1rem; right: 0.1rem"
+           style="font-size:24px; top: 0.2rem; right: 0.2rem"
            [class.text-success]="chitchat.languageName==='english'"
            [class.text-danger]="chitchat.languageName!=='english'"
       >{{chitchat.languageName}}
       </div>
 
-      <div class="badge bg-info text-dark position-absolute"
-           style="font-size:22px; top: 13rem; left: 0.1rem">
-        <img class="mb-2" alt="..." src="assets/img/faces/people.svg" style="height: 25px" >
-        {{chitchat.usersInChitchat.length}}
-      </div>
+<!--      <div class="badge bg-info text-dark position-absolute"-->
+<!--           style="font-size:22px; top: 13rem; left: 0.2rem">-->
+<!--        <img class="mb-2" alt="..." src="assets/img/faces/people.svg" style="height: 25px" >-->
+<!--        {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}-->
+<!--      </div>-->
 
       <!-- Product details-->
-      <div class="card-body">
+      <div class="card-body" style="padding: 5px;">
         <div class="text-center">
           <!-- Product name-->
           <h4 class="fw-bolder my-0 text-danger text-truncate">{{chitchat.authorName}}</h4>
@@ -48,10 +48,17 @@
 
           <h3 class="fw-bolder my-1 text-dark"
           >TOPIC :{{chitchat.chatName}}</h3>
+          <div>
 
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar"
-                 aria-valuemin="0" aria-valuemax="100" style="width: {{100*chitchat.usersInChitchat.length/chitchat.capacity}}%">
+          <div class="progress mx-1 h4 " style="height: 30px">
+            <div class="progress-bar font-weight-bold progress-bar-success text-start" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" [style.width]="100*chitchat.usersInChitchat.length/chitchat.capacity+'%'">
+              <div style="float:right;">
+                <img alt="" src="assets/img/faces/people.svg" style="height: 25px">
+                {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}
+              </div>
+
+              </div>
             </div>
           </div>
         </div>

@@ -9,7 +9,9 @@ import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
+import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashSet;
 import java.util.Locale;
@@ -29,9 +31,11 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class AuthService {
 
+  private final EmailService emailService;
   private final UserRepo userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService service;
+  private final JwtEmailService jwtEmailService;
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
   private static final String USER_ROLE = "ROLE_USER";
@@ -44,7 +48,8 @@ public class AuthService {
    * @param request request with info about user.
    * @return JWT token.
    */
-  public AuthenticationResponse register(@Valid RegisterRequest request) {
+  public AuthenticationResponse register(@Valid RegisterRequest request,
+      HttpServletRequest httpRequest) {
 
     String username = request.getUsername();
     if (userRepository.existsByUsername(username)) {
@@ -62,11 +67,14 @@ public class AuthService {
     roleRepository.save(defaultRole);
     userRepository.save(user);
 
-    var jwtToken = service.generateToken(user);
+    var jwtEmailToken = jwtEmailService.generateEmailToken(user);
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
+    //String url = httpRequest.getRequestURL().toString().replace("register", "?click=");
+    String url = "http://localhost:4200/?click=";
+    sendEmail(user, url + jwtEmailToken);
     return AuthenticationResponse.builder()
-        .token(jwtToken)
+        .token(jwtEmailToken)
         .build();
   }
 
@@ -109,11 +117,18 @@ public class AuthService {
         .email(email)
         .password(passwordEncoder.encode(password))
         .roles(new HashSet<>())
-        .enabled(true)
+        .enabled(false)
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
         .build();
+  }
+
+  private void sendEmail(User user, String message) {
+    emailService.sendEmail(
+        user.getEmail(),
+        String.format("New ChitChat user registered: %s", user.getUsername()),
+        message);
   }
 
   private Role getDefaultRoleOrThrowException() {
