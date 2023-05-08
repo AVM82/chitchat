@@ -29,7 +29,7 @@ public class UserNotFoundException extends RuntimeException {
 
     super(String.format(
         new BundleService()
-            .getMessForLocale("e.userId_not_exist",
+            .getMessForLocale("e.user_id_not_found",
                 Locale.getDefault()),
         id));
   }
