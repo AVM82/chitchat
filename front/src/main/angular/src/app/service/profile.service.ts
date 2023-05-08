@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {UserForEditDto} from "../model/UserForEditDto";
 import {UserForResponseDto} from "../model/UserForResponseDto";
+import {Chitchat} from "../model/Chitchat";
 
 @Injectable({
   providedIn: 'root'
@@ -28,34 +29,16 @@ export class ProfileService {
     return this.httpClient.get<UserForResponseDto>(this.url + '/details');
   }
 
-  // getPublic(id: number): Observable<Chitchat> {
-  //   return this.httpClient.get<Chitchat>(this.url + '/all/' + id);
-  // }
-  //
-  // addUserInChat(user_id: number, chitchat_id: number): Observable<Chitchat> {
-  //   const urla = this.url + '/' + chitchat_id + '?userId=' + user_id;
-  //   console.log(urla);
-  //   return this.httpClient.put<Chitchat>(urla, null);
-  // }
-  //
-  // getAll(): Observable<Chitchat[]> {
-  //   return this.httpClient.get<Chitchat[]>(this.url + "/all");
-  // }
-  //
-  // update(obj: Chitchat): Observable<Chitchat> {
-  //   return this.httpClient.put<Chitchat>(this.url+'/',obj);
-  // }
-  //
-  // filter(filteredLanguage: string, filteredLevel: string,
-  //        filteredDateFrom: string, filteredDateTo: string,
-  //        category: Category | null): Observable<Chitchat> {
-  //   return this.httpClient.get<Chitchat>(this.url + "/all" +
-  //       "?languageId=" + filteredLanguage +
-  //       "&levelId=" + filteredLevel +
-  //       "&dateFrom=" + filteredDateFrom +
-  //       "&dateTo=" + filteredDateTo +
-  //       "&categoryId=" + (category ? category.id : ''));
-  // }
+  getUserCreatedChats(): Observable<Chitchat[]> {
+    return this.httpClient.get<Chitchat[]>(this.url + '/my_chitchats');
+  }
 
+  getChatsWithUser(): Observable<Chitchat[]> {
+    return this.httpClient.get<Chitchat[]>(this.url + '/planned_chitchats');
+  }
+
+  getArchiveChats(): Observable<Chitchat[]> {
+    return this.httpClient.get<Chitchat[]>(this.url + '/archive_chitchats');
+  }
 }
 

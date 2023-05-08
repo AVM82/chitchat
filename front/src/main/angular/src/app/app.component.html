@@ -1,4 +1,4 @@
-<!--<app-main *ngIf="!click && !chitchatId"></app-main>-->
-<!--<app-chitchat-ref *ngIf="chitchatId"></app-chitchat-ref>-->
-<!--<app-email-confirm *ngIf="click"></app-email-confirm>-->
-<app-profile></app-profile>
+<app-main *ngIf="!click && !profile && !chitchatId"></app-main>
+<app-chitchat-ref *ngIf="chitchatId"></app-chitchat-ref>
+<app-email-confirm *ngIf="click"></app-email-confirm>
+<app-profile *ngIf="profile"></app-profile>

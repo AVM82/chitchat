@@ -35,6 +35,8 @@ import {ProfileComponent} from './components/profile/profile.component';
 import { ProfileUserDataComponent } from './components/profile-user-data/profile-user-data.component';
 import { ProfileUserChitchatsComponent } from './components/profile-user-chitchats/profile-user-chitchats.component';
 import { ProfileUserStatisticsComponent } from './components/profile-user-statistics/profile-user-statistics.component';
+import { ProfileUserChitchatsTableComponent } from './components/profile-user-chitchats-table/profile-user-chitchats-table.component';
+import {MatTableModule} from "@angular/material/table";
 
 
 const appRoutes: Routes = [
@@ -59,6 +61,7 @@ const appRoutes: Routes = [
     ProfileUserDataComponent,
     ProfileUserChitchatsComponent,
     ProfileUserStatisticsComponent,
+    ProfileUserChitchatsTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,8 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatInputModule,
     MatButtonModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    MatTableModule
 
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],
