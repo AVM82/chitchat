@@ -5,6 +5,11 @@ import java.util.Locale;
 
 public class ChitchatsNotFoundException extends RuntimeException {
 
+  /**
+   * Exceptions are cases where the chitchat is not found in the database.
+   *
+   * @param id of chitchat.
+   */
   public ChitchatsNotFoundException(Long id) {
 
     super(String.format(
@@ -14,6 +19,9 @@ public class ChitchatsNotFoundException extends RuntimeException {
         id));
   }
 
+  /**
+   * Exceptions are cases where the chitchats of user are not found in the database.
+   */
   public ChitchatsNotFoundException() {
 
     super(new BundleService().getMessForLocale(

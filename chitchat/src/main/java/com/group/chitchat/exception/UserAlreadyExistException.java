@@ -9,7 +9,7 @@ public class UserAlreadyExistException extends RuntimeException {
    * Exception for cases when user trying to register with same info as user what have registered
    * before.
    *
-   * @param username Name of the user.
+   * @param username Name of user.
    */
   public UserAlreadyExistException(String username) {
 
@@ -20,6 +20,11 @@ public class UserAlreadyExistException extends RuntimeException {
         username));
   }
 
+  /**
+   * Exception for cases when user trying to add to chitchat, but he is already in chitchat.
+   *
+   * @param userId id of user.
+   */
   public UserAlreadyExistException(Long userId) {
     super(String.format(
         new BundleService()
