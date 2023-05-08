@@ -1,2 +1,3 @@
-<app-main *ngIf="!chitchatId"></app-main>
+<app-main *ngIf="!click && !chitchatId"></app-main>
 <app-chitchat-ref *ngIf="chitchatId"></app-chitchat-ref>
+<app-email-confirm *ngIf="click"></app-email-confirm>

@@ -3,6 +3,7 @@ package com.group.chitchat.controller.exceptionhandling;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import com.group.chitchat.data.restmessages.ErrorMessage;
+import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
@@ -15,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -71,6 +73,13 @@ public class AdviceController {
         .build(), NOT_FOUND);
   }
 
+  @ResponseBody
+  @ExceptionHandler({ChitchatsNotFoundException.class})
+  public ErrorResponse chitchatsNotFoundException(ChitchatsNotFoundException exception) {
+    return ErrorResponse.create(exception, HttpStatus.FORBIDDEN,
+        logInfoAndGiveMessage(exception.getMessage()));
+  }
+
   /**
    * Exception handler for runtime exception in case when role not exist.
    *
@@ -122,7 +131,6 @@ public class AdviceController {
                     Locale.getDefault())))
         .build(), FORBIDDEN);
   }
-
 
   /**
    * Exception handler for runtime exceptions when any unhandled error occurs.
