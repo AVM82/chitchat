@@ -15,8 +15,17 @@ public class UserAlreadyExistException extends RuntimeException {
 
     super(String.format(
         new BundleService()
-            .getMessForLocale("e.already_exist",
+            .getMessForLocale("m.user_already_exist",
                 Locale.getDefault()),
         username));
+  }
+
+  public UserAlreadyExistException(Long userId) {
+    super(String.format(
+        new BundleService()
+            .getMessForLocale("m.userId_already_exist",
+                Locale.getDefault()),
+        userId));
+
   }
 }
