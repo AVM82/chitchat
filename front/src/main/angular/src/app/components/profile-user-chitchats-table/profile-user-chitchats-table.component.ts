@@ -36,10 +36,10 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
     // details about the values being sorted.
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      console.log(`${sortState}`, `${sortState.active}`, `Sorted ${sortState.direction}ending`);
+      // console.log(`${sortState}`, `${sortState.active}`, `Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
-      console.log(`${sortState}`, `${sortState.active}`, 'Sorting cleared');
+      // console.log(`${sortState}`, `${sortState.active}`, 'Sorting cleared');
     }
   }
 
