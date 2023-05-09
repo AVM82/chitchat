@@ -24,8 +24,8 @@ export class ProfileUserDataComponent implements OnInit {
   tmpDob: string;
   tmpRole: string;
 
-  genders: Gender[];
-  languages: Language[];
+  genders: Gender[] = [];
+  languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
 
   ngOnInit(): void {

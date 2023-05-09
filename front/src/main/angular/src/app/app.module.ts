@@ -37,6 +37,7 @@ import { ProfileUserChitchatsComponent } from './components/profile-user-chitcha
 import { ProfileUserStatisticsComponent } from './components/profile-user-statistics/profile-user-statistics.component';
 import { ProfileUserChitchatsTableComponent } from './components/profile-user-chitchats-table/profile-user-chitchats-table.component';
 import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
 
 
 const appRoutes: Routes = [
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     TranslocoRootModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
 
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],
