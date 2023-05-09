@@ -89,7 +89,7 @@ public class ChitchatService {
         + "?id=" + chitchat.getId();
 
     sendEmail(chitchat, String.format(
-        bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url));
+        bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
@@ -168,16 +168,18 @@ public class ChitchatService {
    * Sends a confirmation email.
    *
    * @param chitchat Entity with data.
-   * @param message  Message for sending
+   * @param message  Message for sending.
+   * @param url      of new chitchat.
    */
-  private void sendEmail(Chitchat chitchat, String message) {
+  private void sendEmail(Chitchat chitchat, String message, String url) {
     emailService.sendEmail(
         chitchat.getAuthor().getEmail(),
         String.format("New chitchat: %s", chitchat.getChatName()),
         message + CalendarService.generateCalendarLink(
             chitchat.getChatName(),
             chitchat.getDescription(),
-            chitchat.getDate())
+            chitchat.getDate(),
+            url)
     );
   }
 }
