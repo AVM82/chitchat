@@ -5,6 +5,7 @@ import {Language} from "../../model/Language";
 import {LanguageService} from "../../service/language.service";
 import {UserForResponseDto} from "../../model/UserForResponseDto";
 import {ProfileService} from "../../service/profile.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-profile-user-data',
@@ -21,12 +22,13 @@ export class ProfileUserDataComponent implements OnInit {
   tmpFirstname: string;
   tmpLastname: string;
   tmpGender: Gender;
-  tmpDob: string;
+  tmpDob: string | null;
   tmpRole: string;
 
   genders: Gender[] = [];
   languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
+  tmpDate: Date | null;
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -45,6 +47,7 @@ export class ProfileUserDataComponent implements OnInit {
       this.tmpLastname = this.userForResponseDto.lastname;
       this.tmpGender = this.userForResponseDto.gender;
       this.tmpDob = this.userForResponseDto.dob;
+      this.tmpDate = new Date(this.tmpDob);
     });
   }
 
@@ -57,9 +60,11 @@ export class ProfileUserDataComponent implements OnInit {
   }
 
   save() {
+    let datePipe = new DatePipe("en-US");
+    this.tmpDob = datePipe.transform(this.tmpDate, 'yyyy-MM-dd');
     let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
         this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
-        this.tmpDob, this.tmpGender);
+        this.tmpDob || '', this.tmpGender);
     this.profileService.updateUserData(newUserForEditDto).subscribe(data => {
     });
   }
