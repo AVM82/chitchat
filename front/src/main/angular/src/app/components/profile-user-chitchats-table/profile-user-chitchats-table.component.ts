@@ -4,6 +4,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
 import {Chitchat} from "../../model/Chitchat";
 import {ProfileService} from "../../service/profile.service";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-profile-user-chitchats-table',
@@ -11,10 +12,10 @@ import {ProfileService} from "../../service/profile.service";
   styleUrls: ['./profile-user-chitchats-table.component.scss']
 })
 export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit {
-  chitchats: Chitchat[];
+  chitchats: Chitchat[] = [];
   displayedColumns: string[] = ['id', 'chatName', 'authorName', 'categoryName',
     'description', 'languageName', 'level', 'capacity', 'date', 'usersInChitchat'];
-  dataSource: MatTableDataSource<Chitchat>;
+  dataSource: MatTableDataSource<Chitchat> = new MatTableDataSource(this.chitchats);
   @Input()
   chitchatsType: string;
 
@@ -23,9 +24,10 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.setDataSource(this.chitchats);
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -36,27 +38,33 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
     // details about the values being sorted.
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      // console.log(`${sortState}`, `${sortState.active}`, `Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
+      // console.log(`${sortState}`, `${sortState.active}`, 'Sorting cleared');
     }
   }
 
   ngOnInit(): void {
     if (this.chitchatsType === 'my_chitchats') {
       this.profileService.getUserCreatedChats().subscribe(result => {
-        this.chitchats = result;
-        this.dataSource = new MatTableDataSource(this.chitchats);
+        this.setDataSource(result);
       });
     } else if (this.chitchatsType === 'planned_chitchats') {
       this.profileService.getChatsWithUser().subscribe(result => {
-        this.chitchats = result;
-        this.dataSource = new MatTableDataSource(this.chitchats);
+        this.setDataSource(result);
       });
     } else if (this.chitchatsType === 'archive_chitchats') {
       this.profileService.getArchiveChats().subscribe(result => {
-        this.chitchats = result;
-        this.dataSource = new MatTableDataSource(this.chitchats);
+        this.setDataSource(result);
       });
     }
+  }
+
+  private setDataSource(result: Chitchat[]) {
+    this.chitchats = result;
+    this.dataSource = new MatTableDataSource(this.chitchats);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 }

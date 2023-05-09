@@ -78,8 +78,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-dob">{{translate('dob')}}</span>
       </div>
-      <input type="text" class="form-control" aria-label="Default" [(ngModel)]="tmpDob"
-             aria-describedby="inputGroup-sizing-dob">
+      <input type="date" class="form-control" aria-label="Default" [(ngModel)]="tmpDate">
     </div>
     <div class="card-body text-center">
       <a (click)="save()" class="card-link text-success">{{translate('Save')}}</a>
