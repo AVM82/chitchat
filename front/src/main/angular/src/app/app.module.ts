@@ -38,6 +38,7 @@ import { ProfileUserStatisticsComponent } from './components/profile-user-statis
 import { ProfileUserChitchatsTableComponent } from './components/profile-user-chitchats-table/profile-user-chitchats-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 const appRoutes: Routes = [
@@ -86,7 +87,7 @@ const appRoutes: Routes = [
     TranslocoRootModule,
     MatTableModule,
     MatSortModule,
-
+    MatPaginatorModule,
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],
   bootstrap: [AppComponent]

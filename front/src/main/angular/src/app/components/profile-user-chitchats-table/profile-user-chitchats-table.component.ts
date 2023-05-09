@@ -4,6 +4,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
 import {Chitchat} from "../../model/Chitchat";
 import {ProfileService} from "../../service/profile.service";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-profile-user-chitchats-table',
@@ -23,9 +24,10 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.setDataSource(this.chitchats);
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -63,5 +65,6 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
     this.chitchats = result;
     this.dataSource = new MatTableDataSource(this.chitchats);
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 }
