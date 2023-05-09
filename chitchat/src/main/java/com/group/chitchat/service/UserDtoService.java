@@ -40,7 +40,8 @@ public class UserDtoService {
         .lastname(user.getUserData().getLastName())
         .gender(user.getUserData().getGender())
         .dob(user.getUserData().getDob())
-        .nativeLanguage(user.getUserData().getNativeLanguage().getName())
+        .nativeLanguage(user.getUserData().getNativeLanguage() != null
+            ? user.getUserData().getNativeLanguage().getName() : null)
         .build();
   }
 }
