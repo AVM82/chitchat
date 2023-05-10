@@ -25,13 +25,21 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
-import { ChitchatRefComponent } from './components/chitchat-ref/chitchat-ref.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { MainComponent } from './components/main/main.component';
-import { TranslocoRootModule } from './transloco-root.module';
+import {ChitchatRefComponent} from './components/chitchat-ref/chitchat-ref.component';
+import {NotFoundComponent} from './components/not-found/not-found.component';
+import {MainComponent} from './components/main/main.component';
+import {TranslocoRootModule} from './transloco-root.module';
 import {langInterceptorProviders} from "./service/lang-interceptor.service";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ProfileComponent} from './components/profile/profile.component';
+import { ProfileUserDataComponent } from './components/profile-user-data/profile-user-data.component';
+import { ProfileUserChitchatsComponent } from './components/profile-user-chitchats/profile-user-chitchats.component';
+import { ProfileUserStatisticsComponent } from './components/profile-user-statistics/profile-user-statistics.component';
+import { ProfileUserChitchatsTableComponent } from './components/profile-user-chitchats-table/profile-user-chitchats-table.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 const appRoutes: Routes = [
@@ -51,7 +59,12 @@ const appRoutes: Routes = [
     ChitchatFilterComponent,
     ChitchatRefComponent,
     NotFoundComponent,
-    MainComponent
+    MainComponent,
+    ProfileComponent,
+    ProfileUserDataComponent,
+    ProfileUserChitchatsComponent,
+    ProfileUserStatisticsComponent,
+    ProfileUserChitchatsTableComponent,
   ],
   imports: [
     BrowserModule,

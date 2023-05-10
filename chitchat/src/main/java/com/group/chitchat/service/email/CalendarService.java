@@ -1,7 +1,8 @@
 package com.group.chitchat.service.email;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -21,16 +22,17 @@ public class CalendarService {
    * @return External link to Google calendar.
    */
   public static String generateCalendarLink(String chatName, String description,
-      LocalDateTime time) {
+      LocalDateTime time, String url) {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
     String eventStartDate = time.format(formatter);
     return CALENDAR_URL
         + "?action=TEMPLATE"
         + "&text="
-        + URLEncoder.encode(chatName, StandardCharsets.UTF_8)
+        + URLEncoder.encode(chatName, UTF_8)
         + "&details="
-        + URLEncoder.encode(description, StandardCharsets.UTF_8)
+        + URLEncoder.encode(description + "\n", UTF_8)
+        + url
         + "&dates=" + eventStartDate
         + "/"
         + time.plusHours(1).format(formatter);

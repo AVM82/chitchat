@@ -1,5 +1,7 @@
 package com.group.chitchat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +50,7 @@ public class User implements UserDetails {
   @Column(name = "email", unique = true)
   private String email;
 
+  @JsonIgnore
   @Column(name = "password")
   private String password;
 
@@ -58,6 +63,9 @@ public class User implements UserDetails {
   @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
   private transient Set<Chitchat> chitchats;
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  private UserData userData;
+
   @Column(name = "is_enabled")
   private boolean enabled;
 
@@ -69,6 +77,12 @@ public class User implements UserDetails {
 
   @Column(name = "is_credentials_non_expired")
   private boolean credentialsNonExpired;
+
+  @PostPersist
+  public void createData() {
+    userData = new UserData();
+    userData.setUser(this);
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

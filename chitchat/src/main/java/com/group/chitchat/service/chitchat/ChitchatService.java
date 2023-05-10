@@ -1,6 +1,8 @@
 package com.group.chitchat.service.chitchat;
 
+import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
+import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
@@ -19,13 +21,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,12 +42,11 @@ public class ChitchatService {
   /**
    * Messages for sending email.
    */
-  private static final String MESSAGE_CONFIRM_CREATE =
-      "You created a new chitchat: \n%s\nFollow the link to add it to Google Calendar: \n";
+  private static final String MESSAGE_CONFIRM_CREATE = "m.create_chitchat";
+  private final BundlesService bundlesService;
 
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
-  private final BundlesService bundlesService;
 
   /**
    * Returns list of chitchats.
@@ -57,7 +57,7 @@ public class ChitchatService {
   public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
     Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
     if (chitchatOptional.isEmpty()) {
-      throw new NoSuchElementException(String.format("Chitchat with id %s not found", chitchatId));
+      throw new ChitchatsNotFoundException(chitchatId);
     } else {
       return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchatOptional.get()));
     }
@@ -73,7 +73,7 @@ public class ChitchatService {
       ForCreateChitchatDto chitchatDto, String authorName, HttpServletRequest request) {
 
     User author = userRepo.findByUsername(authorName)
-        .orElseThrow(() -> new UsernameNotFoundException(authorName));
+        .orElseThrow(() -> new UserNotFoundException(authorName));
     Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
     Category category = categoryRepo.findById(chitchatDto.getCategoryId()).orElseThrow();
     Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
@@ -88,7 +88,8 @@ public class ChitchatService {
     String url = request.getRequestURL().toString().replace("api/v1/chitchats", "")
         + "?id=" + chitchat.getId();
 
-    sendEmail(chitchat, String.format(MESSAGE_CONFIRM_CREATE, url));
+    sendEmail(chitchat, String.format(
+        bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
@@ -102,18 +103,14 @@ public class ChitchatService {
    */
   @Transactional
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId) {
-    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
-    Optional<User> userOptional = userRepo.findById(userId);
+    Chitchat chitchat = chitchatRepo.findById(chitchatId)
+        .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
 
-    if (chitchatOptional.isEmpty() || userOptional.isEmpty()) {
-      throw new NoSuchElementException(String.format(
-          "Chitchat with id %s or user with id %s not found", chitchatId, userId));
-    }
-    Chitchat chitchat = chitchatOptional.get();
-    User user = userOptional.get();
+    User user = userRepo.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException(userId));
 
     if (chitchat.getUsersInChitchat().contains(user)) {
-      throw new UserAlreadyExistException("user is already in this chitchat");
+      throw new UserAlreadyExistException(userId);
     }
     Set<User> usersInChitchat = chitchat.getUsersInChitchat();
     usersInChitchat.add(user);
@@ -171,16 +168,18 @@ public class ChitchatService {
    * Sends a confirmation email.
    *
    * @param chitchat Entity with data.
-   * @param message  Message for sending
+   * @param message  Message for sending.
+   * @param url      of new chitchat.
    */
-  private void sendEmail(Chitchat chitchat, String message) {
+  private void sendEmail(Chitchat chitchat, String message, String url) {
     emailService.sendEmail(
         chitchat.getAuthor().getEmail(),
         String.format("New chitchat: %s", chitchat.getChatName()),
         message + CalendarService.generateCalendarLink(
             chitchat.getChatName(),
             chitchat.getDescription(),
-            chitchat.getDate())
+            chitchat.getDate(),
+            url)
     );
   }
 }
