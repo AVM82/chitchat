@@ -74,7 +74,7 @@ export class ProfileUserDataComponent implements OnInit {
     if (file && this.checkAvatarFile(file)) {
       this.fileName = file.name;
       const formData = new FormData();
-      formData.append("thumbnail", file);
+      formData.append("avatar", file);
       const upload$ = this.fileUploadService.uploadAvatar(formData);
       upload$.subscribe(result => {
         this.tmpAvatar = result;
