@@ -29,6 +29,8 @@ export class ProfileUserDataComponent implements OnInit {
   languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
   fileName: string = '';
+  requiredFileType: string[] = ['image/png','image/jpeg'];
+  MAX_AVATAR_SIZE: number = 200 * 1024;
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -69,7 +71,7 @@ export class ProfileUserDataComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    if (file) {
+    if (file && this.checkAvatarFile(file)) {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append("thumbnail", file);
@@ -78,5 +80,12 @@ export class ProfileUserDataComponent implements OnInit {
         this.tmpAvatar = result;
       });
     }
+  }
+
+  private checkAvatarFile(file: File) {
+    console.log(file.type.toLowerCase());
+    return file.size <= this.MAX_AVATAR_SIZE
+        && (file.type.toLowerCase() === "image/png" ||
+            file.type.toLowerCase() === "image/jpeg");
   }
 }
