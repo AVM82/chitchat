@@ -5,6 +5,7 @@ import {Language} from "../../model/Language";
 import {LanguageService} from "../../service/language.service";
 import {UserForResponseDto} from "../../model/UserForResponseDto";
 import {ProfileService} from "../../service/profile.service";
+import {FileUploadService} from "../../service/file-upload.service";
 
 @Component({
   selector: 'app-profile-user-data',
@@ -27,6 +28,9 @@ export class ProfileUserDataComponent implements OnInit {
   genders: Gender[] = [];
   languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
+  fileName: string = '';
+  requiredFileType: string[] = ['image/png','image/jpeg'];
+  MAX_AVATAR_SIZE: number = 200 * 1024;
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -49,7 +53,8 @@ export class ProfileUserDataComponent implements OnInit {
   }
 
   constructor(private languageService: LanguageService,
-              private profileService: ProfileService) {
+              private profileService: ProfileService,
+              private fileUploadService: FileUploadService) {
   }
 
   changeNativeLanguage() {
@@ -62,5 +67,25 @@ export class ProfileUserDataComponent implements OnInit {
         this.tmpDob, this.tmpGender);
     this.profileService.updateUserData(newUserForEditDto).subscribe(data => {
     });
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file && this.checkAvatarFile(file)) {
+      this.fileName = file.name;
+      const formData = new FormData();
+      formData.append("avatar", file);
+      const upload$ = this.fileUploadService.uploadAvatar(formData);
+      upload$.subscribe(result => {
+        this.tmpAvatar = result;
+      });
+    }
+  }
+
+  private checkAvatarFile(file: File) {
+    console.log(file.type.toLowerCase());
+    return file.size <= this.MAX_AVATAR_SIZE
+        && (file.type.toLowerCase() === "image/png" ||
+            file.type.toLowerCase() === "image/jpeg");
   }
 }
