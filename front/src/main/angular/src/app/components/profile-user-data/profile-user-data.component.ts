@@ -5,6 +5,7 @@ import {Language} from "../../model/Language";
 import {LanguageService} from "../../service/language.service";
 import {UserForResponseDto} from "../../model/UserForResponseDto";
 import {ProfileService} from "../../service/profile.service";
+import {FileUploadService} from "../../service/file-upload.service";
 
 @Component({
   selector: 'app-profile-user-data',
@@ -27,6 +28,7 @@ export class ProfileUserDataComponent implements OnInit {
   genders: Gender[] = [];
   languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
+  fileName: string = '';
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -49,7 +51,8 @@ export class ProfileUserDataComponent implements OnInit {
   }
 
   constructor(private languageService: LanguageService,
-              private profileService: ProfileService) {
+              private profileService: ProfileService,
+              private fileUploadService: FileUploadService) {
   }
 
   changeNativeLanguage() {
@@ -62,5 +65,18 @@ export class ProfileUserDataComponent implements OnInit {
         this.tmpDob, this.tmpGender);
     this.profileService.updateUserData(newUserForEditDto).subscribe(data => {
     });
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+      const formData = new FormData();
+      formData.append("thumbnail", file);
+      const upload$ = this.fileUploadService.uploadAvatar(formData);
+      upload$.subscribe(result => {
+        this.tmpAvatar = result;
+      });
+    }
   }
 }
