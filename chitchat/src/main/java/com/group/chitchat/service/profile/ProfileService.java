@@ -162,17 +162,23 @@ public class ProfileService {
    * Save file with avatar of user to external storage and return url of saved file.
    *
    * @param userName of current user.
-   * @param file     with avatar image.
+   * @param file     file with users avatar.
    * @return url of avatar.
    */
   @Transactional
   public ResponseEntity<String> uploadAvatar(String userName, MultipartFile file) {
-
-    String avatarUrl = fileStorage.saveFile(userName, file);
-
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
+
+    String oldAvatar = user.getUserData().getAvatar();
+
+    String avatarUrl = fileStorage.saveFile(userName, file);
     user.getUserData().setAvatar(avatarUrl);
+
+    if (oldAvatar != null) {
+      fileStorage.deleteFile(oldAvatar);
+    }
+
     return ResponseEntity.ok(avatarUrl);
   }
 

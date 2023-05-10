@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 @RestController
 @RequestMapping("api/v1/profile")
@@ -94,14 +93,10 @@ public class ProfileController {
    * @return url of avatar.
    */
   @PostMapping("/avatar")
-  public ResponseEntity<String> uploadAvatar(
-      @RequestParam(value = "file", required = false) MultipartFile file,
+  public ResponseEntity<String> uploadAvatar(@RequestParam(value = "avatar") MultipartFile file,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
-    if (file == null) {
-      file = ((StandardMultipartHttpServletRequest)requestHeader).getFile("avatar");
-    }
 
     return profileService.uploadAvatar(requestHeader.getUserPrincipal().getName(), file);
   }
