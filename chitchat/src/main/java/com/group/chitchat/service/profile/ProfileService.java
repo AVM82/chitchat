@@ -167,12 +167,18 @@ public class ProfileService {
    */
   @Transactional
   public ResponseEntity<String> uploadAvatar(String userName, MultipartFile file) {
-
-    String avatarUrl = fileStorage.saveFile(userName, file);
-
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
+
+    String oldAvatar = user.getUserData().getAvatar();
+
+    String avatarUrl = fileStorage.saveFile(userName, file);
     user.getUserData().setAvatar(avatarUrl);
+
+    if (oldAvatar != null) {
+      fileStorage.deleteFile(oldAvatar);
+    }
+
     return ResponseEntity.ok(avatarUrl);
   }
 

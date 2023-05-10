@@ -8,4 +8,5 @@ public interface FileStorageService {
 
   String saveFile(String userName, MultipartFile file);
 
+  void deleteFile(String fileKey);
 }

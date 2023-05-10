@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class StorageServiceS3Bucket implements FileStorageService {
 
+  private AmazonS3 s3client;
+
   @Value("${aws.access.key}")
   private String accessKey;
 
@@ -38,7 +40,7 @@ public class StorageServiceS3Bucket implements FileStorageService {
   public String saveFile(String userName, MultipartFile file) {
     AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-    AmazonS3 s3client = AmazonS3ClientBuilder
+    s3client = AmazonS3ClientBuilder
         .standard()
         .withCredentials(new AWSStaticCredentialsProvider(credentials))
         .withRegion(Regions.EU_CENTRAL_1)
@@ -60,5 +62,11 @@ public class StorageServiceS3Bucket implements FileStorageService {
       log.info("error loading user avatar of user {}", userName);
       throw new ErrorResponseException(CONFLICT, ex);
     }
+  }
+
+  @Override
+  public void deleteFile(String fileKey) {
+    s3client.deleteObject(bucketName, fileKey.replace(
+        "https://chitchatstorage.s3.eu-central-1.amazonaws.com/", ""));
   }
 }
