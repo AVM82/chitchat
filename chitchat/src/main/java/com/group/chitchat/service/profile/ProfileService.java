@@ -21,6 +21,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service that manages data of users profile.
@@ -33,6 +34,7 @@ public class ProfileService {
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final RoleRepo roleRepo;
+  private final FileStorage fileStorage;
 
   /**
    * Returns information of users profile.
@@ -154,5 +156,35 @@ public class ProfileService {
       user.getUserData().setNativeLanguage(language);
     }
     return ResponseEntity.ok(UserDtoService.profileDetailsDtoFromUser(user));
+  }
+
+  /**
+   * Save file with avatar of user to external storage and return url of saved file.
+   *
+   * @param userName of current user.
+   * @param file     with avatar image.
+   * @return url of avatar.
+   */
+  @Transactional
+  public ResponseEntity<String> uploadAvatar(String userName, MultipartFile file) {
+
+    String avatarUrl = fileStorage.saveFile(userName, file);
+
+    User user = userRepo.findByUsername(userName)
+        .orElseThrow(() -> new UserNotFoundException(userName));
+    user.getUserData().setAvatar(avatarUrl);
+    return ResponseEntity.ok(avatarUrl);
+  }
+
+  /**
+   * Return url of current user avatar from DB.
+   *
+   * @param userName of current user
+   * @return url of user avatar.
+   */
+  public ResponseEntity<String> getAvatarUrl(String userName) {
+    User user = userRepo.findByUsername(userName)
+        .orElseThrow(() -> new UserNotFoundException(userName));
+    return ResponseEntity.ok(user.getUserData().getAvatar());
   }
 }
