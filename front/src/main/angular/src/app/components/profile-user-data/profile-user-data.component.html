@@ -7,13 +7,24 @@
         </div>
       </div>
     </div>
+    <input type="file" class="file-input"
+           [accept]="requiredFileType"
+           (change)="onFileSelected($event)" #fileUpload>
+    <div class="file-upload">
+      {{fileName || "Change avatar: max " + MAX_AVATAR_SIZE / 1024 + "Kb"}}
+      <button mat-mini-fab color="primary" class="upload-btn"
+              (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-userName">{{translate(
             'userName')}}</span>
       </div>
-      <input type="text" readonly class="form-control" aria-label="Default" [(ngModel)]="tmpUserName"
+      <input type="text" readonly class="form-control" aria-label="Default"
+             [(ngModel)]="tmpUserName"
              aria-describedby="inputGroup-sizing-userName">
     </div>
     <div class="input-group mb-3">
