@@ -75,6 +75,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatSortModule,
     FormsModule,
     MatSnackBarModule,
     MatDialogModule,
@@ -86,7 +87,9 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     TranslocoRootModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule,
+    MatPaginatorModule
 
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],

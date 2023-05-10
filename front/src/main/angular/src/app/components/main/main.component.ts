@@ -9,6 +9,7 @@ import {RegisterComponent} from "../../auth/register/register.component";
 import { TranslocoService } from '@ngneat/transloco';
 import {TokenStorageService} from "../../service/token-storage.service";
 import {Observable} from "rxjs";
+import {ProfileComponent} from "../profile/profile.component";
 
 @Component({
   selector: 'app-main',
@@ -90,5 +91,16 @@ export class MainComponent implements OnInit {
   logOut() {
     this.tokenStorageService.logOut();
     this.isLoggedIn = false;
+  }
+
+  openUserProfile() {
+    let currentUserId = this.tokenStorageService.getUserId();
+    console.log(currentUserId);
+    let dialogRef = this.dialog.open(ProfileComponent, {
+      data: ['User profile data',currentUserId],
+      hasBackdrop: true,
+      disableClose: true,
+      autoFocus: true,
+    });
   }
 }
