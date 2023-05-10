@@ -162,7 +162,7 @@ public class ProfileService {
    * Save file with avatar of user to external storage and return url of saved file.
    *
    * @param userName of current user.
-   * @param file     with avatar image.
+   * @param file     file with users avatar.
    * @return url of avatar.
    */
   @Transactional
