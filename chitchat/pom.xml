@@ -109,10 +109,18 @@
       <version>2.2.0</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
     <dependency>
-      <artifactId>aws-java-sdk</artifactId>
       <groupId>com.amazonaws</groupId>
-      <version>1.11.163</version>
+      <artifactId>aws-java-sdk-s3</artifactId>
+      <version>1.12.464</version>
+    </dependency>
+
+
+    <dependency>
+      <artifactId>commons-io</artifactId>
+      <groupId>commons-io</groupId>
+      <version>2.11.0</version>
     </dependency>
 
 
