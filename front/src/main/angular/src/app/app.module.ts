@@ -31,6 +31,7 @@ import { MainComponent } from './components/main/main.component';
 import { TranslocoRootModule } from './transloco-root.module';
 import {langInterceptorProviders} from "./service/lang-interceptor.service";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 const appRoutes: Routes = [
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatInputModule,
     MatButtonModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    MatCheckboxModule
 
   ],
   providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],

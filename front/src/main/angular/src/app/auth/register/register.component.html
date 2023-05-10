@@ -11,7 +11,15 @@
       <label><b>{{translate('Confirm password')}}</b></label>
       <input type="password" formControlName="confirmPassword" placeholder="{{translate('Confirm Password')}}"
              required>
-      <button type="submit" (click)="register()">{{translate('Register')}}</button>
+
+      <section class="example-section text-success ">
+        <mat-checkbox #agreement class="example-margin" [checked]="true"></mat-checkbox>
+        <a>I agree to share my personal data</a>
+      </section>
+
+      <button type="submit" (click)="register()"
+              *ngIf="agreement.checked">
+      {{translate('Register')}}</button>
     </div>
   </form>
 </ng-container>

@@ -9,6 +9,7 @@ import {TokenStorageService} from "../../service/token-storage.service";
 import {NewChitChatDTO} from "../../model/NewChitChatDTO";
 import {ChitchatService} from "../../service/chitchat.service";
 import {DatePipe} from "@angular/common";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-add-new-chitchat',
@@ -35,6 +36,7 @@ export class AddNewChitchatComponent {
               private languageService: LanguageService,
               private chitchatService : ChitchatService ,
               private dialogRef: MatDialogRef<AddNewChitchatComponent>,
+              private notificationService: NotificationService,
               private tokenStorageService: TokenStorageService,
               private dialog: MatDialog) {
   }
@@ -64,6 +66,7 @@ export class AddNewChitchatComponent {
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
       });
+      this.notificationService.showSnackBar('New ChitChat created successfully!');
       this.dialogRef.close();
     }
   }

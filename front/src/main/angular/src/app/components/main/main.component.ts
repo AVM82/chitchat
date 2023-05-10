@@ -7,6 +7,8 @@ import {LanguageService} from "../../service/language.service";
 import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
 import { TranslocoService } from '@ngneat/transloco';
+import {TokenStorageService} from "../../service/token-storage.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-main',
@@ -18,14 +20,19 @@ export class MainComponent implements OnInit {
   levels: Level[];
   selectedCategory: Category | null;
   selectedLanguage: string = 'en';
+  isLoggedIn: boolean =  false;
+  currentUser: string='';
+
 
   constructor(private dialog: MatDialog,
               private languageService: LanguageService,
-              private translocoService: TranslocoService
+              private translocoService: TranslocoService,
+              private tokenStorageService: TokenStorageService
   ) {
   }
 
   ngOnInit() {
+    this.checkUserLogged();
     this.languageService.getAll().subscribe(result => {
       this.languages = result;
     });
@@ -39,6 +46,27 @@ export class MainComponent implements OnInit {
       disableClose: false,
       autoFocus: true,
     });
+    dialogRef.afterClosed().subscribe(result => {
+      this.isLoggedIn = result;
+      this.currentUser = this.tokenStorageService.getUser();
+    });
+  }
+
+
+  checkUserLogged(){
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn){
+      console.log("logged");
+      if (this.tokenStorageService.tokenExpired(this.tokenStorageService.getToken())) {
+        console.log("non valid");
+      }else {
+        console.log("valid");
+        this.currentUser = this.tokenStorageService.getUser();
+        console.log(this.currentUser)
+      }
+
+    }
+
   }
 
   signup() {
@@ -57,5 +85,10 @@ export class MainComponent implements OnInit {
 
   changeLanguage(lang: string) {
     this.translocoService.setActiveLang(lang);
+  }
+
+  logOut() {
+    this.tokenStorageService.logOut();
+    this.isLoggedIn = false;
   }
 }
