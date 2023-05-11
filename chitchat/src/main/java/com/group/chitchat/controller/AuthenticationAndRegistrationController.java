@@ -49,7 +49,7 @@ public class AuthenticationAndRegistrationController {
    *
    * @param request       data entered by the user for authentication.
    * @param requestHeader An object for obtaining request header parameters.
-   * @param response object that sets the locale.
+   * @param response      object that sets the locale.
    * @return response about the status of user authentication.
    */
   @PostMapping("/authenticate")
@@ -62,7 +62,7 @@ public class AuthenticationAndRegistrationController {
   }
 
   @PostMapping("/refresh")
-  public ResponseEntity<AuthenticationResponse> refresh (HttpServletRequest requestHeader,
+  public ResponseEntity<AuthenticationResponse> refresh(HttpServletRequest requestHeader,
       HttpServletResponse response,
       @RequestBody RefreshRequest request
   ) {

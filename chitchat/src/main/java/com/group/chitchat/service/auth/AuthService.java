@@ -104,6 +104,11 @@ public class AuthService {
     );
   }
 
+  /**
+   * Refresh all tokens.
+   * @param request contains refresh token
+   * @return two new tokens
+   */
   public AuthenticationResponse refreshAllTokens(RefreshRequest request) {
     RefreshToken oldRefreshToken = tokenRepo
         .findRefreshTokenByTokenForRefresh(request.getRefreshToken())

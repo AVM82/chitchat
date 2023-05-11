@@ -43,18 +43,19 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
+  /**
+   * Extract token id.
+   *
+   * @param jwtToken token for extract id
+   * @return id
+   */
   public String extractTokenId(String jwtToken) {
     final Claims claims = extractAllClaims(jwtToken);
-    log.info("id {}", claims.getId() );
     return claims.getId();
   }
 
   public String generateToken(UserDetails userDetails) {
     return generateToken(new HashMap<>(), userDetails);
-  }
-
-  public String generateRefreshToken(UserDetails userDetails, Long tokenId) {
-    return generateRefreshToken(new HashMap<>(), userDetails, tokenId);
   }
 
   /**
@@ -64,8 +65,7 @@ public class JwtService {
    * @param userDetails   user details.
    * @return jwt token.
    */
-  public String generateToken(
-      Map<String, Object> extractClaims,
+  public String generateToken(Map<String, Object> extractClaims,
       UserDetails userDetails
   ) {
     User userMy = (User) userDetails;
@@ -80,8 +80,18 @@ public class JwtService {
         .compact();
   }
 
-  public String generateRefreshToken(
-      Map<String, Object> extractClaims,
+  public String generateRefreshToken(UserDetails userDetails, Long tokenId) {
+    return generateRefreshToken(new HashMap<>(), userDetails, tokenId);
+  }
+
+  /**
+   * Generator of refresh tokens.
+   * @param extractClaims extract claims for jwts
+   * @param userDetails userDetails for set id and username
+   * @param tokenId token id to set id
+   * @return token
+   */
+  public String generateRefreshToken(Map<String, Object> extractClaims,
       UserDetails userDetails,
       Long tokenId
   ) {
@@ -103,11 +113,18 @@ public class JwtService {
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
+  /**
+   * Make sure that token valid.
+   * @param token refresh token to check it
+   * @param userDetails user details to make sure that user is owner
+   * @param tokenId token id
+   * @return boolean value
+   */
   public boolean isTokenValid(String token, UserDetails userDetails, long tokenId) {
     final String username = extractUsername(token);
     final long tokenIdNumber = Long.parseLong(extractTokenId(token));
-    return (username.equals(userDetails.getUsername())) &&
-        (tokenIdNumber == tokenId) && isTokenExpired(token);
+    return (username.equals(userDetails.getUsername()))
+        && (tokenIdNumber == tokenId) && isTokenExpired(token);
   }
 
   private boolean isTokenExpired(String token) {
