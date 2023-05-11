@@ -70,7 +70,8 @@ public class AuthService {
     var jwtEmailToken = jwtEmailService.generateEmailToken(user);
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
-    String url = httpRequest.getRequestURL().toString().replace("api/v1/auth/register", "?click=");
+    String url = httpRequest.getRequestURL().toString()
+        .replace("api/v1/auth/register", "/click?click=");
     sendEmail(user, url + jwtEmailToken);
     return AuthenticationResponse.builder()
         .token(jwtEmailToken)
