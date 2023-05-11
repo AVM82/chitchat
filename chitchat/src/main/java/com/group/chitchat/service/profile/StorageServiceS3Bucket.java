@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class StorageServiceS3Bucket implements FileStorageService {
 
+  private static final double COEF = 1.2;
   private AmazonS3 s3client;
 
   @Value("${aws.access.key}")
@@ -49,10 +50,13 @@ public class StorageServiceS3Bucket implements FileStorageService {
     String fileKey = "avatars/" + UUID.randomUUID() + "-" + userName;
     ObjectMetadata metadata = new ObjectMetadata();
     metadata.setContentType("image/jpeg");
+    metadata.setContentLength(file.getSize());
     try {
       PutObjectRequest request = new PutObjectRequest(
           bucketName, fileKey, file.getInputStream(), metadata);
+
       request.setCannedAcl(CannedAccessControlList.PublicRead);
+
       s3client.putObject(request);
 
       log.info("avatar of user {} saved successfully", userName);
