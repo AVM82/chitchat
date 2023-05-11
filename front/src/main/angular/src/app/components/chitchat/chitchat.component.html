@@ -31,12 +31,6 @@
       >{{chitchat.languageName}}
       </div>
 
-<!--      <div class="badge bg-info text-dark position-absolute"-->
-<!--           style="font-size:22px; top: 13rem; left: 0.2rem">-->
-<!--        <img class="mb-2" alt="..." src="assets/img/faces/people.svg" style="height: 25px" >-->
-<!--        {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}-->
-<!--      </div>-->
-
       <!-- Product details-->
       <div class="card-body" style="padding: 5px;">
         <div class="text-center">
@@ -67,19 +61,14 @@
         {{translate('More details')}}</a>
     </div>
   </div>
-  <mat-paginator [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
+
+</div>
+  <div>
+
+  </div>
+  <div>
+  <mat-paginator [pageSizeOptions]="[10]" [pageSize]="10" [length]="totalElements"
                  (page)="nextPage($event)">
   </mat-paginator>
-</div>
-  <div >
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-end mr-5">
-      <li class="page-item"><a class="page-link text-primary" href="#">Previous</a></li>
-      <li class="page-item"><a class="page-link text-primary" href="#">1</a></li>
-      <li class="page-item"><a class="page-link text-primary" href="#">2</a></li>
-      <li class="page-item"><a class="page-link text-primary" href="#">3</a></li>
-      <li class="page-item"><a class="page-link text-primary" href="#">Next</a></li>
-    </ul>
-  </nav>
   </div>
 </ng-container>

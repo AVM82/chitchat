@@ -21,7 +21,7 @@ export class ChitchatFilterComponent implements OnInit {
   @Output()
   chitchatsEvent = new EventEmitter<any>();
   filteredCategory: Category | null;
-  private page = {page: "0", size: "6", sort: "date"};
+  private page = {page: "0", size: "10", sort: "date"};
 
   constructor(private languageService: LanguageService, private chitchatService: ChitchatService) {
   }
