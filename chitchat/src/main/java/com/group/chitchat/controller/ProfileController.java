@@ -1,5 +1,6 @@
 package com.group.chitchat.controller;
 
+import com.group.chitchat.model.dto.AvatarDto;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.UserForEditDto;
 import com.group.chitchat.model.dto.UserForResponseDto;
@@ -93,7 +94,7 @@ public class ProfileController {
    * @return url of avatar.
    */
   @PostMapping("/avatar")
-  public ResponseEntity<String> uploadAvatar(@RequestParam(value = "avatar") MultipartFile file,
+  public ResponseEntity<AvatarDto> uploadAvatar(@RequestParam(value = "avatar") MultipartFile file,
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
@@ -107,7 +108,7 @@ public class ProfileController {
    * @return url of user avatar.
    */
   @GetMapping("/avatar")
-  public ResponseEntity<String> getAvatarUrl(HttpServletRequest requestHeader,
+  public ResponseEntity<AvatarDto> getAvatarUrl(HttpServletRequest requestHeader,
       HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
