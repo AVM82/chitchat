@@ -32,6 +32,7 @@ export class ProfileUserDataComponent implements OnInit {
   fileName: string = '';
   requiredFileType: string[] = ['image/png', 'image/jpeg'];
   MAX_AVATAR_SIZE: number = 100 * 1024;
+  editProfile: boolean = false;
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -95,5 +96,9 @@ export class ProfileUserDataComponent implements OnInit {
       this.notificationService.showSnackBar('Wrong size or type file of avatar!');
     }
     return result;
+  }
+
+  editProfileChange() {
+    this.editProfile = !this.editProfile;
   }
 }
