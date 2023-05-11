@@ -71,7 +71,7 @@ export class ChitchatComponent {
     this.filteredDateFrom = data['filteredDateFrom'];
     this.filteredDateTo = data['filteredDateTo'];
     this.filteredCategory = data['filteredCategory'];
-    this.getChitchats({page: "0", size: "6", sort: "date"});
+    this.getChitchats(data['page']);
   }
 
   private getChitchats(request: Object) {

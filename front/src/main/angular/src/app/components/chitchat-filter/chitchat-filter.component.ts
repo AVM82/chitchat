@@ -40,6 +40,8 @@ export class ChitchatFilterComponent implements OnInit {
     this.getFilter();
   }
 
+  private page = {page: "0", size: "6", sort: "date"};
+
   getFilter() {
     this.chitchatService.filter(
         this.filteredLanguage,
@@ -47,7 +49,7 @@ export class ChitchatFilterComponent implements OnInit {
         this.filteredDateFrom,
         this.filteredDateTo,
         this.filteredCategory,
-        {page: "0", size: "6", sort: "date"})
+        this.page)
     .subscribe({
       next: (data: any) => {
         this.data = data;
@@ -58,7 +60,7 @@ export class ChitchatFilterComponent implements OnInit {
           filteredDateFrom: this.filteredDateFrom,
           filteredDateTo: this.filteredDateTo,
           filteredCategory: this.filteredCategory,
-          page: {page: "0", size: "6", sort: "date"}
+          page: this.page
         })
       }
     })
