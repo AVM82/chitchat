@@ -66,12 +66,12 @@ export class ChitchatComponent {
     this.chitchats = data['content'];
     this.totalElements = data['totalElements'];
 
-    this.filteredLanguage = data['filteredLanguage'];
-    this.filteredLevel = data['filteredLevel'];
-    this.filteredDateFrom = data['filteredDateFrom'];
-    this.filteredDateTo = data['filteredDateTo'];
-    this.filteredCategory = data['filteredCategory'];
-    this.getChitchats(data['page']);
+    this.filteredLanguage = data.filteredLanguage;
+    this.filteredLevel = data.filteredLevel;
+    this.filteredDateFrom = data.filteredDateFrom;
+    this.filteredDateTo = data.filteredDateTo;
+    this.filteredCategory = data.filteredCategory;
+    this.getChitchats(data.page);
   }
 
   private getChitchats(request: Object) {
