@@ -83,7 +83,6 @@ export class ProfileUserDataComponent implements OnInit {
           this.notificationService.showSnackBar('Avatar changed successfully!');
         }
         this.tmpAvatar = result.url;
-        document.getElementById('img-avatar')?.setAttribute('src', this.tmpAvatar)
       });
     }
   }
