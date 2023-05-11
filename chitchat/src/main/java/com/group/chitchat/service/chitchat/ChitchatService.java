@@ -98,7 +98,7 @@ public class ChitchatService {
     chitchatRepo.save(chitchat);
 
     String url = request.getRequestURL().toString().replace("api/v1/chitchats", "")
-        + "?id=" + chitchat.getId();
+        + "/chitchat?id=" + chitchat.getId();
 
     sendEmail(chitchat, String.format(
         bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url), url);
