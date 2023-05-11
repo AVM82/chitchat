@@ -67,6 +67,9 @@
         {{translate('More details')}}</a>
     </div>
   </div>
+  <mat-paginator [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
+                 (page)="nextPage($event)">
+  </mat-paginator>
 </div>
   <div >
   <nav aria-label="Page navigation">
