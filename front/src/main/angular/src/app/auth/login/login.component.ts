@@ -32,6 +32,7 @@ export class LoginComponent {
       password: ['', Validators.compose([Validators.required])],
     });
   }
+
   login() {
     this.authService.login({
       username: this.loginForm.value.username,
@@ -40,10 +41,10 @@ export class LoginComponent {
       this.tokenStorage.saveToken(data.token);
       this.tokenStorage.saveUser(data);
       this.notificationService.showSnackBar('Successfully logged in');
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     }, error => {
-      console.log(error.message);
       this.notificationService.showSnackBar('Error data for login');
+      this.dialogRef.close(false);
     });
   }
 }
