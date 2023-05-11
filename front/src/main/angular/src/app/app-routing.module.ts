@@ -4,7 +4,6 @@ import {MainComponent} from "./components/main/main.component";
 import {ChitchatRefComponent} from "./components/chitchat-ref/chitchat-ref.component";
 import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {BrowserModule} from "@angular/platform-browser";
-import {LoginComponent} from "./auth/login/login.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
 
@@ -17,7 +16,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [BrowserModule, RouterModule.forRoot(routes)],
+  imports: [BrowserModule, RouterModule.forRoot(routes,
+      {
+        useHash: true,
+        scrollPositionRestoration: 'enabled'
+      })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
