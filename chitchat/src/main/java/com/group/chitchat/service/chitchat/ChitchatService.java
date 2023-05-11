@@ -1,5 +1,7 @@
 package com.group.chitchat.service.chitchat;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
@@ -7,27 +9,32 @@ import com.group.chitchat.model.Language;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
+import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
+import com.group.chitchat.repository.PagingRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @AllArgsConstructor
@@ -38,6 +45,9 @@ public class ChitchatService {
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
+  private final PagingRepo pagingRepo;
+
+
   /**
    * Messages for sending email.
    */
@@ -127,44 +137,43 @@ public class ChitchatService {
    * Return all chitchats by parameters.
    *
    * @param languageId  Incoming languageId.
-   * @param level       Incoming level of language.
+   * @param levelStr    Incoming level of language.
    * @param dateFromStr Date of start;
    * @param dateToStr   Date of end;
    * @param categoryId  Category id.
-   * @return Chitchats by parameters.
+   * @param pageable    Information for pagination.
+   * @return Page by parameters.
    */
-  public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level, String dateFromStr, String dateToStr, Integer categoryId) {
+  public ResponseEntity<Page<ChitchatForResponseDto>> getPageChitchats(
+      String languageId, String levelStr, String dateFromStr, String dateToStr,
+      Integer categoryId, Pageable pageable) {
 
-    List<Chitchat> chitchats;
+    Specification<Chitchat> specification = null;
 
-    if (languageId != null && !languageId.isEmpty()) {
-      Language language = languageRepo.findById(languageId).orElseThrow();
-      chitchats = chitchatRepo.findAllByLanguage(language);
-
-      if (level != null && !level.isEmpty()) {
-        chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name()
-            .equals(level)).toList();
-      }
-    } else {
-      chitchats = chitchatRepo.findAll();
-    }
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
-      chitchats = chitchats.stream().filter(chat -> chat.getCategory().equals(category)).toList();
+      specification = where(categorySpecification(category));
+    }
+    if (languageId != null && !languageId.isEmpty()) {
+      Language language = languageRepo.findById(languageId).orElseThrow();
+      specification = where(languageSpecification(language)).and(specification);
+    }
+    if (levelStr != null && !levelStr.isEmpty()) {
+      Levels level = Levels.valueOf(levelStr);
+      specification = where(levelSpecification(level)).and(specification);
     }
     if (dateFromStr != null && !dateFromStr.isEmpty()) {
-      chitchats = chitchats.stream().filter(
-          chat -> chat.getDate().isAfter(LocalDate.parse(dateFromStr).atStartOfDay())).toList();
+      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
+      specification = where(dateFromSpecification(dateFrom)).and(specification);
     }
     if (dateToStr != null && !dateToStr.isEmpty()) {
-      chitchats = chitchats.stream()
-          .filter(chat -> chat.getDate().isBefore(LocalDate.parse(dateToStr).atTime(LocalTime.MAX)))
-          .toList();
+      LocalDateTime dateTo = LocalDate.parse(dateToStr).atTime(LocalTime.MAX);
+      specification = where(dateToSpecification(dateTo)).and(specification);
     }
-    return ResponseEntity.ok(chitchats.stream()
-        .sorted(Comparator.comparing(Chitchat::getDate))
-        .map(ChitchatDtoService::getFromEntity).toList());
+    Page<Chitchat> page = pagingRepo.findAll(specification, pageable);
+
+    return ResponseEntity.ok(page
+        .map(ChitchatDtoService::getFromEntity));
   }
 
   /**
@@ -183,4 +192,30 @@ public class ChitchatService {
             chitchat.getDate())
     );
   }
+
+  private Specification<Chitchat> languageSpecification(Language language) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("language"), language);
+  }
+
+  private Specification<Chitchat> levelSpecification(Levels level) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("level"), level);
+  }
+
+  private Specification<Chitchat> categorySpecification(Category category) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("category"), category);
+  }
+
+  private Specification<Chitchat> dateFromSpecification(LocalDateTime date) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.greaterThanOrEqualTo(root.get("date"), date);
+  }
+
+  private Specification<Chitchat> dateToSpecification(LocalDateTime date) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.lessThanOrEqualTo(root.get("date"), date);
+  }
+
 }
