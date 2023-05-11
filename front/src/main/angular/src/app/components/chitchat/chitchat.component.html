@@ -1,3 +1,4 @@
+<ng-container *transloco="let translate;">
 <div class="row my-0">
   <div class="col-10 ">
     <app-chitchat-filter [selectedCategory]="selectedCategory"
@@ -5,43 +6,69 @@
   </div>
   <div class="col-1 m-0">
     <div class="text-right col-6">
-      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">Add new
+      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">
+        {{translate('Add new')}}
       </button>
     </div>
   </div>
 </div>
-<div
-    class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
+<div class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
   <div class="col mb-5" *ngFor="let chitchat of chitchats">
     <div class="card h-100 shadow text-center  p-1 mb-1 bg-white rounded "
          style="width: 15rem;">
+
       <!-- Product image-->
       <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
         <img class="card-img-top" src="assets/img/faces/marc.jpg" alt="..."/>
       </div>
+      <div class="badge bg-warning text-dark position-absolute"
+           style="font-size:24px; top: 0.2rem; left: 0.2rem">{{chitchat.level}}
+      </div>
+      <div class="badge bg-white position-absolute"
+           style="font-size:24px; top: 0.2rem; right: 0.2rem"
+           [class.text-success]="chitchat.languageName==='english'"
+           [class.text-danger]="chitchat.languageName!=='english'"
+      >{{chitchat.languageName}}
+      </div>
+
       <!-- Product details-->
-      <div class="card-body">
+      <div class="card-body" style="padding: 5px;">
         <div class="text-center">
           <!-- Product name-->
           <h4 class="fw-bolder my-0 text-danger text-truncate">{{chitchat.authorName}}</h4>
           <h4 class="fw-bolder my-0" style="color: black"
-          >{{chitchat.date|date: 'dd MMM yyyy HH:mm'}}</h4>
-          <h3 class="fw-bolder my-0 text-success "
-          >{{chitchat.languageName}}</h3>
-          <!-- Product price-->
-          <h1 class="fw-bolder my-0 text-primary"
-          >{{chitchat.level}}</h1>
+          >Start:{{chitchat.date|date: 'dd-MM-yyyy hh:mm'}}</h4>
 
-          <h6 class="fw-bolder my-1 text-dark"
-          >{{chitchat.description}}</h6>
-          <h3 class="fw-bolder my-0 text-info"
-          >Speakers..[{{chitchat.usersInChitchat.length}}]</h3>
+          <h3 class="fw-bolder my-1 text-dark"
+          >Theme :{{chitchat.chatName}}</h3>
+          <div>
+
+          <div class="progress mx-1 h4 " style="height: 30px">
+            <div class="progress-bar font-weight-bold progress-bar-success text-start" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" [style.width]="100*chitchat.usersInChitchat.length/chitchat.capacity+'%'">
+              <div style="float:right;">
+                <img alt="" src="assets/img/faces/people.svg" style="height: 25px">
+                {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}
+              </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Product actions-->
       <a class="btn btn-primary mx-4 mb-2" (click)="openChitChat(chitchat)">
-        Детальніше</a>
+        {{translate('More details')}}</a>
     </div>
   </div>
 
 </div>
+  <div>
+
+  </div>
+  <div>
+  <mat-paginator [pageSizeOptions]="[10]" [pageSize]="10" [length]="totalElements"
+                 (page)="nextPage($event)">
+  </mat-paginator>
+  </div>
+</ng-container>

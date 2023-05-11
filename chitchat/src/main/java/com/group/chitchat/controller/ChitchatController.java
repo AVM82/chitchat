@@ -7,9 +7,11 @@ import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +39,8 @@ public class ChitchatController {
    * @return list of all chats.
    */
   @GetMapping("/all")
-  public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(
+  public ResponseEntity<Page<ChitchatForResponseDto>> getAllChitchats(
+      @PageableDefault(size = 10, page = 0, sort = "date") Pageable pageable,
       @RequestParam(value = "languageId", required = false) String languageId,
       @RequestParam(value = "levelId", required = false) String level,
       @RequestParam(value = "dateFrom", required = false) String dateFrom,
@@ -46,12 +49,20 @@ public class ChitchatController {
       HttpServletRequest requestHeader, HttpServletResponse response) {
 
     localeResolverConfig.setLocale(requestHeader, response, null);
-
-    return chitchatService.getAllChitchats(languageId, level, dateFrom, dateTo, categoryId);
+    return chitchatService.getPageChitchats(
+        languageId, level, dateFrom, dateTo, categoryId, pageable);
   }
 
   @GetMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getChitchat(
+      @PathVariable("chitchatId") Long chitchatId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return chitchatService.getChitchat(chitchatId);
+  }
+
+  @GetMapping("/all/{chitchatId}")
+  public ResponseEntity<ChitchatForResponseDto> getPublicChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
@@ -66,16 +77,18 @@ public class ChitchatController {
    * @param response             object that sets the locale.
    * @return response about the status of creating a new chat.
    */
-  @PostMapping
+  @PostMapping()
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
+
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return ResponseEntity.ok(chitchatService
-        .addChitchat(forCreateChitchatDto, CurrentUserService.getCurrentUsername()));
+
+    return chitchatService.addChitchat(
+        forCreateChitchatDto, CurrentUserService.getCurrentUsername(), requestHeader);
   }
 
-  @PutMapping("{chitchatId}")
+  @PutMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       @RequestParam("userId") Long userId,

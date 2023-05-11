@@ -36,8 +36,8 @@ public class SecurityConfig {
         .cors().disable()
         .authorizeHttpRequests()
         .requestMatchers("/api/v1/auth/**", "/*", "/v3/api-docs/**",
-            "/swagger-ui/**", "/api/v1/category/all**", "api/v1/chitchats/all**",
-            "api/v1/languages/**","assets/**")
+            "/swagger-ui/**", "/api/v1/category/all/**", "api/v1/chitchats/all/**",
+            "api/v1/languages/**", "assets/**")
         .permitAll()
         .anyRequest()
         .authenticated()

@@ -1,0 +1,114 @@
+<ng-container *transloco="let translate;">
+  <div class="card my-0" style="width: 18rem;">
+    <div class="row mx-0">
+      <div class="col-6 ">
+        <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden" style="width: 7rem">
+          <img class="card-img-top" src={{tmpAvatar}} id="img-avatar" alt="..."/>
+        </div>
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <input style="margin-left: 10px; height: 2%" [value]="editProfile ? 'Cancel': 'Edit'"
+             id="editProfile" type="button"
+             (click)="editProfileChange()">
+      <input type="file" class="file-input" [disabled]="!editProfile"
+             [accept]="requiredFileType"
+             (change)="onFileSelected($event)" #fileUpload>
+      <div class="file-upload">
+        {{fileName || "Change avatar: max " + MAX_AVATAR_SIZE / 1024 + "Kb"}}
+        <button mat-mini-fab color="primary" class="upload-btn" [disabled]="!editProfile"
+                (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-userName">{{translate(
+            'userName')}}</span>
+      </div>
+      <input type="text" readonly class="form-control" aria-label="Default"
+             [disabled]="!editProfile"
+             [(ngModel)]="tmpUserName"
+             aria-describedby="inputGroup-sizing-userName">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-email">{{translate(
+            'email')}}</span>
+      </div>
+      <input type="text" readonly class="form-control" aria-label="Default"
+             [disabled]="!editProfile"
+             [(ngModel)]="tmpEmail"
+             aria-describedby="inputGroup-sizing-email">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-role">{{translate('role')}}</span>
+      </div>
+      <select class="custom-select" id="inputGroupSelect03"
+              [disabled]="!editProfile"
+              [(ngModel)]="tmpRole">
+        <option class="text-uppercase text-start" *ngFor="let role of roles"
+                [ngValue]="role">{{role}}</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-nativeLanguage">{{translate(
+            'nativeLanguage')}}</span>
+      </div>
+      <select class="custom-select" id="inputGroupSelect02"
+              [disabled]="!editProfile"
+              [(ngModel)]="tmpNativeLanguage" (change)="changeNativeLanguage()">
+        <option class="text-uppercase text-start" *ngFor="let language of languages"
+                [ngValue]="language">{{language.languageName}}</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">{{translate(
+            'firstname')}}</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default"
+             [disabled]="!editProfile"
+             [(ngModel)]="tmpFirstname"
+             aria-describedby="inputGroup-sizing-default">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-lastname">{{translate(
+            'lastname')}}</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default"
+             [disabled]="!editProfile"
+             [(ngModel)]="tmpLastname"
+             aria-describedby="inputGroup-sizing-lastname">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-gender">{{translate('gender')}}</span>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" [value]="tmpGender"
+              [disabled]="!editProfile"
+              [(ngModel)]="tmpGender">
+        <option class="text-start" *ngFor="let gender of genders"
+                [ngValue]="gender">{{gender}}</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-dob">{{translate('dob')}}</span>
+      </div>
+      <input type="date" class="form-control" aria-label="Default"
+             [disabled]="!editProfile"
+             [(ngModel)]="tmpDob">
+    </div>
+    <div class="card-body text-center">
+      <a (click)="save()" class="card-link text-success" [hidden]="!editProfile">{{translate(
+          'Save')}}</a>
+      <a href="#" class="card-link">{{translate('Close')}}</a>
+    </div>
+  </div>
+</ng-container>
