@@ -70,14 +70,13 @@ public class AuthService {
     roleRepository.save(defaultRole);
     userRepository.save(user);
 
-
     var jwtEmailToken = jwtEmailService.generateEmailToken(user);
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
     String url = httpRequest.getRequestURL().toString()
         .replace("api/v1/auth/register", "/click?click=");
     sendEmail(user, url + jwtEmailToken);
-    
+
     return buildNewTokens(user);
   }
 
@@ -117,6 +116,7 @@ public class AuthService {
 
   /**
    * Refresh all tokens.
+   *
    * @param request contains refresh token
    * @return two new tokens
    */
@@ -172,8 +172,8 @@ public class AuthService {
         .refreshToken(refreshToken)
         .build();
   }
-  
-    private void sendEmail(User user, String message) {
+
+  private void sendEmail(User user, String message) {
     emailService.sendEmail(
         user.getEmail(),
         String.format("New ChitChat user registered: %s", user.getUsername()),
