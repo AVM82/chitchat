@@ -6,6 +6,7 @@ import {LanguageService} from "../../service/language.service";
 import {UserForResponseDto} from "../../model/UserForResponseDto";
 import {ProfileService} from "../../service/profile.service";
 import {FileUploadService} from "../../service/file-upload.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-profile-user-data',
@@ -29,8 +30,8 @@ export class ProfileUserDataComponent implements OnInit {
   languages: Language[] = [];
   roles: string[] = ['Practitioner', 'Observer', 'Coach'];
   fileName: string = '';
-  requiredFileType: string[] = ['image/png','image/jpeg'];
-  MAX_AVATAR_SIZE: number = 200 * 1024;
+  requiredFileType: string[] = ['image/png', 'image/jpeg'];
+  MAX_AVATAR_SIZE: number = 100 * 1024;
 
   ngOnInit(): void {
     this.genders = [Gender.MALE, Gender.FEMALE];
@@ -42,6 +43,8 @@ export class ProfileUserDataComponent implements OnInit {
       this.tmpUserName = this.userForResponseDto.userName;
       this.tmpEmail = this.userForResponseDto.email;
       this.tmpRoles = this.userForResponseDto.roles;
+      this.tmpRole = this.tmpRoles.filter(
+          el => !el.startsWith('ROLE_'))[0];
       this.tmpAvatar = this.userForResponseDto.avatar;
       this.tmpNativeLanguage = this.languages.find(
           el => el.languageName === this.userForResponseDto.nativeLanguage);
@@ -54,7 +57,8 @@ export class ProfileUserDataComponent implements OnInit {
 
   constructor(private languageService: LanguageService,
               private profileService: ProfileService,
-              private fileUploadService: FileUploadService) {
+              private fileUploadService: FileUploadService,
+              private notificationService: NotificationService) {
   }
 
   changeNativeLanguage() {
@@ -65,8 +69,7 @@ export class ProfileUserDataComponent implements OnInit {
     let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
         this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
         this.tmpDob, this.tmpGender);
-    this.profileService.updateUserData(newUserForEditDto).subscribe(data => {
-    });
+    this.profileService.updateUserData(newUserForEditDto).subscribe();
   }
 
   onFileSelected(event: any) {
@@ -75,17 +78,23 @@ export class ProfileUserDataComponent implements OnInit {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append("avatar", file);
-      const upload$ = this.fileUploadService.uploadAvatar(formData);
-      upload$.subscribe(result => {
-        this.tmpAvatar = result;
+      this.fileUploadService.uploadAvatar(formData).subscribe(result => {
+        if (result.url !== this.tmpAvatar) {
+          this.notificationService.showSnackBar('Avatar changed successfully!');
+        }
+        this.tmpAvatar = result.url;
+        document.getElementById('img-avatar')?.setAttribute('src', this.tmpAvatar)
       });
     }
   }
 
   private checkAvatarFile(file: File) {
-    console.log(file.type.toLowerCase());
-    return file.size <= this.MAX_AVATAR_SIZE
+    let result = file.size <= this.MAX_AVATAR_SIZE
         && (file.type.toLowerCase() === "image/png" ||
             file.type.toLowerCase() === "image/jpeg");
+    if (!result) {
+      this.notificationService.showSnackBar('Wrong size or type file of avatar!');
+    }
+    return result;
   }
 }
