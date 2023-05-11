@@ -3,10 +3,10 @@
 
     <div class="container">
       <label><b>{{translate('Username')}}</b></label>
-      <input type="text" formControlName="username" placeholder="Enter Username" required>
+      <input type="text" formControlName="username" placeholder="{{translate('Enter Username')}}" required>
 
       <label><b>{{translate('Password')}}</b></label>
-      <input type="password" formControlName="password" placeholder="Enter Password" required>
+      <input type="password" formControlName="password" placeholder="{{translate('Enter Password')}}" required>
 
       <button type="submit" (click)="login()">{{translate('Login')}}</button>
     </div>
