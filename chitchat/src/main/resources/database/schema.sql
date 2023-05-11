@@ -78,3 +78,40 @@ CREATE TABLE IF NOT EXISTS refresh_tokens
     PRIMARY KEY (id),
     CONSTRAINT fk_participating_users FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE IF NOT EXISTS user_data
+(
+    user_id
+    int4
+    PRIMARY
+    KEY,
+    firstname
+    varchar
+(
+    20
+) NOT NULL,
+    lastname varchar
+(
+    20
+) NOT NULL,
+    avatar varchar
+(
+    100
+) NULL,
+    gender varchar
+(
+    6
+) NOT NULL,
+    dob DATE NOT NULL,
+    native_language varchar
+(
+    2
+) NOT NULL,
+    FOREIGN KEY
+(
+    user_id
+) REFERENCES users
+(
+    id
+)
+    );

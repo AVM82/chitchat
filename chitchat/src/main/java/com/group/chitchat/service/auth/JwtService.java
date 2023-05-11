@@ -70,6 +70,7 @@ public class JwtService {
   ) {
     User userMy = (User) userDetails;
     extractClaims.put("user_id", userMy.getId());
+    extractClaims.put("user_name", userMy.getUsername());
     return Jwts
         .builder()
         .setClaims(extractClaims)

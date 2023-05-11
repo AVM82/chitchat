@@ -1,0 +1,100 @@
+<ng-container *transloco="let translate;">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+         class="mat-elevation-z8">
+
+    <!-- id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+        id
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <!-- chatName Column -->
+    <ng-container matColumnDef="chatName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by chatName">
+        chatName
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.chatName}} </td>
+    </ng-container>
+
+    <!-- authorName Column -->
+    <ng-container matColumnDef="authorName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by authorName">
+        authorName
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.authorName}} </td>
+    </ng-container>
+
+    <!-- categoryName Column -->
+    <ng-container matColumnDef="categoryName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by categoryName">
+        categoryName
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
+    </ng-container>
+
+    <!-- description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by description">
+        description
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- languageName Column -->
+    <ng-container matColumnDef="languageName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by languageName">
+        languageName
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.languageName}} </td>
+    </ng-container>
+
+    <!-- level Column -->
+    <ng-container matColumnDef="level">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by level">
+        level
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+    </ng-container>
+
+    <!-- capacity Column -->
+    <ng-container matColumnDef="capacity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by capacity">
+        capacity
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+    </ng-container>
+
+    <!-- date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+        date
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.date | date: 'dd-MM-yyyy hh:mm'}} </td>
+    </ng-container>
+
+    <!-- usersInChitchat Column -->
+    <ng-container matColumnDef="usersInChitchat">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by usersInChitchat">
+        usersInChitchat
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.usersInChitchat}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</ng-container>

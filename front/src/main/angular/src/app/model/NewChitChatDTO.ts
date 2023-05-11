@@ -5,12 +5,12 @@ export class NewChitChatDTO{
   languageId : string;
   level: string;
   capacity: number;
-  date: Date;
+  date: string;
 
 
   constructor(chatHeader: string, categoryId: number,
               description: string, languageId: string,
-              level: string, capacity: number, date: Date) {
+              level: string, capacity: number, date: string) {
     this.chatHeader = chatHeader;
     this.categoryId = categoryId;
     this.description = description;

@@ -1,49 +1,61 @@
 package com.group.chitchat.service.chitchat;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+
+import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
+import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
+import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
+import com.group.chitchat.repository.PagingRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class ChitchatService {
 
   private final ChitchatRepo chitchatRepo;
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
+  private final PagingRepo pagingRepo;
+
+
   /**
    * Messages for sending email.
    */
-  private static final String MESSAGE_CONFIRM_CREATE =
-      "You created a new chitchat. Follow the link to add it to Google Calendar: \n";
+  private static final String MESSAGE_CONFIRM_CREATE = "m.create_chitchat";
+  private final BundlesService bundlesService;
 
   private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
   private final EmailService emailService;
-  private final BundlesService bundlesService;
 
   /**
    * Returns list of chitchats.
@@ -54,7 +66,7 @@ public class ChitchatService {
   public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
     Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
     if (chitchatOptional.isEmpty()) {
-      throw new NoSuchElementException(String.format("Chitchat with id %s not found", chitchatId));
+      throw new ChitchatsNotFoundException(chitchatId);
     } else {
       return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchatOptional.get()));
     }
@@ -66,10 +78,11 @@ public class ChitchatService {
    * @param chitchatDto Dto for create chitchat.
    * @return response with info of chitchat.
    */
-  public ChitchatForResponseDto addChitchat(ForCreateChitchatDto chitchatDto, String authorName) {
-    User author = userRepo.findByUsername(authorName)
-        .orElseThrow(() -> new UsernameNotFoundException(authorName));
+  public ResponseEntity<ChitchatForResponseDto> addChitchat(
+      ForCreateChitchatDto chitchatDto, String authorName, HttpServletRequest request) {
 
+    User author = userRepo.findByUsername(authorName)
+        .orElseThrow(() -> new UserNotFoundException(authorName));
     Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
     Category category = categoryRepo.findById(chitchatDto.getCategoryId()).orElseThrow();
     Chitchat chitchat = ChitchatDtoService.getFromDtoForCreate(
@@ -81,9 +94,13 @@ public class ChitchatService {
 
     chitchatRepo.save(chitchat);
 
-    sendEmail(chitchat, MESSAGE_CONFIRM_CREATE);
+    String url = request.getRequestURL().toString().replace("api/v1/chitchats", "")
+        + "/chitchat?id=" + chitchat.getId();
 
-    return ChitchatDtoService.getFromEntity(chitchat);
+    sendEmail(chitchat, String.format(
+        bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url), url);
+
+    return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
 
   /**
@@ -95,18 +112,14 @@ public class ChitchatService {
    */
   @Transactional
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId) {
-    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
-    Optional<User> userOptional = userRepo.findById(userId);
+    Chitchat chitchat = chitchatRepo.findById(chitchatId)
+        .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
 
-    if (chitchatOptional.isEmpty() || userOptional.isEmpty()) {
-      throw new NoSuchElementException(String.format(
-          "Chitchat with id %s or user with id %s not found", chitchatId, userId));
-    }
-    Chitchat chitchat = chitchatOptional.get();
-    User user = userOptional.get();
+    User user = userRepo.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException(userId));
 
     if (chitchat.getUsersInChitchat().contains(user)) {
-      throw new UserAlreadyExistException("user is already in this chitchat");
+      throw new UserAlreadyExistException(userId);
     }
     Set<User> usersInChitchat = chitchat.getUsersInChitchat();
     usersInChitchat.add(user);
@@ -120,60 +133,87 @@ public class ChitchatService {
    * Return all chitchats by parameters.
    *
    * @param languageId  Incoming languageId.
-   * @param level       Incoming level of language.
+   * @param levelStr    Incoming level of language.
    * @param dateFromStr Date of start;
    * @param dateToStr   Date of end;
    * @param categoryId  Category id.
-   * @return Chitchats by parameters.
+   * @param pageable    Information for pagination.
+   * @return Page by parameters.
    */
-  public ResponseEntity<List<ChitchatForResponseDto>> getAllChitchats(String languageId,
-      String level, String dateFromStr, String dateToStr, Integer categoryId) {
+  public ResponseEntity<Page<ChitchatForResponseDto>> getPageChitchats(
+      String languageId, String levelStr, String dateFromStr, String dateToStr,
+      Integer categoryId, Pageable pageable) {
 
-    List<Chitchat> chitchats;
+    Specification<Chitchat> specification = null;
 
-    if (languageId != null && !languageId.isEmpty()) {
-      Language language = languageRepo.findById(languageId).orElseThrow();
-      chitchats = chitchatRepo.findAllByLanguage(language);
-
-      if (level != null && !level.isEmpty()) {
-        chitchats = chitchats.stream().filter(chitchat -> chitchat.getLevel().name()
-            .equals(level)).toList();
-      }
-    } else {
-      chitchats = chitchatRepo.findAll();
-    }
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
-      chitchats = chitchats.stream().filter(chat -> chat.getCategory().equals(category)).toList();
+      specification = where(categorySpecification(category));
+    }
+    if (languageId != null && !languageId.isEmpty()) {
+      Language language = languageRepo.findById(languageId).orElseThrow();
+      specification = where(languageSpecification(language)).and(specification);
+    }
+    if (levelStr != null && !levelStr.isEmpty()) {
+      Levels level = Levels.valueOf(levelStr);
+      specification = where(levelSpecification(level)).and(specification);
     }
     if (dateFromStr != null && !dateFromStr.isEmpty()) {
-      chitchats = chitchats.stream().filter(
-          chat -> chat.getDate().isAfter(LocalDate.parse(dateFromStr).atStartOfDay())).toList();
+      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
+      specification = where(dateFromSpecification(dateFrom)).and(specification);
     }
     if (dateToStr != null && !dateToStr.isEmpty()) {
-      chitchats = chitchats.stream()
-          .filter(chat -> chat.getDate().isBefore(LocalDate.parse(dateToStr).atTime(LocalTime.MAX)))
-          .toList();
+      LocalDateTime dateTo = LocalDate.parse(dateToStr).atTime(LocalTime.MAX);
+      specification = where(dateToSpecification(dateTo)).and(specification);
     }
-    return ResponseEntity.ok(chitchats.stream()
-        .sorted(Comparator.comparing(Chitchat::getDate))
-        .map(ChitchatDtoService::getFromEntity).toList());
+    Page<Chitchat> page = pagingRepo.findAll(specification, pageable);
+
+    return ResponseEntity.ok(page
+        .map(ChitchatDtoService::getFromEntity));
   }
 
   /**
    * Sends a confirmation email.
    *
    * @param chitchat Entity with data.
-   * @param message  Message for sending
+   * @param message  Message for sending.
+   * @param url      of new chitchat.
    */
-  private void sendEmail(Chitchat chitchat, String message) {
+  private void sendEmail(Chitchat chitchat, String message, String url) {
     emailService.sendEmail(
         chitchat.getAuthor().getEmail(),
         String.format("New chitchat: %s", chitchat.getChatName()),
         message + CalendarService.generateCalendarLink(
             chitchat.getChatName(),
             chitchat.getDescription(),
-            chitchat.getDate())
+            chitchat.getDate(),
+            url)
     );
   }
+
+  private Specification<Chitchat> languageSpecification(Language language) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("language"), language);
+  }
+
+  private Specification<Chitchat> levelSpecification(Levels level) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("level"), level);
+  }
+
+  private Specification<Chitchat> categorySpecification(Category category) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.equal(root.get("category"), category);
+  }
+
+  private Specification<Chitchat> dateFromSpecification(LocalDateTime date) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.greaterThanOrEqualTo(root.get("date"), date);
+  }
+
+  private Specification<Chitchat> dateToSpecification(LocalDateTime date) {
+    return (root, query, criteriaBuilder)
+        -> criteriaBuilder.lessThanOrEqualTo(root.get("date"), date);
+  }
+
 }

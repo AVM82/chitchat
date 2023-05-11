@@ -13,6 +13,7 @@ input[type=text], input[type=password] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
+
 /* Set a style for all buttons */
 button {
   background-color: #04AA6D;
@@ -22,6 +23,9 @@ button {
   border: none;
   cursor: pointer;
   width: 100%;
+}
+button.disabled{
+  background-color: #393a34;
 }
 
 /* Add a hover effect for buttons */

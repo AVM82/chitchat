@@ -32,5 +32,4 @@ public class CurrentUserService {
     throw new UsernameNotFoundException(resourceBundleService.getMessForLocale(
         "e.user_not_found", Locale.getDefault()));
   }
-
 }

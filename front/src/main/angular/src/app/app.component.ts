@@ -1,11 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LoginComponent} from "./auth/login/login.component";
-import {MatDialog} from "@angular/material/dialog";
-import {RegisterComponent} from "./auth/register/register.component";
-import {LanguageService} from "./service/language.service";
-import {Language} from "./model/Language";
-import {Level} from "./model/Level";
-import {Category} from "./model/Category";
+import {Component} from '@angular/core';
+import {Chitchat} from "./model/Chitchat";
+import {Subscription} from "rxjs";
+import {ChitchatService} from "./service/chitchat.service";
+import {TokenStorageService} from "./service/token-storage.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -13,41 +11,25 @@ import {Category} from "./model/Category";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  languages: Language[];
-  levels: Level[];
-  selectedCategory: Category | null;
+export class AppComponent {
+  chitchatId: any = null;
+  oneChitChat: Chitchat;
+  private querySubscription: Subscription;
+  click: any = null ;
+  profile: any = null ;
 
-  constructor(private dialog: MatDialog,
-              private languageService: LanguageService
+  constructor(
+      private chitchatService: ChitchatService,
+      private tokenStorageService: TokenStorageService,
+      private route: ActivatedRoute
   ) {
+    this.querySubscription = route.queryParams.subscribe(
+        (queryParam: any) => {
+          this.chitchatId = queryParam['id'];
+          this.click = queryParam['click'];
+          this.profile = queryParam['profile'];
+        }
+    );
   }
 
-  ngOnInit() {
-
-  }
-
-  login() {
-    let dialogRef = this.dialog.open(LoginComponent, {
-      data: ['Login in system'],
-      hasBackdrop: true,
-      width: "40%",
-      disableClose: false,
-      autoFocus: true,
-    });
-  }
-
-  signup() {
-    let dialogRef = this.dialog.open(RegisterComponent, {
-      data: ['Register in system'],
-      hasBackdrop: true,
-      width: "40%",
-      disableClose: false,
-      autoFocus: true,
-    });
-  }
-
-  selectCategory(category: Category | null) {
-    this.selectedCategory = category;
-  }
 }
