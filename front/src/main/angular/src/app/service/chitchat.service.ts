@@ -35,8 +35,8 @@ export class ChitchatService {
     return this.httpClient.put<Chitchat>(urla, null);
   }
 
-  getAll(): Observable<Chitchat[]> {
-    return this.httpClient.get<Chitchat[]>(this.url + "/all");
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(this.url + "/all");
   }
 
   update(obj: Chitchat): Observable<Chitchat> {
