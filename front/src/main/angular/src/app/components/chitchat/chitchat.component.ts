@@ -29,7 +29,7 @@ export class ChitchatComponent {
 
   ngOnInit() {
     this.chitchatService.getAll().subscribe(result=>{
-      this.chitchats = result;
+      this.chitchats = result.content;
     });
   }
 
@@ -57,6 +57,6 @@ export class ChitchatComponent {
   }
 
   filter(chitchats: Chitchat[]) {
-    this.chitchats = chitchats;
+    // this.chitchats = chitchats;
   }
 }

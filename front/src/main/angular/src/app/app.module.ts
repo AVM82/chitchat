@@ -31,6 +31,7 @@ import {MainComponent} from './components/main/main.component';
 import {TranslocoRootModule} from './transloco-root.module';
 import {langInterceptorProviders} from "./service/lang-interceptor.service";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ProfileComponent} from './components/profile/profile.component';
 import { ProfileUserDataComponent } from './components/profile-user-data/profile-user-data.component';
 import { ProfileUserChitchatsComponent } from './components/profile-user-chitchats/profile-user-chitchats.component';
@@ -75,6 +76,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatSortModule,
     FormsModule,
     MatSnackBarModule,
     MatDialogModule,
@@ -86,6 +88,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     TranslocoRootModule,
+    MatCheckboxModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
