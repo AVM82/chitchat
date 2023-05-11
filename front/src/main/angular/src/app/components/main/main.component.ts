@@ -10,6 +10,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import {TokenStorageService} from "../../service/token-storage.service";
 import {Observable} from "rxjs";
 import {ProfileComponent} from "../profile/profile.component";
+import {ProfileService} from "../../service/profile.service";
+import {Avatar} from "../../model/Avatar";
 
 @Component({
   selector: 'app-main',
@@ -19,6 +21,7 @@ import {ProfileComponent} from "../profile/profile.component";
 export class MainComponent implements OnInit {
   languages: Language[];
   levels: Level[];
+  avatarUrl: string;
   selectedCategory: Category | null;
   selectedLanguage: string = 'en';
   isLoggedIn: boolean =  false;
@@ -28,6 +31,7 @@ export class MainComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private languageService: LanguageService,
               private translocoService: TranslocoService,
+              private profileService: ProfileService,
               private tokenStorageService: TokenStorageService
   ) {
   }
@@ -37,6 +41,16 @@ export class MainComponent implements OnInit {
     this.languageService.getAll().subscribe(result => {
       this.languages = result;
     });
+   this.refrashAvatar();
+
+  }
+
+  private refrashAvatar() {
+    this.profileService.getAvatarUrl().subscribe(
+        data => {
+          this.avatarUrl = data.url
+          console.log(this.avatarUrl)
+        });
   }
 
   login() {
@@ -50,6 +64,7 @@ export class MainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.isLoggedIn = result;
       this.currentUser = this.tokenStorageService.getUser();
+      this.refrashAvatar();
     });
   }
 
