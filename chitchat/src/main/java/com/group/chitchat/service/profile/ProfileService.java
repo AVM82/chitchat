@@ -6,6 +6,7 @@ import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.dto.AvatarDto;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.UserForEditDto;
 import com.group.chitchat.model.dto.UserForResponseDto;
@@ -166,7 +167,7 @@ public class ProfileService {
    * @return url of avatar.
    */
   @Transactional
-  public ResponseEntity<String> uploadAvatar(String userName, MultipartFile file) {
+  public ResponseEntity<AvatarDto> uploadAvatar(String userName, MultipartFile file) {
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
 
@@ -179,7 +180,7 @@ public class ProfileService {
       fileStorage.deleteFile(oldAvatar);
     }
 
-    return ResponseEntity.ok(avatarUrl);
+    return ResponseEntity.ok(new AvatarDto(avatarUrl));
   }
 
   /**
@@ -188,9 +189,9 @@ public class ProfileService {
    * @param userName of current user
    * @return url of user avatar.
    */
-  public ResponseEntity<String> getAvatarUrl(String userName) {
+  public ResponseEntity<AvatarDto> getAvatarUrl(String userName) {
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
-    return ResponseEntity.ok(user.getUserData().getAvatar());
+    return ResponseEntity.ok(new AvatarDto(user.getUserData().getAvatar()));
   }
 }

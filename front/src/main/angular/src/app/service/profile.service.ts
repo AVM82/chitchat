@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {UserForEditDto} from "../model/UserForEditDto";
 import {UserForResponseDto} from "../model/UserForResponseDto";
 import {Chitchat} from "../model/Chitchat";
+import {Avatar} from "../model/Avatar";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class ProfileService {
 
   getProfileDetails(): Observable<UserForResponseDto> {
     return this.httpClient.get<UserForResponseDto>(this.url + '/details');
+  }
+
+  getAvatarUrl(): Observable<Avatar> {
+    return this.httpClient.get<Avatar>(this.url + '/avatar');
   }
 
   getUserCreatedChats(): Observable<Chitchat[]> {
