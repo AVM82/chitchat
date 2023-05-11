@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS chitchat_users
 CREATE TABLE IF NOT EXISTS refresh_tokens
 (
     id             int8         NOT NULL GENERATED ALWAYS AS IDENTITY,
-    user_id        int4,
+    user_id        int4         UNIQUE,
     refresh_tokens varchar(255) NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_participating_users FOREIGN KEY (user_id) REFERENCES users (id)

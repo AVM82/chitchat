@@ -5,6 +5,7 @@ import com.group.chitchat.data.auth.AuthenticationResponse;
 import com.group.chitchat.data.auth.RefreshRequest;
 import com.group.chitchat.data.auth.RegisterRequest;
 import com.group.chitchat.exception.RoleNotExistException;
+import com.group.chitchat.exception.TokenNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.RefreshToken;
 import com.group.chitchat.model.Role;
@@ -37,7 +38,7 @@ public class AuthService {
   private final JwtService service;
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
-  private final RefreshTokenRepo refreshTokenRepo;
+  private final RefreshTokenRepo tokenRepo;
   private static final String USER_ROLE = "ROLE_USER";
   private final BundlesService bundlesService;
 
@@ -64,11 +65,9 @@ public class AuthService {
     roleRepository.save(defaultRole);
     userRepository.save(user);
 
-
-
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
-    return buildTokens(user);
+    return buildNewTokens(user);
   }
 
   /**
@@ -98,17 +97,19 @@ public class AuthService {
     );
 
     log.info("User have log in successfully.");
-    return buildTokens(user);
+
+    return updateExistsTokens(user,
+        tokenRepo.findRefreshTokenByOwnerOfToken(user)
+            .orElseThrow(TokenNotFoundException::new)
+    );
   }
 
   public AuthenticationResponse refreshAllTokens(RefreshRequest request) {
-    RefreshToken oldRefreshToken = refreshTokenRepo
+    RefreshToken oldRefreshToken = tokenRepo
         .findRefreshTokenByTokenForRefresh(request.getRefreshToken())
-        .orElseThrow(() -> new TokenNotFoundException());
-    User userFromToken = oldRefreshToken.getOwnerOfToken();
+        .orElseThrow(TokenNotFoundException::new);
 
-    refreshTokenRepo.delete(oldRefreshToken);
-    return buildTokens(userFromToken);
+    return updateExistsTokens(oldRefreshToken.getOwnerOfToken(), oldRefreshToken);
   }
 
   private User buildNewUser(String username, String email, String password) {
@@ -124,15 +125,31 @@ public class AuthService {
         .build();
   }
 
-  private AuthenticationResponse buildTokens(User user) {
+  private AuthenticationResponse buildNewTokens(User user) {
     RefreshToken refreshTokenForDb = new RefreshToken();
     refreshTokenForDb.setOwnerOfToken(user);
 
     var jwtToken = service.generateToken(user);
 
-    var refreshToken = service.generateRefreshToken(user,refreshTokenForDb.getId());
+    var refreshToken = service.generateRefreshToken(user, refreshTokenForDb.getId());
+
     refreshTokenForDb.setTokenForRefresh(refreshToken);
-    refreshTokenRepo.save(refreshTokenForDb);
+
+    tokenRepo.save(refreshTokenForDb);
+
+    return AuthenticationResponse.builder()
+        .token(jwtToken)
+        .refreshToken(refreshToken)
+        .build();
+  }
+
+  private AuthenticationResponse updateExistsTokens(User user, RefreshToken oldToken) {
+    var jwtToken = service.generateToken(user);
+
+    var refreshToken = service.generateRefreshToken(user, oldToken.getId());
+    oldToken.setTokenForRefresh(refreshToken);
+
+    tokenRepo.save(oldToken);
 
     return AuthenticationResponse.builder()
         .token(jwtToken)
