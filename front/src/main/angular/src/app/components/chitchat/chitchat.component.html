@@ -19,7 +19,9 @@
 
       <!-- Product image-->
       <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-        <img class="card-img-top" src="assets/img/faces/marc.jpg" alt="..."/>
+        <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}" alt="..."/>
+<!--             [src="assets/img/user.png"]="chitchat.avatarUrl==null"-->
+
       </div>
       <div class="badge bg-warning text-dark position-absolute"
            style="font-size:24px; top: 0.2rem; left: 0.2rem">{{chitchat.level}}

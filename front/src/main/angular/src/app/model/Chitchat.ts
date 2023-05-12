@@ -3,6 +3,7 @@ export class Chitchat {
   chatName: string;
   authorName: string;
   categoryName: string;
+  avatarUrl: string ;
   description: string;
   languageName: string;
   level:string;
@@ -11,9 +12,10 @@ export class Chitchat {
   usersInChitchat:string[];
 
   constructor(id: number, chatName: string, authorName: string,
-              categoryName: string, description: string, languageName: string,
+              categoryName: string, description: string,avatarUrl: string, languageName: string,
               level: string, capacity: number, date: Date, usersInChitchat: string[]) {
     this.id = id;
+    this.avatarUrl = avatarUrl
     this.chatName = chatName;
     this.authorName = authorName;
     this.categoryName = categoryName;

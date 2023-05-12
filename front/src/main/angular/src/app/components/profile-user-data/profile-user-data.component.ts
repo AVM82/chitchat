@@ -7,6 +7,7 @@ import {UserForResponseDto} from "../../model/UserForResponseDto";
 import {ProfileService} from "../../service/profile.service";
 import {FileUploadService} from "../../service/file-upload.service";
 import {NotificationService} from "../../service/notification.service";
+import {AuthService} from "../../service/auth.service";
 
 @Component({
   selector: 'app-profile-user-data',
@@ -59,6 +60,7 @@ export class ProfileUserDataComponent implements OnInit {
   constructor(private languageService: LanguageService,
               private profileService: ProfileService,
               private fileUploadService: FileUploadService,
+              private authService: AuthService,
               private notificationService: NotificationService) {
   }
 
@@ -100,5 +102,14 @@ export class ProfileUserDataComponent implements OnInit {
 
   editProfileChange() {
     this.editProfile = !this.editProfile;
+  }
+
+  passwordRecovery() {
+    this.authService.passwordRecoverySendEmail().subscribe(data => {
+      console.log(data);
+      this.notificationService.showSnackBar('Link for password recovery sent by e-mail !');
+    }, error => {
+      this.notificationService.showSnackBar('Some errors');
+    });
   }
 }
