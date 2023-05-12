@@ -135,7 +135,8 @@ public class ProfileService {
         .orElseThrow(() -> new UserNotFoundException(username));
 
     if (userDto.getRole() != null) {
-      Role role = roleRepo.findRoleByName(RoleEnum.valueOf(userDto.getRole())).orElseThrow();
+      Role role = roleRepo.findRoleByName(RoleEnum.valueOf(userDto.getRole().toUpperCase()))
+          .orElseThrow();
       user.getRoles().add(role);
     }
     if (userDto.getAvatar() != null && !userDto.getAvatar().isEmpty()) {
@@ -153,7 +154,7 @@ public class ProfileService {
     if (userDto.getDob() != null) {
       user.getUserData().setDob(userDto.getDob());
     }
-    if (userDto.getNativeLanguage() != null) {
+    if (userDto.getNativeLanguage() != null && !userDto.getNativeLanguage().isEmpty()) {
       Language language = languageRepo.findById(userDto.getNativeLanguage()).orElseThrow();
       user.getUserData().setNativeLanguage(language);
     }
