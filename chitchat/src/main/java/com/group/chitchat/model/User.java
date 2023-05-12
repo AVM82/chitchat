@@ -16,7 +16,6 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -54,11 +53,11 @@ public class User implements UserDetails {
   @Column(name = "password")
   private String password;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private Set<Role> roles = new LinkedHashSet<>();
+  private Set<Role> roles;
 
   @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
   private transient Set<Chitchat> chitchats;
@@ -79,16 +78,17 @@ public class User implements UserDetails {
   private boolean credentialsNonExpired;
 
   @PostPersist
-  public void createData() {
+  public void createDefaultValues() {
     userData = new UserData();
     userData.setUser(this);
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
+
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for (Role role : roles) {
-      authorities.add(new SimpleGrantedAuthority(role.getName()));
+      authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
     }
     return authorities;
   }

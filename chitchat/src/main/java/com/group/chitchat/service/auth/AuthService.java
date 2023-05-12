@@ -3,10 +3,10 @@ package com.group.chitchat.service.auth;
 import com.group.chitchat.data.auth.AuthenticationRequest;
 import com.group.chitchat.data.auth.AuthenticationResponse;
 import com.group.chitchat.data.auth.RegisterRequest;
-import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.enums.RoleEnum;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
@@ -38,7 +38,6 @@ public class AuthService {
   private final JwtEmailService jwtEmailService;
   private final AuthenticationManager authenticationManager;
   private final RoleRepo roleRepository;
-  private static final String USER_ROLE = "ROLE_USER";
   private final BundlesService bundlesService;
 
   /**
@@ -57,14 +56,13 @@ public class AuthService {
     }
 
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    //hot fix need to replace with not costul
+
     Role defaultRole = getDefaultRoleOrThrowException();
     defaultRole.setUsers(new HashSet<>());
     defaultRole.getUsers().add(user);
     user.getRoles().add(defaultRole);
 
     log.info(user.getRoles());
-    roleRepository.save(defaultRole);
     userRepository.save(user);
 
     var jwtEmailToken = jwtEmailService.generateEmailToken(user);
@@ -116,8 +114,8 @@ public class AuthService {
         .username(username)
         .email(email)
         .password(passwordEncoder.encode(password))
-        .roles(new HashSet<>())
         .enabled(false)
+        .roles(new HashSet<>())
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -132,7 +130,6 @@ public class AuthService {
   }
 
   private Role getDefaultRoleOrThrowException() {
-    return roleRepository.findRoleByName(USER_ROLE)
-        .orElseThrow(() -> new RoleNotExistException(USER_ROLE));
+    return roleRepository.findRoleByName(RoleEnum.USER).orElseThrow();
   }
 }

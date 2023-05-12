@@ -10,6 +10,7 @@ import com.group.chitchat.model.dto.AvatarDto;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.UserForEditDto;
 import com.group.chitchat.model.dto.UserForResponseDto;
+import com.group.chitchat.model.enums.RoleEnum;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.RoleRepo;
@@ -134,7 +135,7 @@ public class ProfileService {
         .orElseThrow(() -> new UserNotFoundException(username));
 
     if (userDto.getRole() != null) {
-      Role role = roleRepo.findRoleByName(userDto.getRole()).orElseThrow();
+      Role role = roleRepo.findRoleByName(RoleEnum.valueOf(userDto.getRole())).orElseThrow();
       user.getRoles().add(role);
     }
     if (userDto.getAvatar() != null && !userDto.getAvatar().isEmpty()) {
