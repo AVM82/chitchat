@@ -107,7 +107,9 @@ public class AuthService {
     );
 
     log.info("User have log in successfully.");
-
+    if (tokenRepo.findRefreshTokenByOwnerOfToken(user).isEmpty()) {
+      buildNewTokens(user);
+    }
     return updateExistsTokens(user,
         tokenRepo.findRefreshTokenByOwnerOfToken(user)
             .orElseThrow(TokenNotFoundException::new)
