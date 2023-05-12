@@ -26,4 +26,5 @@ public class ChitchatForResponseDto {
   private int capacity;
   private LocalDateTime date;
   private List<String> usersInChitchat;
+  private String avatarUrl;
 }
