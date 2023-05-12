@@ -31,6 +31,7 @@ import {MainComponent} from './components/main/main.component';
 import {TranslocoRootModule} from './transloco-root.module';
 import {langInterceptorProviders} from "./service/lang-interceptor.service";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
+import { PasswordRecoveryComponent } from "./components/password-recovery/password-recovery.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ProfileComponent} from './components/profile/profile.component';
 import { ProfileUserDataComponent } from './components/profile-user-data/profile-user-data.component';
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
     ProfileUserChitchatsComponent,
     ProfileUserStatisticsComponent,
     ProfileUserChitchatsTableComponent,
+    PasswordRecoveryComponent,
   ],
   imports: [
     BrowserModule,

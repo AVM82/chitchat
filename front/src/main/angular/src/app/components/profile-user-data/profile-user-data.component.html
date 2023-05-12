@@ -11,6 +11,10 @@
       <input style="margin-left: 10px; height: 2%" [value]="editProfile ? 'Cancel': 'Edit'"
              id="editProfile" type="button"
              (click)="editProfileChange()">
+      <input style="margin-left: 10px; height: 2%" [value]="'Password recovery by e-mail'"
+             id="passwordRecovery" type="button"
+             [disabled]="!editProfile"
+             (click)="passwordRecovery()">
       <input type="file" class="file-input" [disabled]="!editProfile"
              [accept]="requiredFileType"
              (change)="onFileSelected($event)" #fileUpload>

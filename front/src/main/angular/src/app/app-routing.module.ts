@@ -6,12 +6,16 @@ import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.component";
+import {
+  PasswordRecoveryComponent
+} from "./components/password-recovery/password-recovery.component";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'chitchat', component: ChitchatRefComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'click', component: EmailConfirmComponent},
+  {path: 'password_recovery', component: PasswordRecoveryComponent},
   {path: '**', component: NotFoundComponent}
 ];
 

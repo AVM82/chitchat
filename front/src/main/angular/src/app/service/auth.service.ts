@@ -26,6 +26,19 @@ export class AuthService {
    });
   }
 
+  public passwordRecoverySendEmail(): Observable<any> {
+    return this.http.post(AUTH_API + '/password_recovery_email', {
+    });
+  }
+
+  public passwordRecoveryEmailConfirm(clickToken: string, newPassword: string): Observable<any> {
+    return this.http.post(AUTH_API + '/password_recovery_confirm', {
+      username:'',
+      password:clickToken,
+      newPassword:newPassword
+    });
+  }
+
   public register(user: { email: any; username: any; password: any; }): Observable<any> {
     return this.http.post(AUTH_API + '/register', {
       email: user.email,
