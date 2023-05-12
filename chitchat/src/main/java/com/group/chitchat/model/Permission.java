@@ -16,6 +16,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+/**
+ * Stores users account levels that can share functionality through the use of the "HasAuthority"
+ * authorization check. The default is FREE. Created for the development of functionality in the
+ * future. To activate, you need to implement the logic of changing account levels.
+ */
 @Entity
 @Getter
 @Setter

@@ -14,9 +14,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,9 +89,12 @@ public class User implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
 
-    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    Set<SimpleGrantedAuthority> authorities = new HashSet<>();
     for (Role role : roles) {
       authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+    }
+    for (Permission permission : permissions) {
+      authorities.add(new SimpleGrantedAuthority(permission.getName().name()));
     }
     return authorities;
   }
