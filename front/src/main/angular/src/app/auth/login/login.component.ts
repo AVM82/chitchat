@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
@@ -26,6 +26,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.loginForm = this.createLoginForm();
   }
+
   createLoginForm(): FormGroup {
     return this.fb.group({
       username: ['', Validators.compose([Validators.required, Validators.email])],
@@ -38,8 +39,10 @@ export class LoginComponent {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password
     }).subscribe(data => {
+      console.log(data)
       this.tokenStorage.saveToken(data.token);
-      this.tokenStorage.saveUser(data);
+      this.tokenStorage.saveRefreshToken(data.refreshToken);
+      this.tokenStorage.saveUser();
       this.notificationService.showSnackBar('Successfully logged in');
       this.dialogRef.close(true);
     }, error => {
