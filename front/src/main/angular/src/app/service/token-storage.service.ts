@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const REFRESH_TOKEN_KEY = 'auth-refresh-token';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,17 +17,23 @@ export class TokenStorageService {
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
+  public saveRefreshToken(refreshToken: string): void {
+    window.sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+    window.sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  }
+
   public getToken(): string | null {
     return sessionStorage.getItem(TOKEN_KEY);
   }
+
   public tokenExpired(token: any) {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 
-  public saveUser(user: any) {
+  public saveUser() {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.sessionStorage.setItem(USER_KEY, this.getUser());
   }
 
   public getUser(): any {
@@ -33,7 +42,6 @@ export class TokenStorageService {
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
       return decodedJWT.user_name;
     }
-    // return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}' );
   }
 
   public getUserId(): any {
