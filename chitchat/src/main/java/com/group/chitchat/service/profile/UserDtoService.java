@@ -1,4 +1,4 @@
-package com.group.chitchat.service;
+package com.group.chitchat.service.profile;
 
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.UserForResponseDto;
