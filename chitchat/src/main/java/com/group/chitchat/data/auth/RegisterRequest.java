@@ -22,6 +22,6 @@ public class RegisterRequest {
       message = "Sorry, but you've just entered wrong email, pls try again.")
   private String email;
   @NotBlank
-  @Size(min = 8, max = 8)
+  @Size(min = 5)
   private String password;
 }

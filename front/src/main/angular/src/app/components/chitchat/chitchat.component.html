@@ -14,13 +14,14 @@
 </div>
 <div class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
   <div class="col mb-5" *ngFor="let chitchat of chitchats">
-    <div class="card h-100 shadow text-center  p-1 mb-1 bg-white rounded "
+    <div class="card h-100 shadow text-center  p-3 mb-1 bg-white rounded "
          style="width: 15rem;">
 
       <!-- Product image-->
       <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-        <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}" alt="..."/>
-<!--             [src="assets/img/user.png"]="chitchat.avatarUrl==null"-->
+        <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}"
+             alt="..."/>
+
 
       </div>
       <div class="badge bg-warning text-dark position-absolute"
@@ -68,8 +69,10 @@
   <div>
 
   </div>
-  <div>
+  <div style ="margin-left:45px; width: 93%">
   <mat-paginator [pageSizeOptions]="[10]" [pageSize]="10" [length]="totalElements"
+                 [hidePageSize]="true"
+                 [showFirstLastButtons] = "true"
                  (page)="nextPage($event)">
   </mat-paginator>
   </div>
