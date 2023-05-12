@@ -2,6 +2,7 @@ package com.group.chitchat.service.auth;
 
 import com.group.chitchat.exception.TokenNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
+import com.group.chitchat.model.Permission;
 import com.group.chitchat.model.RefreshToken;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
@@ -9,7 +10,9 @@ import com.group.chitchat.model.dto.authdto.AuthenticationRequest;
 import com.group.chitchat.model.dto.authdto.AuthenticationResponse;
 import com.group.chitchat.model.dto.authdto.RefreshRequest;
 import com.group.chitchat.model.dto.authdto.RegisterRequest;
+import com.group.chitchat.model.enums.PermissionEnum;
 import com.group.chitchat.model.enums.RoleEnum;
+import com.group.chitchat.repository.PermissionRepo;
 import com.group.chitchat.repository.RefreshTokenRepo;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
@@ -45,6 +48,7 @@ public class AuthService {
   private final RoleRepo roleRepository;
   private final RefreshTokenRepo tokenRepo;
   private final BundlesService bundlesService;
+  private final PermissionRepo permissionRepo;
 
   /**
    * Register method which take data from request and create new user. After all this steps saving
@@ -63,6 +67,7 @@ public class AuthService {
     }
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
     setDefaultRole(user);
+    setDefaultPermission(user);
     userRepository.save(user);
     log.info(user.getRoles());
 
@@ -74,6 +79,14 @@ public class AuthService {
     sendEmail(user, url + jwtEmailToken);
 
     return buildNewTokens(user);
+  }
+
+  private void setDefaultPermission(User user) {
+    Permission defaultPermission = permissionRepo.findPermissionByName(PermissionEnum.FREE)
+        .orElseThrow(() -> new NoSuchElementException("Permission does not exist"));
+    defaultPermission.setUsers(new HashSet<>());
+    defaultPermission.getUsers().add(user);
+    user.getPermissions().add(defaultPermission);
   }
 
   private void setDefaultRole(User user) {
@@ -141,6 +154,7 @@ public class AuthService {
         .password(passwordEncoder.encode(password))
         .enabled(false)
         .roles(new HashSet<>())
+        .permissions(new HashSet<>())
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)

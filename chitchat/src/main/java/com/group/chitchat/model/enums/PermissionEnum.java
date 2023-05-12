@@ -1,6 +1,6 @@
 package com.group.chitchat.model.enums;
 
-public enum AccountTypeEnum {
+public enum PermissionEnum {
   FREE,
   SUBSCRIPTION,
   PAID

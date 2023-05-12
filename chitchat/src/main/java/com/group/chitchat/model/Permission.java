@@ -1,6 +1,6 @@
 package com.group.chitchat.model;
 
-import com.group.chitchat.model.enums.RoleEnum;
+import com.group.chitchat.model.enums.PermissionEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,10 +19,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "roles")
+@Table(name = "permissions")
 @NoArgsConstructor
-@AllArgsConstructor
-public class Role {
+public class Permission {
 
   @Id
   @Column(name = "id")
@@ -32,16 +30,18 @@ public class Role {
 
   @Column(name = "name")
   @Enumerated(EnumType.STRING)
-  private RoleEnum name;
+  private PermissionEnum name;
 
   @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
   private Set<User> users;
 
   @Override
   public String toString() {
-    return "Role{"
+    return "Permission{"
         + "id=" + id
         + ", name=" + name
+        + ", users=" + users
         + '}';
   }
 }
+

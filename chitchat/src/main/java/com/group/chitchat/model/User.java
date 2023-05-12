@@ -57,6 +57,12 @@ public class User implements UserDetails {
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
   private Set<Role> roles;
 
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "users_permissions",
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+  private Set<Permission> permissions;
+
   @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
   private transient Set<Chitchat> chitchats;
 
