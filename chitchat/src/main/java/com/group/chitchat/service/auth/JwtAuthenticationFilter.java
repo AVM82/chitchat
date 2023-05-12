@@ -1,5 +1,6 @@
 package com.group.chitchat.service.auth;
 
+import com.group.chitchat.repository.RefreshTokenRepo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
+  private final RefreshTokenRepo refreshTokenRepo;
 
   @Override
   protected void doFilterInternal(
@@ -52,6 +54,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             new WebAuthenticationDetailsSource().buildDetails(request)
         );
         SecurityContextHolder.getContext().setAuthentication(authToken);
+      } else if (jwtService.isTokenValid(jwtToken, userDetails,
+          refreshTokenRepo.findRefreshTokenByTokenForRefresh(jwtToken).orElseThrow().getId())) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            null,
+            userDetails.getAuthorities()
+        );
+        authToken.setDetails(
+            new WebAuthenticationDetailsSource().buildDetails(request)
+        );
       }
     }
     filterChain.doFilter(request, response);
