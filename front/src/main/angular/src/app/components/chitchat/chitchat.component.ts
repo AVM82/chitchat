@@ -63,8 +63,8 @@ export class ChitchatComponent {
   }
 
   filter(data: any) {
-    this.chitchats = data['content'];
-    this.totalElements = data['totalElements'];
+    this.chitchats = data.content;
+    this.totalElements = data.totalElements;
 
     this.filteredLanguage = data.filteredLanguage;
     this.filteredLevel = data.filteredLevel;
