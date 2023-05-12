@@ -4,7 +4,6 @@ import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
 import com.group.chitchat.service.chitchat.ChitchatService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
-import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +84,7 @@ public class ChitchatController {
     localeResolverConfig.setLocale(requestHeader, response, null);
 
     return chitchatService.addChitchat(
-        forCreateChitchatDto, CurrentUserService.getCurrentUsername(), requestHeader);
+        forCreateChitchatDto, requestHeader.getUserPrincipal().getName(), requestHeader);
   }
 
   @PutMapping("/{chitchatId}")

@@ -1,17 +1,17 @@
 package com.group.chitchat.controller;
 
-import com.group.chitchat.data.auth.AuthenticationRequest;
-import com.group.chitchat.data.auth.AuthenticationResponse;
-import com.group.chitchat.data.auth.RefreshRequest;
-import com.group.chitchat.data.auth.RegisterRequest;
+import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.dto.authdto.AuthenticationRequest;
+import com.group.chitchat.model.dto.authdto.AuthenticationResponse;
+import com.group.chitchat.model.dto.authdto.RefreshRequest;
+import com.group.chitchat.model.dto.authdto.RegisterRequest;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.auth.AuthService;
 import com.group.chitchat.service.auth.JwtEmailService;
 import com.group.chitchat.service.auth.JwtService;
 import com.group.chitchat.service.internationalization.BundlesService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
-import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -99,10 +99,13 @@ public class AuthenticationAndRegistrationController {
   @PostMapping("/password_recovery_email")
   public void passwordRecoveryEmail(HttpServletRequest httpRequest,
       HttpServletRequest requestHeader, HttpServletResponse response) {
+
     localeResolverConfig.setLocale(requestHeader, response, null);
-    String currentUsername = CurrentUserService.getCurrentUsername();
+    String currentUsername = requestHeader.getUserPrincipal().getName();
+
     User user = userRepo.findByUsername(currentUsername)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        .orElseThrow(() -> new UserNotFoundException(currentUsername));
+
     authenticateService.passwordRecoveryEmail(user, httpRequest);
   }
 
@@ -118,6 +121,7 @@ public class AuthenticationAndRegistrationController {
   public ResponseEntity<AuthenticationResponse> passwordRecoveryConfirm(
       HttpServletRequest requestHeader, HttpServletResponse response,
       @RequestBody AuthenticationRequest request) {
+
     localeResolverConfig.setLocale(requestHeader, response, null);
     String jwtEmailToken = request.getPassword();
     String newPassword = request.getNewPassword();
@@ -125,12 +129,8 @@ public class AuthenticationAndRegistrationController {
     if (!jwtEmailService.isEmailTokenExpired(jwtEmailToken)) {
       String username = jwtEmailService.extractUsername(jwtEmailToken);
       User newUser = userRepo.findByUsername(username)
-          .orElseThrow(() -> new UsernameNotFoundException(
-              String.format(bundlesService
-                      .getMessForLocale("e.not_exist",
-                          Locale.getDefault()),
-                  username))
-          );
+          .orElseThrow(() -> new UserNotFoundException(username));
+
       authenticateService.passwordRecoveryConfirm(newUser, newPassword);
       jwtToken = jwtService.generateToken((UserDetails) newUser);
     }
@@ -158,9 +158,7 @@ public class AuthenticationAndRegistrationController {
 
   @PostMapping("/refresh")
   public ResponseEntity<AuthenticationResponse> refresh(HttpServletRequest requestHeader,
-      HttpServletResponse response,
-      @RequestBody RefreshRequest request
-  ) {
+      HttpServletResponse response, @RequestBody RefreshRequest request) {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(authenticateService.refreshAllTokens(request));
   }

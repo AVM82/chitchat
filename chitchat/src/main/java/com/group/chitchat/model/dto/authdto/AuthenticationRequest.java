@@ -1,4 +1,4 @@
-package com.group.chitchat.data.auth;
+package com.group.chitchat.model.dto.authdto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

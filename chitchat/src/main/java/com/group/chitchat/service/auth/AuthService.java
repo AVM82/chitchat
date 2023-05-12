@@ -1,20 +1,18 @@
 package com.group.chitchat.service.auth;
 
-import com.group.chitchat.data.auth.AuthenticationRequest;
-import com.group.chitchat.data.auth.AuthenticationResponse;
-import com.group.chitchat.data.auth.RefreshRequest;
-import com.group.chitchat.data.auth.RegisterRequest;
-import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.TokenNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.RefreshToken;
-import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.dto.authdto.AuthenticationRequest;
+import com.group.chitchat.model.dto.authdto.AuthenticationResponse;
+import com.group.chitchat.model.dto.authdto.RefreshRequest;
+import com.group.chitchat.model.dto.authdto.RegisterRequest;
 import com.group.chitchat.repository.RefreshTokenRepo;
-import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
+import com.group.chitchat.service.profile.RoleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashSet;
@@ -41,10 +39,9 @@ public class AuthService {
   private final JwtService service;
   private final JwtEmailService jwtEmailService;
   private final AuthenticationManager authenticationManager;
-  private final RoleRepo roleRepository;
   private final RefreshTokenRepo tokenRepo;
-  private static final String USER_ROLE = "ROLE_USER";
   private final BundlesService bundlesService;
+  private final RoleService roleService;
 
   /**
    * Register method which take data from request and create new user. After all this steps saving
@@ -58,17 +55,14 @@ public class AuthService {
 
     String username = request.getUsername();
     if (userRepository.existsByUsername(username)) {
+      log.info("User {} already exist", username);
       throw new UserAlreadyExistException(username);
     }
-
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    Role defaultRole = getDefaultRoleOrThrowException();
-    defaultRole.setUsers(new HashSet<>());
-    defaultRole.getUsers().add(user);
-    user.getRoles().add(defaultRole);
-
-    roleRepository.save(defaultRole);
+    roleService.setDefaultRole(user);
+    roleService.setDefaultPermission(user);
     userRepository.save(user);
+    log.info(user.getRoles());
 
     var jwtEmailToken = jwtEmailService.generateEmailToken(user);
     // Log info about user who had registered in db.
@@ -135,8 +129,9 @@ public class AuthService {
         .username(username)
         .email(email)
         .password(passwordEncoder.encode(password))
-        .roles(new HashSet<>())
         .enabled(false)
+        .roles(new HashSet<>())
+        .permissions(new HashSet<>())
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -182,14 +177,10 @@ public class AuthService {
         message);
   }
 
-  private Role getDefaultRoleOrThrowException() {
-    return roleRepository.findRoleByName(USER_ROLE)
-        .orElseThrow(() -> new RoleNotExistException(USER_ROLE));
-  }
-
   /**
    * Send password recovery link by e-mail.
-   * @param user User for password recovery
+   *
+   * @param user        User for password recovery
    * @param httpRequest Http request
    */
   public void passwordRecoveryEmail(User user, HttpServletRequest httpRequest) {
@@ -204,7 +195,8 @@ public class AuthService {
 
   /**
    * Set new password recovery by e-mail.
-   * @param user User
+   *
+   * @param user        User
    * @param newPassword New password
    */
   public void passwordRecoveryConfirm(User user, String newPassword) {

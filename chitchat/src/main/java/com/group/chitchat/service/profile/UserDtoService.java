@@ -1,6 +1,5 @@
-package com.group.chitchat.service;
+package com.group.chitchat.service.profile;
 
-import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.UserForResponseDto;
 
@@ -18,7 +17,7 @@ public class UserDtoService {
   public static UserForResponseDto profileDtoFromUser(User user) {
     return UserForResponseDto.builder()
         .userName(user.getUsername())
-        .roles(user.getRoles().stream().map(Role::getName).toList())
+        .roles(user.getRoles().stream().map(role -> role.getName().name()).toList())
         .email(user.getEmail())
         .avatar(user.getUserData().getAvatar())
         .build();
@@ -33,7 +32,7 @@ public class UserDtoService {
   public static UserForResponseDto profileDetailsDtoFromUser(User user) {
     return UserForResponseDto.builder()
         .userName(user.getUsername())
-        .roles(user.getRoles().stream().map(Role::getName).toList())
+        .roles(user.getRoles().stream().map(role -> role.getName().name()).toList())
         .email(user.getEmail())
         .avatar(user.getUserData().getAvatar())
         .firstname(user.getUserData().getFirstName())
