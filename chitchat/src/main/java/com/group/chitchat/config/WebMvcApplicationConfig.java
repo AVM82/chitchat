@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-public class LanguageApplicationConfig implements WebMvcConfigurer {
+public class WebMvcApplicationConfig implements WebMvcConfigurer {
 
   private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
       "classpath:/static/"
@@ -71,6 +71,7 @@ public class LanguageApplicationConfig implements WebMvcConfigurer {
     registry.addViewController("/chitchat").setViewName(viewName);
     registry.addViewController("/profile").setViewName(viewName);
     registry.addViewController("/click").setViewName(viewName);
+    registry.addViewController("/password_recovery").setViewName(viewName);
   }
 
   /**

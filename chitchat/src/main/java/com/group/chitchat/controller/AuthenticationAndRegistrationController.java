@@ -11,6 +11,7 @@ import com.group.chitchat.service.auth.JwtEmailService;
 import com.group.chitchat.service.auth.JwtService;
 import com.group.chitchat.service.internationalization.BundlesService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
+import com.group.chitchat.service.userdetails.CurrentUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -82,6 +83,55 @@ public class AuthenticationAndRegistrationController {
           );
       newUser.setEnabled(true);
       userRepo.save(newUser);
+      jwtToken = jwtService.generateToken((UserDetails) newUser);
+    }
+    return ResponseEntity.ok(AuthenticationResponse.builder()
+        .token(jwtToken)
+        .build());
+  }
+
+  /**
+   * The method performs user password recovery by e-mail in the application.
+   *
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   */
+  @PostMapping("/password_recovery_email")
+  public void passwordRecoveryEmail(HttpServletRequest httpRequest,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    String currentUsername = CurrentUserService.getCurrentUsername();
+    User user = userRepo.findByUsername(currentUsername)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    authenticateService.passwordRecoveryEmail(user, httpRequest);
+  }
+
+  /**
+   * The method performs user password recovery by e-mail in the application.
+   *
+   * @param request       data entered by the user for authentication.
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   * @return response about the status of user authentication.
+   */
+  @PostMapping("/password_recovery_confirm")
+  public ResponseEntity<AuthenticationResponse> passwordRecoveryConfirm(
+      HttpServletRequest requestHeader, HttpServletResponse response,
+      @RequestBody AuthenticationRequest request) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    String jwtEmailToken = request.getPassword();
+    String newPassword = request.getNewPassword();
+    String jwtToken = null;
+    if (!jwtEmailService.isEmailTokenExpired(jwtEmailToken)) {
+      String username = jwtEmailService.extractUsername(jwtEmailToken);
+      User newUser = userRepo.findByUsername(username)
+          .orElseThrow(() -> new UsernameNotFoundException(
+              String.format(bundlesService
+                      .getMessForLocale("e.not_exist",
+                          Locale.getDefault()),
+                  username))
+          );
+      authenticateService.passwordRecoveryConfirm(newUser, newPassword);
       jwtToken = jwtService.generateToken((UserDetails) newUser);
     }
     return ResponseEntity.ok(AuthenticationResponse.builder()

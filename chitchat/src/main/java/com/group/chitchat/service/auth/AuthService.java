@@ -74,7 +74,7 @@ public class AuthService {
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
     String url = httpRequest.getRequestURL().toString()
-        .replace("api/v1/auth/register", "/click?click=");
+        .replace("/api/v1/auth/register", "/click?click=");
     sendEmail(user, url + jwtEmailToken);
 
     return buildNewTokens(user);
@@ -185,5 +185,30 @@ public class AuthService {
   private Role getDefaultRoleOrThrowException() {
     return roleRepository.findRoleByName(USER_ROLE)
         .orElseThrow(() -> new RoleNotExistException(USER_ROLE));
+  }
+
+  /**
+   * Send password recovery link by e-mail.
+   * @param user User for password recovery
+   * @param httpRequest Http request
+   */
+  public void passwordRecoveryEmail(User user, HttpServletRequest httpRequest) {
+    var jwtEmailToken = jwtEmailService.generateEmailToken(user);
+    String url = httpRequest.getRequestURL().toString()
+        .replace("/api/v1/auth/password_recovery_email", "/password_recovery?click=");
+    emailService.sendEmail(
+        user.getEmail(),
+        String.format("Link for password recovery: %s", user.getUsername()),
+        url + jwtEmailToken);
+  }
+
+  /**
+   * Set new password recovery by e-mail.
+   * @param user User
+   * @param newPassword New password
+   */
+  public void passwordRecoveryConfirm(User user, String newPassword) {
+    user.setPassword(passwordEncoder.encode(newPassword));
+    userRepository.save(user);
   }
 }

@@ -19,4 +19,5 @@ public class AuthenticationRequest {
   @NotBlank
   @Size(min = 8, max = 8)
   private String password;
+  private String newPassword;
 }
