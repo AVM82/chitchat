@@ -54,19 +54,19 @@ public class User implements UserDetails {
   @JoinTable(name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private Set<Role> roles;
+  private transient Set<Role> roles;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "users_permissions",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-  private Set<Permission> permissions;
+  private transient Set<Permission> permissions;
 
   @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
   private transient Set<Chitchat> chitchats;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private UserData userData;
+  private transient UserData userData;
 
   @Column(name = "is_enabled")
   private boolean enabled;
