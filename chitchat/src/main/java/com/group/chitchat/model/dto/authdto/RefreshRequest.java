@@ -1,4 +1,4 @@
-package com.group.chitchat.data.auth;
+package com.group.chitchat.model.dto.authdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

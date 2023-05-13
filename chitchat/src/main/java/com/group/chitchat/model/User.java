@@ -14,10 +14,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,17 +50,23 @@ public class User implements UserDetails {
   @Column(name = "password")
   private String password;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private Set<Role> roles = new LinkedHashSet<>();
+  private transient Set<Role> roles;
+
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "users_permissions",
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+  private transient Set<Permission> permissions;
 
   @ManyToMany(mappedBy = "usersInChitchat", targetEntity = Chitchat.class)
   private transient Set<Chitchat> chitchats;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private UserData userData;
+  private transient UserData userData;
 
   @Column(name = "is_enabled")
   private boolean enabled;
@@ -77,16 +81,20 @@ public class User implements UserDetails {
   private boolean credentialsNonExpired;
 
   @PostPersist
-  public void createData() {
+  public void createDefaultValues() {
     userData = new UserData();
     userData.setUser(this);
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+    Set<SimpleGrantedAuthority> authorities = new HashSet<>();
     for (Role role : roles) {
-      authorities.add(new SimpleGrantedAuthority(role.getName()));
+      authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+    }
+    for (Permission permission : permissions) {
+      authorities.add(new SimpleGrantedAuthority(permission.getName().name()));
     }
     return authorities;
   }

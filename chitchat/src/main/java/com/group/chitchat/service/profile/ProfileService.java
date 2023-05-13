@@ -4,7 +4,6 @@ import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
-import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.AvatarDto;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
@@ -14,7 +13,6 @@ import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.RoleRepo;
 import com.group.chitchat.repository.UserRepo;
-import com.group.chitchat.service.UserDtoService;
 import com.group.chitchat.service.chitchat.ChitchatDtoService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -36,6 +34,7 @@ public class ProfileService {
   private final LanguageRepo languageRepo;
   private final RoleRepo roleRepo;
   private final FileStorageService fileStorage;
+  private final RoleService roleService;
 
   /**
    * Returns information of users profile.
@@ -134,8 +133,7 @@ public class ProfileService {
         .orElseThrow(() -> new UserNotFoundException(username));
 
     if (userDto.getRole() != null) {
-      Role role = roleRepo.findRoleByName(userDto.getRole()).orElseThrow();
-      user.getRoles().add(role);
+      roleService.updateRole(user, userDto.getRole());
     }
     if (userDto.getAvatar() != null && !userDto.getAvatar().isEmpty()) {
       user.getUserData().setAvatar(userDto.getAvatar());
@@ -152,7 +150,7 @@ public class ProfileService {
     if (userDto.getDob() != null) {
       user.getUserData().setDob(userDto.getDob());
     }
-    if (userDto.getNativeLanguage() != null) {
+    if (userDto.getNativeLanguage() != null && !userDto.getNativeLanguage().isEmpty()) {
       Language language = languageRepo.findById(userDto.getNativeLanguage()).orElseThrow();
       user.getUserData().setNativeLanguage(language);
     }
