@@ -187,6 +187,7 @@ public class AuthService {
     var jwtEmailToken = jwtEmailService.generateEmailToken(user);
     String url = httpRequest.getRequestURL().toString()
         .replace("/api/v1/auth/password_recovery_email", "/password_recovery?click=");
+    log.info("Send e-mail to user {} for password recovery!", user.getUsername());
     emailService.sendEmail(
         user.getEmail(),
         String.format("Link for password recovery: %s", user.getUsername()),
@@ -202,5 +203,6 @@ public class AuthService {
   public void passwordRecoveryConfirm(User user, String newPassword) {
     user.setPassword(passwordEncoder.encode(newPassword));
     userRepository.save(user);
+    log.info("User {} changed password by password recovery!", user.getUsername());
   }
 }
