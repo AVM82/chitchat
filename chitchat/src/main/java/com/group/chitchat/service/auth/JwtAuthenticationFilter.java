@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -25,7 +26,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
   private final RefreshTokenRepo refreshTokenRepo;
-//  private final HandlerExceptionResolver resolver;
 
   @Override
   protected void doFilterInternal(
@@ -36,7 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     try {
       final String authHeader = request.getHeader("Authorization");
       final String jwtToken;
-      final String username;
 
       if (authHeader == null || !authHeader.startsWith("Bearer ")) {
         filterChain.doFilter(request, response);
@@ -44,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
 
       jwtToken = authHeader.substring(7);
-      username = jwtService.extractUsername(jwtToken);
+      String username = jwtService.extractUsername(jwtToken);
 
       if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -74,8 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
       filterChain.doFilter(request, response);
     } catch (ExpiredJwtException ex) {
-      ex.printStackTrace();
-
+      log.warn("Token of user is expired");
       response.setHeader("ExpiredJwtException", "true");
       response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token is Expired");
     }
