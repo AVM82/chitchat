@@ -8,7 +8,6 @@ import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
 import {TranslocoService} from '@ngneat/transloco';
 import {TokenStorageService} from "../../service/token-storage.service";
-import {ProfileComponent} from "../profile/profile.component";
 import {ProfileService} from "../../service/profile.service";
 import {Router} from "@angular/router";
 
