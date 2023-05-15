@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     } catch (ExpiredJwtException ex) {
       log.warn("Token of user is expired");
       response.setHeader("ExpiredJwtException", "true");
-      response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token is Expired");
+      response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token of user is Expired");
     }
   }
 }
