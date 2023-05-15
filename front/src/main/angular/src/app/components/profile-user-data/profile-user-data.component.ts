@@ -29,7 +29,7 @@ export class ProfileUserDataComponent implements OnInit {
 
   genders: Gender[] = [];
   languages: Language[] = [];
-  roles: string[] = ['Practitioner', 'Observer', 'Coach'];
+  roles: string[] = ['PRACTITIONER', 'OBSERVER', 'COACH'];
   fileName: string = '';
   requiredFileType: string[] = ['image/png', 'image/jpeg'];
   MAX_AVATAR_SIZE: number = 100 * 1024;
@@ -46,7 +46,7 @@ export class ProfileUserDataComponent implements OnInit {
       this.tmpEmail = this.userForResponseDto.email;
       this.tmpRoles = this.userForResponseDto.roles;
       this.tmpRole = this.tmpRoles.filter(
-          el => !el.startsWith('ROLE_'))[0];
+          el => !el.startsWith('USER'))[0];
       this.tmpAvatar = this.userForResponseDto.avatar;
       this.tmpNativeLanguage = this.languages.find(
           el => el.languageName === this.userForResponseDto.nativeLanguage);
@@ -72,7 +72,9 @@ export class ProfileUserDataComponent implements OnInit {
     let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
         this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
         this.tmpDob, this.tmpGender);
-    this.profileService.updateUserData(newUserForEditDto).subscribe();
+    this.profileService.updateUserData(newUserForEditDto).subscribe(result => {
+      this.notificationService.showSnackBar('Changes saved successfully!');
+    });
   }
 
   onFileSelected(event: any) {
