@@ -10,6 +10,7 @@ import {TranslocoService} from '@ngneat/transloco';
 import {TokenStorageService} from "../../service/token-storage.service";
 import {ProfileComponent} from "../profile/profile.component";
 import {ProfileService} from "../../service/profile.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -30,7 +31,8 @@ export class MainComponent implements OnInit {
               private languageService: LanguageService,
               private translocoService: TranslocoService,
               private profileService: ProfileService,
-              private tokenStorageService: TokenStorageService
+              private tokenStorageService: TokenStorageService,
+              private router: Router
   ) {
   }
 
@@ -102,11 +104,6 @@ export class MainComponent implements OnInit {
 
   openUserProfile() {
     let currentUserId = this.tokenStorageService.getUserId();
-    let dialogRef = this.dialog.open(ProfileComponent, {
-      data: ['User profile data', currentUserId],
-      hasBackdrop: true,
-      disableClose: true,
-      autoFocus: true,
-    });
+    this.router.navigate(['/profile']);
   }
 }
