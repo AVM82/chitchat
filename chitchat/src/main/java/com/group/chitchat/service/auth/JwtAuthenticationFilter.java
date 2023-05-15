@@ -1,6 +1,7 @@
 package com.group.chitchat.service.auth;
 
 import com.group.chitchat.repository.RefreshTokenRepo;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
   private final RefreshTokenRepo refreshTokenRepo;
+//  private final HandlerExceptionResolver resolver;
 
   @Override
   protected void doFilterInternal(
@@ -30,42 +32,51 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
-    final String authHeader = request.getHeader("Authorization");
-    final String jwtToken;
-    final String username;
+    try {
+      final String authHeader = request.getHeader("Authorization");
+      final String jwtToken;
+      final String username;
 
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      filterChain.doFilter(request, response);
-      return;
-    }
-
-    jwtToken = authHeader.substring(7);
-    username = jwtService.extractUsername(jwtToken);
-
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-      if (jwtService.isTokenValid(jwtToken, userDetails)) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            userDetails,
-            null,
-            userDetails.getAuthorities()
-        );
-        authToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(request)
-        );
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-      } else if (jwtService.isTokenValid(jwtToken, userDetails,
-          refreshTokenRepo.findRefreshTokenByTokenForRefresh(jwtToken).orElseThrow().getId())) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            userDetails,
-            null,
-            userDetails.getAuthorities()
-        );
-        authToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(request)
-        );
+      if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        filterChain.doFilter(request, response);
+        return;
       }
+
+      jwtToken = authHeader.substring(7);
+      username = jwtService.extractUsername(jwtToken);
+
+      if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+        if (jwtService.isTokenValid(jwtToken, userDetails)) {
+          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+              userDetails,
+              null,
+              userDetails.getAuthorities()
+          );
+          authToken.setDetails(
+              new WebAuthenticationDetailsSource().buildDetails(request)
+          );
+
+          SecurityContextHolder.getContext().setAuthentication(authToken);
+        } else if (jwtService.isTokenValid(jwtToken, userDetails,
+            refreshTokenRepo.findRefreshTokenByTokenForRefresh(jwtToken).orElseThrow().getId())) {
+          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+              userDetails,
+              null,
+              userDetails.getAuthorities()
+          );
+          authToken.setDetails(
+              new WebAuthenticationDetailsSource().buildDetails(request)
+          );
+        }
+      }
+      filterChain.doFilter(request, response);
+    } catch (ExpiredJwtException ex) {
+      ex.printStackTrace();
+
+      response.setHeader("ExpiredJwtException", "true");
+      response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token is Expired");
     }
-    filterChain.doFilter(request, response);
   }
 }
