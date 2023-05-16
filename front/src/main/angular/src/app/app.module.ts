@@ -42,6 +42,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgOptimizedImage} from "@angular/common";
+import {InternalChatComponent} from "./components/internal-chat/internal-chat.component";
 
 
 const appRoutes: Routes = [
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     ProfileUserStatisticsComponent,
     ProfileUserChitchatsTableComponent,
     PasswordRecoveryComponent,
+    InternalChatComponent,
   ],
   imports: [
     BrowserModule,
