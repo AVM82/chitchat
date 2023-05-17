@@ -93,6 +93,6 @@ public class ChitchatController {
       @RequestParam("userId") Long userId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.addUserToChitchat(chitchatId, userId);
+    return chitchatService.addUserToChitchat(chitchatId, userId, requestHeader);
   }
 }
