@@ -2,10 +2,13 @@ package com.group.chitchat.controller;
 
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
+import com.group.chitchat.model.dto.MessageChatDto;
 import com.group.chitchat.service.chitchat.ChitchatService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
+import com.group.chitchat.service.messagechat.MessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -29,6 +32,7 @@ public class ChitchatController {
 
   private final ChitchatService chitchatService;
   private final LocaleResolverConfig localeResolverConfig;
+  private final MessageService messageService;
 
   /**
    * Takes a list of all chats.
@@ -66,6 +70,14 @@ public class ChitchatController {
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return chitchatService.getChitchat(chitchatId);
+  }
+
+  @GetMapping("/chat_messages/{chitchatId}")
+  public ResponseEntity<List<MessageChatDto>> getChitchatAllMessages(
+      @PathVariable("chitchatId") Long chitchatId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(messageService.getAllMessagesByChitchatId(chitchatId));
   }
 
   /**
