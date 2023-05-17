@@ -126,8 +126,9 @@ public class ChitchatService {
     usersInChitchat.add(user);
     chitchat.setUsersInChitchat(usersInChitchat);
 
-    String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
-        + "/chitchat?id=" + chitchat.getId();
+    String url = request.getRequestURL().toString()
+        .replace("/api/v1/chitchats/" + chitchatId, "")
+        + "/chitchat?id=" + chitchatId;
 
     sendEmail(user.getEmail(), chitchat, String.format(bundlesService.getMessForLocale(
         CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
