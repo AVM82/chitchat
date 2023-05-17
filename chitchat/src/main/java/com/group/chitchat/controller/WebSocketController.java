@@ -1,6 +1,7 @@
 package com.group.chitchat.controller;
 
-import com.group.chitchat.model.dto.InternalChatMessageDto;
+import com.group.chitchat.model.dto.MessageChatDto;
+import com.group.chitchat.service.messagechat.MessageService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -14,10 +15,12 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController {
 
   private final SimpMessagingTemplate template;
+  private final MessageService messageService;
 
   @Autowired
-  WebSocketController(SimpMessagingTemplate template) {
+  WebSocketController(SimpMessagingTemplate template, MessageService messageService) {
     this.template = template;
+    this.messageService = messageService;
   }
 
   /**
@@ -27,10 +30,11 @@ public class WebSocketController {
    */
 
   @MessageMapping("/send/message/{id}")
-  public void sendMessage(@Payload InternalChatMessageDto message, @DestinationVariable String id) {
+  public void sendMessage(@Payload MessageChatDto message, @DestinationVariable String id) {
     // TODO save to database
     log.info(message);
     this.template.convertAndSend("/message." + id,
-        message);
+        messageService.getMessageChatDto(messageService.addMessage(message))
+    );
   }
 }
