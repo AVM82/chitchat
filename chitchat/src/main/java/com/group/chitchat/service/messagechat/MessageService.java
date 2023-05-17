@@ -7,18 +7,21 @@ import com.group.chitchat.model.MessageUsers;
 import com.group.chitchat.model.MessageUsersKey;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.MessageChatDto;
+import com.group.chitchat.model.enums.Subscription;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.MessageChatRepo;
 import com.group.chitchat.repository.MessageUsersRepo;
 import com.group.chitchat.repository.UserRepo;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @Service
@@ -32,10 +35,12 @@ public class MessageService {
 
   /**
    * Add one message to the database.
+   *
    * @param messageChatDto Dto that contains all message attributes.
    * @return status and message entity object.
    */
-  public ResponseEntity<MessageChat> addMessage(MessageChatDto messageChatDto) {
+  @Transactional
+  public MessageChat addMessage(MessageChatDto messageChatDto) {
 
     MessageChat newMessageChat = messageChatRepo.save(getMessageChat(messageChatDto));
 
@@ -45,7 +50,7 @@ public class MessageService {
     usersInChitchat.stream().iterator().forEachRemaining(
         user -> addMessageUsers(user, newMessageChat));
 
-    return ResponseEntity.ok(newMessageChat);
+    return newMessageChat;
   }
 
   private void addMessageUsers(User user, MessageChat message) {
@@ -61,14 +66,31 @@ public class MessageService {
 
   /**
    * Get all messages from the database.
+   *
    * @return list of all messages.
    */
-  public ResponseEntity<List<MessageChat>> getAllMessages() {
+  public List<MessageChatDto> getAllMessages() {
 
     List<MessageChat> messages = messageChatRepo.findAll();
-    return ResponseEntity.ok(messages.stream()
-        .sorted(Comparator.comparing(MessageChat::getCreatedTime))
-        .toList());
+    return messages.stream()
+        .map(this::getMessageChatDto)
+        .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
+        .toList();
+  }
+
+  /**
+   * Get all messages by chitchat id.
+   *
+   * @param chitchatId A chitchat id
+   * @return list of chitchat messages.
+   */
+  public List<MessageChatDto> getAllMessagesByChitchatId(Long chitchatId) {
+
+    List<MessageChat> messages = messageChatRepo.findAllByChitchatId(chitchatId);
+    return messages.stream()
+        .map(this::getMessageChatDto)
+        .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
+        .toList();
   }
 
   private MessageChat getMessageChat(MessageChatDto messageChatDto) {
@@ -76,7 +98,7 @@ public class MessageService {
     User author = new User();
     Chitchat chitchat = new Chitchat();
 
-    Optional<User> optionalUser = userRepo.findById(messageChatDto.getAuthorId());
+    Optional<User> optionalUser = userRepo.findByUsername(messageChatDto.getAuthorName());
     Optional<Chitchat> optionalChitchat = chitchatRepo.findById(messageChatDto.getChitchatId());
     if (optionalUser.isPresent()) {
       author = optionalUser.get();
@@ -84,12 +106,40 @@ public class MessageService {
     if (optionalChitchat.isPresent()) {
       chitchat = optionalChitchat.get();
     }
+
+    LocalDateTime parseCreatedTime;
+    try {
+      parseCreatedTime = LocalDateTime.parse(messageChatDto.getCreatedTime(),
+          DateTimeFormatter.ISO_DATE_TIME);
+    } catch (Exception e) {
+      parseCreatedTime = LocalDateTime.now();
+      log.info("Wrong json date format {}", messageChatDto.getCreatedTime());
+      log.info("Set LocalDateTime.now(): {}", parseCreatedTime);
+    }
+
     return MessageChat.builder()
         .author(author)
         .chitchat(chitchat)
         .message(messageChatDto.getMessage())
-        .createdTime(messageChatDto.getCreatedTime())
+        .createdTime(parseCreatedTime)
         .subscriptionType(messageChatDto.getSubscriptionType())
+        .build();
+  }
+
+  /**
+   * Map MessageChat to MessageChatDto.
+   *
+   * @param messageChat A MessageChat object
+   * @return MessageChatDto
+   */
+  public MessageChatDto getMessageChatDto(MessageChat messageChat) {
+    return MessageChatDto.builder()
+        .id(messageChat.getId())
+        .authorName(messageChat.getAuthor().getUsername())
+        .chitchatId(messageChat.getChitchat().getId())
+        .message(messageChat.getMessage())
+        .createdTime(messageChat.getCreatedTime().toString())
+        .subscriptionType(Subscription.CHAT)
         .build();
   }
 }

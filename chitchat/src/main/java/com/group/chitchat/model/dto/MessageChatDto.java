@@ -1,7 +1,6 @@
 package com.group.chitchat.model.dto;
 
 import com.group.chitchat.model.enums.Subscription;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,23 +15,23 @@ import lombok.Setter;
 public class MessageChatDto {
 
   private Long id;
-  private Long authorId;
+  private String authorName;
   private Long chitchatId;
   private String message;
-  private LocalDateTime createdTime;
+  private String createdTime;
   private Subscription subscriptionType;
 
   /**
    * Constructor without id.
-   * @param authorId author id number.
+   * @param authorName author name number.
    * @param chitchatId Chitchat id number.
    * @param message message text.
    * @param createdTime the date the message was created.
    * @param subscriptionType user subscription type.
    */
-  public MessageChatDto(Long authorId, Long chitchatId, String message, LocalDateTime createdTime,
+  public MessageChatDto(String authorName, Long chitchatId, String message, String createdTime,
       Subscription subscriptionType) {
-    this.authorId = authorId;
+    this.authorName = authorName;
     this.chitchatId = chitchatId;
     this.message = message;
     this.createdTime = createdTime;
