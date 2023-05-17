@@ -21,7 +21,7 @@ export class InternalChatComponent implements OnInit, OnDestroy {
   url = environment.appApi + '/socket';
   private chitchatId: number;
   public stompClient: any;
-  public msg = [];
+  public msg: Message[] = [];
 
   constructor(private tokenStorageService: TokenStorageService) {
   }
@@ -44,7 +44,7 @@ export class InternalChatComponent implements OnInit, OnDestroy {
       that.stompClient.subscribe('/message.' + this.chitchatId.toString(), (message: any) => {
         if (message.body) {
           // @ts-ignore
-          that.msg.push(message.body);
+          that.msg.push(JSON.parse(message.body));
         }
       });
     });

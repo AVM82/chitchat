@@ -1,7 +1,8 @@
 <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
 <button class="btn btn-success" (click)="sendMessage()">Send</button>
 <div class="content">
-  <div *ngFor="let msg of msg">
-    {{msg}}
+  <div class="box"  *ngFor="let m of msg">
+    <div>{{m.userName}} ({{m.createdAt}})</div>
+    <div>{{m.message}}</div>
   </div>
 </div>
