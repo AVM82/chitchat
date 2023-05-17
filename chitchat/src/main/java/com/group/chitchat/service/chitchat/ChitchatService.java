@@ -51,10 +51,10 @@ public class ChitchatService {
   /**
    * Messages for sending email.
    */
-  private static final String MESSAGE_CONFIRM_CREATE = "m.create_chitchat";
+  private static final String CONFIRM_CREATE_MESSAGE = "m.create_chitchat";
   private final BundlesService bundlesService;
 
-  private static final String MESSAGE_PARTICIPATION_CREATE = "You joined to chitchat";
+  private static final String CONFIRM_PARTICIPATION_MESSAGE = "m.participate_chitchat";
   private final EmailService emailService;
 
   /**
@@ -97,8 +97,8 @@ public class ChitchatService {
     String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
         + "/chitchat?id=" + chitchat.getId();
 
-    sendEmail(chitchat, String.format(
-        bundlesService.getMessForLocale(MESSAGE_CONFIRM_CREATE, Locale.getDefault()), url), url);
+    sendEmail(author.getEmail(), chitchat, String.format(
+        bundlesService.getMessForLocale(CONFIRM_CREATE_MESSAGE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
@@ -111,7 +111,8 @@ public class ChitchatService {
    * @return chitchatDto for response
    */
   @Transactional
-  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId) {
+  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId,
+      HttpServletRequest request) {
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
         .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
 
@@ -124,6 +125,12 @@ public class ChitchatService {
     Set<User> usersInChitchat = chitchat.getUsersInChitchat();
     usersInChitchat.add(user);
     chitchat.setUsersInChitchat(usersInChitchat);
+
+    String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
+        + "/chitchat?id=" + chitchat.getId();
+
+    sendEmail(user.getEmail(), chitchat, String.format(bundlesService.getMessForLocale(
+        CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(
         ChitchatDtoService.getFromEntity(chitchat));
@@ -175,14 +182,15 @@ public class ChitchatService {
   /**
    * Sends a confirmation email.
    *
-   * @param chitchat Entity with data.
-   * @param message  Message for sending.
-   * @param url      of new chitchat.
+   * @param emailAddress of user.
+   * @param chitchat     Entity with data.
+   * @param message      Message for sending.
+   * @param url          of new chitchat.
    */
-  private void sendEmail(Chitchat chitchat, String message, String url) {
+  private void sendEmail(String emailAddress, Chitchat chitchat, String message, String url) {
     emailService.sendEmail(
-        chitchat.getAuthor().getEmail(),
-        String.format("New chitchat: %s", chitchat.getChatName()),
+        emailAddress,
+        String.format("Chitchat: %s", chitchat.getChatName()),
         message + CalendarService.generateCalendarLink(
             chitchat.getChatName(),
             chitchat.getDescription(),
