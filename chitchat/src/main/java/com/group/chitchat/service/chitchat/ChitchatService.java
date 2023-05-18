@@ -155,7 +155,7 @@ public class ChitchatService {
 
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
-      specification = where(categorySpecification(category));
+      specification = where(categorySpecification(category)).and(specification);
     }
     if (languageId != null && !languageId.isEmpty()) {
       Language language = languageRepo.findById(languageId).orElseThrow();

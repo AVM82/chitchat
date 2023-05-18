@@ -8,9 +8,9 @@ import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
 import {TranslocoService} from '@ngneat/transloco';
 import {TokenStorageService} from "../../service/token-storage.service";
-import {ProfileComponent} from "../profile/profile.component";
 import {ProfileService} from "../../service/profile.service";
 import {Router} from "@angular/router";
+import {MessageService} from "../../service/message.service";
 
 @Component({
   selector: 'app-main',
@@ -25,6 +25,7 @@ export class MainComponent implements OnInit {
   selectedLanguage: string = 'en';
   isLoggedIn: boolean = false;
   currentUser: string = '';
+  totalCountUnreadUserMessages: any;
 
 
   constructor(private dialog: MatDialog,
@@ -32,7 +33,8 @@ export class MainComponent implements OnInit {
               private translocoService: TranslocoService,
               private profileService: ProfileService,
               private tokenStorageService: TokenStorageService,
-              private router: Router
+              private router: Router,
+              private messageService: MessageService,
   ) {
   }
 
@@ -42,14 +44,18 @@ export class MainComponent implements OnInit {
       this.languages = result;
     });
     if (this.isLoggedIn) {
-      this.refrashAvatar();
+      this.refreshForm();
     }
   }
 
-  private refrashAvatar() {
+  private refreshForm() {
     this.profileService.getAvatarUrl().subscribe(
         data => {
           this.avatarUrl = data.url
+        });
+    this.messageService.getTotalCountUnreadUserMessages().subscribe(
+        data => {
+          this.totalCountUnreadUserMessages = data.value
         });
   }
 
@@ -64,7 +70,7 @@ export class MainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.isLoggedIn = result;
       this.currentUser = this.tokenStorageService.getUser();
-      this.refrashAvatar();
+      this.refreshForm();
     });
   }
 
