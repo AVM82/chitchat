@@ -1,8 +1,8 @@
 package com.group.chitchat.service.messagechat;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
+import com.group.chitchat.model.ChatMessage;
 import com.group.chitchat.model.Chitchat;
-import com.group.chitchat.model.MessageChat;
 import com.group.chitchat.model.MessageUsers;
 import com.group.chitchat.model.MessageUsersKey;
 import com.group.chitchat.model.User;
@@ -40,9 +40,9 @@ public class MessageService {
    * @return status and message entity object.
    */
   @Transactional
-  public MessageChat addMessage(MessageChatDto messageChatDto) {
+  public ChatMessage addMessage(MessageChatDto messageChatDto) {
 
-    MessageChat newMessageChat = messageChatRepo.save(getMessageChat(messageChatDto));
+    ChatMessage newMessageChat = messageChatRepo.save(getMessageChat(messageChatDto));
 
     Chitchat chitchat = chitchatRepo.findById(messageChatDto.getChitchatId())
         .orElseThrow(() -> new ChitchatsNotFoundException(messageChatDto.getChitchatId()));
@@ -53,7 +53,7 @@ public class MessageService {
     return newMessageChat;
   }
 
-  private void addMessageUsers(User user, MessageChat message) {
+  private void addMessageUsers(User user, ChatMessage message) {
 
     MessageUsers messageUsers = MessageUsers.builder()
         .id(new MessageUsersKey(message.getId(), user.getId()))
@@ -71,7 +71,7 @@ public class MessageService {
    */
   public List<MessageChatDto> getAllMessages() {
 
-    List<MessageChat> messages = messageChatRepo.findAll();
+    List<ChatMessage> messages = messageChatRepo.findAll();
     return messages.stream()
         .map(this::getMessageChatDto)
         .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
@@ -86,14 +86,14 @@ public class MessageService {
    */
   public List<MessageChatDto> getAllMessagesByChitchatId(Long chitchatId) {
 
-    List<MessageChat> messages = messageChatRepo.findAllByChitchatId(chitchatId);
+    List<ChatMessage> messages = messageChatRepo.findAllByChitchatId(chitchatId);
     return messages.stream()
         .map(this::getMessageChatDto)
         .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
         .toList();
   }
 
-  private MessageChat getMessageChat(MessageChatDto messageChatDto) {
+  private ChatMessage getMessageChat(MessageChatDto messageChatDto) {
 
     User author = new User();
     Chitchat chitchat = new Chitchat();
@@ -117,7 +117,7 @@ public class MessageService {
       log.info("Set LocalDateTime.now(): {}", parseCreatedTime);
     }
 
-    return MessageChat.builder()
+    return ChatMessage.builder()
         .author(author)
         .chitchat(chitchat)
         .message(messageChatDto.getMessage())
@@ -132,7 +132,7 @@ public class MessageService {
    * @param messageChat A MessageChat object
    * @return MessageChatDto
    */
-  public MessageChatDto getMessageChatDto(MessageChat messageChat) {
+  public MessageChatDto getMessageChatDto(ChatMessage messageChat) {
     return MessageChatDto.builder()
         .id(messageChat.getId())
         .authorName(messageChat.getAuthor().getUsername())

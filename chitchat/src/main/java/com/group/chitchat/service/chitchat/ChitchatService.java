@@ -8,6 +8,7 @@ import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
+import com.group.chitchat.model.RemindersData;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
@@ -15,7 +16,6 @@ import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
-import com.group.chitchat.repository.PagingRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -45,7 +46,6 @@ public class ChitchatService {
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
-  private final PagingRepo pagingRepo;
 
 
   /**
@@ -91,7 +91,7 @@ public class ChitchatService {
     //TODO add exceptions for two throws below
 
     chitchat.getUsersInChitchat().add(author);
-
+    createReminderData(chitchat);
     chitchatRepo.save(chitchat);
 
     String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
@@ -101,6 +101,17 @@ public class ChitchatService {
         bundlesService.getMessForLocale(CONFIRM_CREATE_MESSAGE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
+  }
+
+  private void createReminderData(Chitchat chitchat) {
+    Set<String> usersEmails = new HashSet<>();
+    usersEmails.add(chitchat.getAuthor().getEmail());
+    RemindersData data = RemindersData.builder()
+        .startTime(chitchat.getDate())
+        .emails(usersEmails)
+        .build();
+    data.setChitchat(chitchat);
+    chitchat.setRemindersData(data);
   }
 
   /**
@@ -125,6 +136,10 @@ public class ChitchatService {
     Set<User> usersInChitchat = chitchat.getUsersInChitchat();
     usersInChitchat.add(user);
     chitchat.setUsersInChitchat(usersInChitchat);
+
+    Set<String> userEmails = chitchat.getRemindersData().getEmails();
+    userEmails.add(user.getEmail());
+    chitchat.getRemindersData().setEmails(userEmails);
 
     String url = request.getRequestURL().toString()
         .replace("/api/v1/chitchats/" + chitchatId, "")
@@ -174,7 +189,7 @@ public class ChitchatService {
       LocalDateTime dateTo = LocalDate.parse(dateToStr).atTime(LocalTime.MAX);
       specification = where(dateToSpecification(dateTo)).and(specification);
     }
-    Page<Chitchat> page = pagingRepo.findAll(specification, pageable);
+    Page<Chitchat> page = chitchatRepo.findAll(specification, pageable);
 
     return ResponseEntity.ok(page
         .map(ChitchatDtoService::getFromEntity));

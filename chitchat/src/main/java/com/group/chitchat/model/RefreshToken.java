@@ -22,8 +22,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "refresh_tokens")
 public class RefreshToken {
+
   @Id
-  @Column(name = "id",unique = true)
+  @Column(name = "id", unique = true)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   @OneToOne(targetEntity = User.class)

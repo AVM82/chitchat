@@ -26,10 +26,10 @@ public class MessageUsers {
   @EmbeddedId
   MessageUsersKey id;
 
-  @ManyToOne(targetEntity = MessageChat.class)
+  @ManyToOne(targetEntity = ChatMessage.class)
   @MapsId("messagesId")
   @JoinColumn(name = "messages_id", referencedColumnName = "id")
-  private MessageChat messages;
+  private ChatMessage messages;
 
   @ManyToOne(targetEntity = User.class)
   @MapsId("userId")
