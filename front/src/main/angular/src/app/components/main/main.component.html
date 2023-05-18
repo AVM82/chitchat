@@ -34,6 +34,11 @@
                          alt="..."/>
 <!--                  {{currentUser}}-->
                   </div>
+                  <div class="badge bg-white position-absolute"
+                       style="font-size:8px;font-weight: bold"
+                       [class.text-danger]="totalCountUnreadUserMessages > 0"
+                  >{{totalCountUnreadUserMessages}}
+                  </div>
                 </a>
               </li>
               <li class="nav-item d-flex align-items-center">
