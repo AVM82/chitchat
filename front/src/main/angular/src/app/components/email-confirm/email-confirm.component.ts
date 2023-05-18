@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Subscription} from "rxjs";
-import {ChitchatService} from "../../service/chitchat.service";
-import {TokenStorageService} from "../../service/token-storage.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../service/auth.service";
 
@@ -28,6 +26,9 @@ export class EmailConfirmComponent {
 
   newUserEmailConfirm() {
     this.authService.newUserEmailConfirm(this.clickToken)
-    .subscribe(value => this.clickToken = value);
+    .subscribe(value => {
+      this.clickToken = value
+    console.log(value)
+    });
   }
 }

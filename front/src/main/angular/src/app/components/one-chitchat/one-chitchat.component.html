@@ -24,7 +24,9 @@
       <li class="list-group-item py-0 my-1">{{oneChitChat.languageName}}</li>
     </ul>
     <div class="card-body text-center">
-      <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary">+ to Chat</a>
+      <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary"
+         *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"
+      >Join</a>
       <a href="#" class="card-link">{{translate('Close')}}</a>
     </div>
   </div>
