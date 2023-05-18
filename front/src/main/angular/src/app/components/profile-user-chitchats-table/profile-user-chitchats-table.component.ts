@@ -5,6 +5,11 @@ import {MatSort, Sort} from "@angular/material/sort";
 import {Chitchat} from "../../model/Chitchat";
 import {ProfileService} from "../../service/profile.service";
 import {MatPaginator} from "@angular/material/paginator";
+import {MessageService} from "../../service/message.service";
+import {ChitchatUnreadCount} from "../../model/ChitchatUnreadCount";
+import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
+import {ChitchatService} from "../../service/chitchat.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-profile-user-chitchats-table',
@@ -18,9 +23,14 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   dataSource: MatTableDataSource<Chitchat> = new MatTableDataSource(this.chitchats);
   @Input()
   chitchatsType: string;
+  private unreadChitchats: ChitchatUnreadCount[] = [];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
-              private profileService: ProfileService) {
+              private profileService: ProfileService,
+              private messageService: MessageService,
+              private chitchatService: ChitchatService,
+              private dialog: MatDialog,
+  ) {
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -59,6 +69,9 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
         this.setDataSource(result);
       });
     }
+    this.messageService.getAllUnreadUserChitchats().subscribe(result => {
+      this.unreadChitchats = result;
+    });
   }
 
   private setDataSource(result: Chitchat[]) {
@@ -66,5 +79,23 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
     this.dataSource = new MatTableDataSource(this.chitchats);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  countUnreadMessages(chitchatId: number): number {
+    return this.unreadChitchats.filter(value => value.chitchatId === chitchatId).length;
+  }
+
+  openChitchat(chitchatId: number) {
+    // TODO add route
+    //this.router.navigate(['/one_chitchat', { id: chitchatId }]);
+    this.chitchatService.get(chitchatId).subscribe(result => {
+      let oneChitchat = result;
+      this.dialog.open(OneChitchatComponent, {
+        data: [oneChitchat],
+        hasBackdrop: true,
+        disableClose: true,
+        autoFocus: true,
+      });
+    });
   }
 }

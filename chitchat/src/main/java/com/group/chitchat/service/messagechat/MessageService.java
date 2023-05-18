@@ -6,6 +6,7 @@ import com.group.chitchat.model.MessageChat;
 import com.group.chitchat.model.MessageUsers;
 import com.group.chitchat.model.MessageUsersKey;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.dto.ChitchatUnreadCountDto;
 import com.group.chitchat.model.dto.MessageChatDto;
 import com.group.chitchat.model.enums.Subscription;
 import com.group.chitchat.repository.ChitchatRepo;
@@ -141,5 +142,30 @@ public class MessageService {
         .createdTime(messageChat.getCreatedTime().toString())
         .subscriptionType(Subscription.CHAT)
         .build();
+  }
+
+  /**
+   * Get get all unread user messages.
+   *
+   * @param userName User name
+   * @return List of unread user messages
+   */
+  public List<MessageUsers> getAllUnreadUserMessages(String userName) {
+    return messageUsersRepo.findAllByUserUsernameAndReadStatusEquals(userName, false);
+  }
+
+  public List<ChitchatUnreadCountDto> getAllUnreadUserChitchats(
+      String userName) {
+    return messageUsersRepo.findAllUnreadUserChitchats(userName);
+  }
+
+  /**
+   * Get total count of unread user messages.
+   *
+   * @param userName User name
+   * @return Total count
+   */
+  public Long getTotalCountUnreadUserMessages(String userName) {
+    return messageUsersRepo.totalCountUnreadUserMessages(userName);
   }
 }
