@@ -115,3 +115,24 @@ CREATE TABLE IF NOT EXISTS user_data
     id
 )
     );
+
+
+CREATE TABLE IF NOT EXISTS messages
+(
+    id           int8 NOT NULL GENERATED ALWAYS AS IDENTITY,
+    author_id    int8 REFERENCES users (id),
+    chitchat_id  int8 REFERENCES chitchats (id),
+    message      varchar(255) NOT NULL,
+    created_time TIMESTAMP WITHOUT TIME ZONE,
+    subscription_type   varchar(50),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS message_users
+(
+    messages_id   int8 REFERENCES messages (id),
+    user_id       int4 REFERENCES users (id),
+    read_status  boolean,
+    PRIMARY KEY (messages_id, user_id)
+);
+

@@ -3,6 +3,8 @@ import {Chitchat} from "../../model/Chitchat";
 import {TokenStorageService} from "../../service/token-storage.service";
 import {Message} from "../../model/Message";
 import {environment} from "../../../environments/environment";
+import {Subscription} from "../../model/Subscription";
+import {MessageService} from "../../service/message.service";
 
 // Declare SockJS and Stomp
 declare let SockJS: any;
@@ -23,12 +25,16 @@ export class InternalChatComponent implements OnInit, OnDestroy {
   public stompClient: any;
   public msg: Message[] = [];
 
-  constructor(private tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService,
+              private messageService: MessageService) {
   }
 
   init(chitchatId: number) {
     this.chitchatId = chitchatId;
-    this.initializeWebSocketConnection();
+    this.messageService.getChitchatAllMessages(this.chitchatId).subscribe(data => {
+      this.msg = data;
+      this.initializeWebSocketConnection();
+    });
   }
 
   initializeWebSocketConnection() {
@@ -71,13 +77,14 @@ export class InternalChatComponent implements OnInit, OnDestroy {
     if (this.input) {
       this.sendMessageStompClient(
           new Message(
-              new Date().toUTCString(),
+              0,
+              new Date().toISOString(),
               this.tokenStorageService.getUser(),
               this.oneChitChat.id,
-              this.input
+              this.input,
+              Subscription.CHAT
           ));
       this.input = '';
-      console.log(this.msg);
     }
   }
 }
