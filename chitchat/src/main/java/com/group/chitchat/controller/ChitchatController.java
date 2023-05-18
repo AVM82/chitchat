@@ -1,8 +1,11 @@
 package com.group.chitchat.controller;
 
+import com.group.chitchat.model.MessageUsers;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
+import com.group.chitchat.model.dto.ChitchatUnreadCountDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
 import com.group.chitchat.model.dto.MessageChatDto;
+import com.group.chitchat.model.dto.SimpleDataDto;
 import com.group.chitchat.service.chitchat.ChitchatService;
 import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.messagechat.MessageService;
@@ -78,6 +81,54 @@ public class ChitchatController {
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return ResponseEntity.ok(messageService.getAllMessagesByChitchatId(chitchatId));
+  }
+
+  /**
+   * Get unread user messages.
+   *
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   * @return List of unread user messages.
+   */
+  @GetMapping("/chat_messages/unread_messages")
+  public ResponseEntity<List<MessageUsers>> getUnreadUserMessages(
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(
+        messageService.getAllUnreadUserMessages(requestHeader.getUserPrincipal().getName()));
+  }
+
+  /**
+   * Get count of unread user messages.
+   *
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   * @return Count of unread user messages.
+   */
+  @GetMapping("/chat_messages/unread_count")
+  public ResponseEntity<SimpleDataDto<Long>> getTotalCountUnreadUserMessages(
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(
+        new SimpleDataDto<Long>(
+            messageService
+                .getTotalCountUnreadUserMessages(requestHeader.getUserPrincipal().getName())));
+  }
+
+  /**
+   * Get unread user chitchats with count.
+   *
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   * @return List of unread user chitchats with count.
+   */
+  @GetMapping("/chat_messages/unread_chitchats")
+  public ResponseEntity<List<ChitchatUnreadCountDto>> getAllUnreadUserChitchats(
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return ResponseEntity.ok(
+        messageService.getAllUnreadUserChitchats(
+            requestHeader.getUserPrincipal().getName()));
   }
 
   /**

@@ -9,10 +9,12 @@ import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.co
 import {
   PasswordRecoveryComponent
 } from "./components/password-recovery/password-recovery.component";
+import {OneChitchatComponent} from "./components/one-chitchat/one-chitchat.component";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'chitchat', component: ChitchatRefComponent},
+  {path: 'one_chitchat', component: OneChitchatComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'click', component: EmailConfirmComponent},
   {path: 'password_recovery', component: PasswordRecoveryComponent},

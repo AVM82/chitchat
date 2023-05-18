@@ -167,11 +167,11 @@ public class ChitchatService {
       String languageId, String levelStr, String dateFromStr, String dateToStr,
       Integer categoryId, Pageable pageable) {
 
-    Specification<Chitchat> specification = null;
+    Specification<Chitchat> specification = where(dateFromSpecification(LocalDateTime.now()));
 
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
-      specification = where(categorySpecification(category));
+      specification = where(categorySpecification(category)).and(specification);
     }
     if (languageId != null && !languageId.isEmpty()) {
       Language language = languageRepo.findById(languageId).orElseThrow();
