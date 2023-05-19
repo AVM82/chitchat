@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -47,8 +45,8 @@ public class MessageService {
 
     Chitchat chitchat = chitchatRepo.findById(messageChatDto.getChitchatId())
         .orElseThrow(() -> new ChitchatsNotFoundException(messageChatDto.getChitchatId()));
-    Set<User> usersInChitchat = chitchat.getUsersInChitchat();
-    usersInChitchat.stream().iterator().forEachRemaining(
+
+    chitchat.getUsersInChitchat().stream().iterator().forEachRemaining(
         user -> addMessageUsers(user, newMessageChat));
 
     return newMessageChat;
@@ -96,18 +94,6 @@ public class MessageService {
 
   private ChatMessage getMessageChat(MessageChatDto messageChatDto) {
 
-    User author = new User();
-    Chitchat chitchat = new Chitchat();
-
-    Optional<User> optionalUser = userRepo.findByUsername(messageChatDto.getAuthorName());
-    Optional<Chitchat> optionalChitchat = chitchatRepo.findById(messageChatDto.getChitchatId());
-    if (optionalUser.isPresent()) {
-      author = optionalUser.get();
-    }
-    if (optionalChitchat.isPresent()) {
-      chitchat = optionalChitchat.get();
-    }
-
     LocalDateTime parseCreatedTime;
     try {
       parseCreatedTime = LocalDateTime.parse(messageChatDto.getCreatedTime(),
@@ -117,10 +103,9 @@ public class MessageService {
       log.info("Wrong json date format {}", messageChatDto.getCreatedTime());
       log.info("Set LocalDateTime.now(): {}", parseCreatedTime);
     }
-
     return ChatMessage.builder()
-        .author(author)
-        .chitchat(chitchat)
+        .author(userRepo.findByUsername(messageChatDto.getAuthorName()).orElseThrow())
+        .chitchat(chitchatRepo.findById(messageChatDto.getChitchatId()).orElseThrow())
         .message(messageChatDto.getMessage())
         .createdTime(parseCreatedTime)
         .subscriptionType(messageChatDto.getSubscriptionType())
