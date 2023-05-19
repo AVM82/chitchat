@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "messages")
-public class MessageChat {
+public class ChatMessage {
 
   @Id
   @Column(name = "id")
