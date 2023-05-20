@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @Component
@@ -28,16 +29,18 @@ public class ReminderPlanner {
    * reminder.
    */
   @Scheduled(fixedRate = 300000)
+  @Transactional
   public void sendReminder() {
     log.info("Start scheduled");
     LocalDateTime currentTime = LocalDateTime.now();
-    LocalDateTime reminderTime = currentTime.plusMinutes(30);
+    LocalDateTime reminderTime = currentTime.plusMinutes(60);
 
-    Optional<List<RemindersData>> remindersDataOptional = repo.findAllByStartTimeBetween(
-        currentTime, reminderTime);
+    Optional<List<RemindersData>> remindersDataOptional = repo
+        .findAllByStartTimeBetweenAndRemindedIsFalse(currentTime, reminderTime);
 
     if (remindersDataOptional.isPresent()) {
       for (RemindersData data : remindersDataOptional.get()) {
+        data.setReminded(true);
         for (String email : data.getEmails()) {
           emailService.sendEmail(
               email,
