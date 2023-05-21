@@ -196,5 +196,7 @@ public class MessageService {
           messageUsers.setReadStatus(true);
           messageUsersRepo.save(messageUsers);
         });
+    //TODO:
+    // messageUsersRepo.setMarkAsReadUserMessagesOfChitchat(chitchatId, userName, parseDateTime);
   }
 }
