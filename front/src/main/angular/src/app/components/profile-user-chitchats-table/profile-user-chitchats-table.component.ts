@@ -23,6 +23,7 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   dataSource: MatTableDataSource<Chitchat> = new MatTableDataSource(this.chitchats);
   @Input()
   chitchatsType: string;
+  onlyUnreadFilter: boolean = false;
   private unreadChitchats: ChitchatUnreadCount[] = [];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
@@ -75,14 +76,19 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   private setDataSource(result: Chitchat[]) {
+    result.forEach(value => value.countUnreadMessages = this.countUnreadMessages(value.id))
     this.chitchats = result;
     this.dataSource = new MatTableDataSource(this.chitchats);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate =
+        (data, filter) => data.countUnreadMessages.toString() !== filter;
+    this.onlyUnreadFilterChange();
   }
 
   countUnreadMessages(chitchatId: number): number {
-    return this.unreadChitchats.filter(value => value.chitchatId === chitchatId).length;
+    return this.unreadChitchats.filter(value => value.chitchatId === chitchatId)
+    .reduce((prev, current) => prev + current.unreadCount, 0);
   }
 
   openChitchat(chitchatId: number) {
@@ -97,5 +103,9 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
         autoFocus: true,
       });
     });
+  }
+
+  onlyUnreadFilterChange() {
+    this.dataSource.filter = this.onlyUnreadFilter ? '0' : '';
   }
 }
