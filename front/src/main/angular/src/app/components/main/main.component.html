@@ -36,7 +36,7 @@
                   </div>
                   <div class="badge badge-danger position-absolute"
                        style="font-size:8px;font-weight: bold"
-                  >{{totalCountUnreadUserMessages}}
+                  *ngIf="totalCountUnreadUserMessages > 0">{{totalCountUnreadUserMessages}}
                   </div>
                 </a>
               </li>

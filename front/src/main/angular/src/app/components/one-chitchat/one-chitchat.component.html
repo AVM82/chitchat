@@ -28,7 +28,7 @@
         </ul>
         <div class="card-body text-center">
           <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary">+ to Chat</a>
-          <a class="card-link" mat-dialog-close>{{translate('Close')}}</a>
+          <a class="card-link" (click)="markAsReadUserMessagesOfChitchat()" mat-dialog-close>{{translate('Close')}}</a>
         </div>
       </div>
     </div>
