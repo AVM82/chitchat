@@ -45,6 +45,7 @@ export class ChitchatComponent {
       this.dialog.open(OneChitchatComponent, {
         data: [this.oneChitchat],
         hasBackdrop: true,
+        width: "60%",
         disableClose: true,
         autoFocus: true,
       });

@@ -11,6 +11,7 @@ import {TokenStorageService} from "../../service/token-storage.service";
 import {ProfileService} from "../../service/profile.service";
 import {Router} from "@angular/router";
 import {MessageService} from "../../service/message.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-main',
@@ -35,6 +36,7 @@ export class MainComponent implements OnInit {
               private tokenStorageService: TokenStorageService,
               private router: Router,
               private messageService: MessageService,
+              private notificationService: NotificationService,
   ) {
   }
 
@@ -55,7 +57,10 @@ export class MainComponent implements OnInit {
         });
     this.messageService.getTotalCountUnreadUserMessages().subscribe(
         data => {
-          this.totalCountUnreadUserMessages = data.value
+          this.totalCountUnreadUserMessages = data.value;
+          if (this.totalCountUnreadUserMessages > 0) {
+            this.notificationService.showSnackBar('You have unread chat messages.')
+          }
         });
   }
 

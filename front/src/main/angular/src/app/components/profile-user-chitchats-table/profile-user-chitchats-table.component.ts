@@ -10,6 +10,7 @@ import {ChitchatUnreadCount} from "../../model/ChitchatUnreadCount";
 import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
 import {ChitchatService} from "../../service/chitchat.service";
 import {MatDialog} from "@angular/material/dialog";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-profile-user-chitchats-table',
@@ -23,6 +24,9 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   dataSource: MatTableDataSource<Chitchat> = new MatTableDataSource(this.chitchats);
   @Input()
   chitchatsType: string;
+  onlyUnreadFilter: boolean;
+  @Input()
+  onlyUnreadFilterSubject: Subject<boolean>;
   private unreadChitchats: ChitchatUnreadCount[] = [];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
@@ -38,6 +42,11 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit() {
     this.setDataSource(this.chitchats);
+    this.onlyUnreadFilterSubject.subscribe((val) => {
+      // console.log(this.onlyUnreadFilter, val);
+      this.onlyUnreadFilter = val;
+      this.onlyUnreadFilterChange();
+    });
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -75,14 +84,19 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   private setDataSource(result: Chitchat[]) {
+    result.forEach(value => value.countUnreadMessages = this.countUnreadMessages(value.id))
     this.chitchats = result;
     this.dataSource = new MatTableDataSource(this.chitchats);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate =
+        (data, filter) => data.countUnreadMessages.toString() !== filter;
+    this.onlyUnreadFilterChange();
   }
 
   countUnreadMessages(chitchatId: number): number {
-    return this.unreadChitchats.filter(value => value.chitchatId === chitchatId).length;
+    return this.unreadChitchats.filter(value => value.chitchatId === chitchatId)
+    .reduce((prev, current) => prev + current.unreadCount, 0);
   }
 
   openChitchat(chitchatId: number) {
@@ -95,7 +109,19 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
         hasBackdrop: true,
         disableClose: true,
         autoFocus: true,
-      });
+      }).afterClosed().subscribe(value => {
+        this.messageService.getAllUnreadUserChitchats().subscribe(result => {
+          let unreadCount = result.filter(value => value.chitchatId === chitchatId).reduce(
+              (prev, current) => prev + current.unreadCount, 0);
+          this.dataSource.data.filter(value1 => value1.id===chitchatId).forEach(
+              value1 => value1.countUnreadMessages = unreadCount);
+          this.onlyUnreadFilterChange();
+        })
+      })
     });
+  }
+
+  onlyUnreadFilterChange() {
+    this.dataSource.filter = this.onlyUnreadFilter ? '0' : '';
   }
 }
