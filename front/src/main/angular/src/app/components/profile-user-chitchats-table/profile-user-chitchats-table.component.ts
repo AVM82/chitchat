@@ -109,7 +109,15 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
         hasBackdrop: true,
         disableClose: true,
         autoFocus: true,
-      });
+      }).afterClosed().subscribe(value => {
+        this.messageService.getAllUnreadUserChitchats().subscribe(result => {
+          let unreadCount = result.filter(value => value.chitchatId === chitchatId).reduce(
+              (prev, current) => prev + current.unreadCount, 0);
+          this.dataSource.data.filter(value1 => value1.id===chitchatId).forEach(
+              value1 => value1.countUnreadMessages = unreadCount);
+          this.onlyUnreadFilterChange();
+        })
+      })
     });
   }
 
