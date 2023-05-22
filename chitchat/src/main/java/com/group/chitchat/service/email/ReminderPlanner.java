@@ -1,12 +1,15 @@
 package com.group.chitchat.service.email;
 
+import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.RemindersData;
 import com.group.chitchat.repository.RemindersDataRepo;
 import com.group.chitchat.service.internationalization.BundlesService;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,10 +28,25 @@ public class ReminderPlanner {
   private final EmailService emailService;
 
   /**
+   * Save data to reminder table.
+   */
+
+  public void createReminderData(Chitchat chitchat) {
+    Set<String> usersEmails = new HashSet<>();
+    usersEmails.add(chitchat.getAuthor().getEmail());
+    RemindersData data = RemindersData.builder()
+        .startTime(chitchat.getDate())
+        .emails(usersEmails)
+        .build();
+    data.setChitchat(chitchat);
+    chitchat.setRemindersData(data);
+  }
+
+  /**
    * After a specified period, it checks in the repository the records for which you need to send a
    * reminder.
    */
-  @Scheduled(fixedRate = 300000)
+  @Scheduled(fixedRate = 600000)
   @Transactional
   public void sendReminder() {
     log.info("Start scheduled");
