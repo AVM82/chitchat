@@ -1,10 +1,4 @@
 <ng-container *transloco="let translate;">
-  <div>
-    <mat-checkbox class="example-margin"
-                  [(ngModel)]="onlyUnreadFilter"
-                  (change)="onlyUnreadFilterChange()"
-    >Only with unread messages</mat-checkbox>
-  </div>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
 

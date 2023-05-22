@@ -10,6 +10,7 @@ import {ChitchatUnreadCount} from "../../model/ChitchatUnreadCount";
 import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
 import {ChitchatService} from "../../service/chitchat.service";
 import {MatDialog} from "@angular/material/dialog";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-profile-user-chitchats-table',
@@ -23,7 +24,9 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   dataSource: MatTableDataSource<Chitchat> = new MatTableDataSource(this.chitchats);
   @Input()
   chitchatsType: string;
-  onlyUnreadFilter: boolean = false;
+  onlyUnreadFilter: boolean;
+  @Input()
+  onlyUnreadFilterSubject: Subject<boolean>;
   private unreadChitchats: ChitchatUnreadCount[] = [];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
@@ -39,6 +42,11 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit() {
     this.setDataSource(this.chitchats);
+    this.onlyUnreadFilterSubject.subscribe((val) => {
+      console.log(this.onlyUnreadFilter, val);
+      this.onlyUnreadFilter = val;
+      this.onlyUnreadFilterChange();
+    });
   }
 
   /** Announce the change in sort state for assistive technology. */
