@@ -39,7 +39,6 @@ export class LoginComponent {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password
     }).subscribe(data => {
-      console.log(data)
       this.tokenStorage.saveToken(data.token);
       this.tokenStorage.saveRefreshToken(data.refreshToken);
       this.tokenStorage.saveUser();
