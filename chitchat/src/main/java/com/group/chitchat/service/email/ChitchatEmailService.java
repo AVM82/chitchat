@@ -32,4 +32,6 @@ public class ChitchatEmailService implements EmailService {
     mailSender.send(message);
     log.info("Email to {} sent successfully", email);
   }
+
+
 }
