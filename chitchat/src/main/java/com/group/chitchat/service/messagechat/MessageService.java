@@ -1,8 +1,8 @@
 package com.group.chitchat.service.messagechat;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
+import com.group.chitchat.model.ChatMessage;
 import com.group.chitchat.model.Chitchat;
-import com.group.chitchat.model.MessageChat;
 import com.group.chitchat.model.MessageUsers;
 import com.group.chitchat.model.MessageUsersKey;
 import com.group.chitchat.model.User;
@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -41,20 +39,20 @@ public class MessageService {
    * @return status and message entity object.
    */
   @Transactional
-  public MessageChat addMessage(MessageChatDto messageChatDto) {
+  public ChatMessage addMessage(MessageChatDto messageChatDto) {
 
-    MessageChat newMessageChat = messageChatRepo.save(getMessageChat(messageChatDto));
+    ChatMessage newMessageChat = messageChatRepo.save(getMessageChat(messageChatDto));
 
     Chitchat chitchat = chitchatRepo.findById(messageChatDto.getChitchatId())
         .orElseThrow(() -> new ChitchatsNotFoundException(messageChatDto.getChitchatId()));
-    Set<User> usersInChitchat = chitchat.getUsersInChitchat();
-    usersInChitchat.stream().iterator().forEachRemaining(
+
+    chitchat.getUsersInChitchat().stream().iterator().forEachRemaining(
         user -> addMessageUsers(user, newMessageChat));
 
     return newMessageChat;
   }
 
-  private void addMessageUsers(User user, MessageChat message) {
+  private void addMessageUsers(User user, ChatMessage message) {
 
     MessageUsers messageUsers = MessageUsers.builder()
         .id(new MessageUsersKey(message.getId(), user.getId()))
@@ -72,7 +70,7 @@ public class MessageService {
    */
   public List<MessageChatDto> getAllMessages() {
 
-    List<MessageChat> messages = messageChatRepo.findAll();
+    List<ChatMessage> messages = messageChatRepo.findAll();
     return messages.stream()
         .map(this::getMessageChatDto)
         .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
@@ -87,26 +85,14 @@ public class MessageService {
    */
   public List<MessageChatDto> getAllMessagesByChitchatId(Long chitchatId) {
 
-    List<MessageChat> messages = messageChatRepo.findAllByChitchatId(chitchatId);
+    List<ChatMessage> messages = messageChatRepo.findAllByChitchatId(chitchatId);
     return messages.stream()
         .map(this::getMessageChatDto)
         .sorted(Comparator.comparing(MessageChatDto::getCreatedTime))
         .toList();
   }
 
-  private MessageChat getMessageChat(MessageChatDto messageChatDto) {
-
-    User author = new User();
-    Chitchat chitchat = new Chitchat();
-
-    Optional<User> optionalUser = userRepo.findByUsername(messageChatDto.getAuthorName());
-    Optional<Chitchat> optionalChitchat = chitchatRepo.findById(messageChatDto.getChitchatId());
-    if (optionalUser.isPresent()) {
-      author = optionalUser.get();
-    }
-    if (optionalChitchat.isPresent()) {
-      chitchat = optionalChitchat.get();
-    }
+  private ChatMessage getMessageChat(MessageChatDto messageChatDto) {
 
     LocalDateTime parseCreatedTime;
     try {
@@ -117,10 +103,9 @@ public class MessageService {
       log.info("Wrong json date format {}", messageChatDto.getCreatedTime());
       log.info("Set LocalDateTime.now(): {}", parseCreatedTime);
     }
-
-    return MessageChat.builder()
-        .author(author)
-        .chitchat(chitchat)
+    return ChatMessage.builder()
+        .author(userRepo.findByUsername(messageChatDto.getAuthorName()).orElseThrow())
+        .chitchat(chitchatRepo.findById(messageChatDto.getChitchatId()).orElseThrow())
         .message(messageChatDto.getMessage())
         .createdTime(parseCreatedTime)
         .subscriptionType(messageChatDto.getSubscriptionType())
@@ -133,7 +118,7 @@ public class MessageService {
    * @param messageChat A MessageChat object
    * @return MessageChatDto
    */
-  public MessageChatDto getMessageChatDto(MessageChat messageChat) {
+  public MessageChatDto getMessageChatDto(ChatMessage messageChat) {
     return MessageChatDto.builder()
         .id(messageChat.getId())
         .authorName(messageChat.getAuthor().getUsername())

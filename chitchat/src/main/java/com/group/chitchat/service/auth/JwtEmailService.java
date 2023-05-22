@@ -23,7 +23,7 @@ public class JwtEmailService {
   /**
    * This constant is responsible for how long will code run.
    */
-  private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 30;
+  private static final int HOW_LONG_WILL_CODE_WORK = 1000 * 60 * 930;
 
   public String extractUsername(String jwtToken) {
     return extractClaim(jwtToken, Claims::getSubject);
