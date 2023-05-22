@@ -43,7 +43,7 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   ngAfterViewInit() {
     this.setDataSource(this.chitchats);
     this.onlyUnreadFilterSubject.subscribe((val) => {
-      console.log(this.onlyUnreadFilter, val);
+      // console.log(this.onlyUnreadFilter, val);
       this.onlyUnreadFilter = val;
       this.onlyUnreadFilterChange();
     });
