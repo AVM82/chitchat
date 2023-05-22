@@ -2,116 +2,112 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 px-0">
+      <div class="col-lg-5 px-0">
         <div class="row px-0 mx-0">
           <div class="col-4 pl-0">
-            <div class="card my-0" style="width: 18rem;">
+            <div class="card border-0 my-0" style="width: 20rem">
               <div class="row mx-0">
                 <div class="col-6 ">
                   <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"
                        style="width: 7rem">
                     <img class="card-img-top" src="assets/img/faces/team-4.jpg" alt="..."/>
                   </div>
-                </div>
-                  <div class="col px-0">
-                    <h4 class="py-1 my-0"><span class="badge badge-warning py-1">Author</span>{{"  "+oneChitChat.authorName}}</h4>
-                    <h4 class="py-1 my-0"><span class="badge badge-primary py-1">Language</span>{{"  "+oneChitChat.languageName}}</h4>
-                    <h4 class="py-1 my-0"><span class="badge badge-info py-1">Level</span>{{"  "+oneChitChat.level}}</h4>
-                    <h4 class="py-1 my-0"><span class="badge badge-success py-1">Date</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}</h4>
-                    <h4 class="py-1 my-0"><span class="badge badge-danger py-1">Time</span>{{oneChitChat.date|date: '  hh:mm'}}</h4>
-
+                  <div class="badge-success text-light position-absolute"
+                       style="font-size:16px; top: 0.5rem; left: 0.5rem">{{oneChitChat.authorName}}
                   </div>
+                </div>
+                <div class="col-lg-6 px-0">
+                  <h4 class="py-1 my-0"><span class="badge badge-primary py-1">Language</span>{{"  "
+                  + oneChitChat.languageName}}</h4>
+                  <h4 class="py-1 my-0"><span class="badge badge-info py-1">Level</span>{{"  "
+                  + oneChitChat.level}}</h4>
+                  <h4 class="py-1 my-0"><span
+                      class="badge badge-success py-1">Date</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
+                  </h4>
+                  <h4 class="py-1 my-0"><span
+                      class="badge badge-danger py-1">Time</span>{{oneChitChat.date|date: '  hh:mm'}}
+                  </h4>
+                </div>
               </div>
               <ul class="list-group py-0 my-0 list-group-flush">
                 <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
               </ul>
-              <div class="card-body text-center">
-                <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary"
-                   *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"
-                >Join</a>
-                <a class="card-link" mat-dialog-close
-                   (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</a>
+              <div class="form-group pl-2">
+                <h4 class="py-1 my-0"><span class="badge badge-info py-1">Theme</span>{{"    "+oneChitChat.chatName}}</h4>
+                <h4 class="py-1 my-0"><span class="badge badge-info py-1">Description</span></h4>
+                <textarea class="form-control" rows="7">{{oneChitChat.description}}</textarea>
               </div>
             </div>
-            <!--      <div class="col-3">-->
-            <!--        <ul class="list-group list-group-flush mt-1"-->
-            <!--            *ngFor="let user of oneChitChat.usersInChitchat">-->
-            <!--          <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>-->
-            <!--        </ul>-->
-            <!--      </div>-->
-
           </div>
-
-
-
-          <!--    <div class="col-6">-->
-          <!--      <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>-->
-          <!--    </div>-->
         </div>
       </div>
       <div class="col-sm-2 px-0">
-        <ul class="list-group list-group-flush mt-1"
+        <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">Participants</span></h4>
+        <ul class="list-group list-group-flush ml-2 mt-1"
             *ngFor="let user of oneChitChat.usersInChitchat">
-          <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>
+          <button type="button" class="btn my-0 btn-outline-info btn-sm">{{user}}</button>
         </ul>
       </div>
       <div class="col-sm px-0">
-          <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>
+        <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>
       </div>
     </div>
   </div>
-  <div class="align-content-sm-center">
-    <button type="button" class="btn btn-success btn-sm">Small button</button>
-    <button type="button" class="btn btn-danger btn-sm">Small button</button>
+  <div class="text-center">
+    <button class="btn btn-success mx-1" (click)="addToChitchat(oneChitChat)"
+            *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"
+    >Join
+    </button>
+    <button class="btn btn-warning mx-1" type="reset"
+            (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</button>
   </div>
 
-<!--  <div class="row px-0 mx-0">-->
-<!--    <div class="col-4">-->
-<!--      <div class="card my-0" style="width: 18rem;">-->
-<!--        <div class="row mx-0">-->
-<!--          <div class="col-6 ">-->
-<!--            <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"-->
-<!--                 style="width: 7rem">-->
-<!--              <img class="card-img-top" src="assets/img/faces/team-4.jpg" alt="..."/>-->
-<!--            </div>-->
-<!--          </div>-->
+  <!--  <div class="row px-0 mx-0">-->
+  <!--    <div class="col-4">-->
+  <!--      <div class="card my-0" style="width: 18rem;">-->
+  <!--        <div class="row mx-0">-->
+  <!--          <div class="col-6 ">-->
+  <!--            <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"-->
+  <!--                 style="width: 7rem">-->
+  <!--              <img class="card-img-top" src="assets/img/faces/team-4.jpg" alt="..."/>-->
+  <!--            </div>-->
+  <!--          </div>-->
 
-<!--          <div class="col-5">-->
-<!--            <ul class="list-group list-group-flush mt-1"-->
-<!--                *ngFor="let user of oneChitChat.usersInChitchat">-->
-<!--              <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="card-body py-0 my-1">-->
-<!--          <h5 class="card-title text-primary py-0 my-0">{{translate('Description')}}</h5>-->
-<!--          <p class="card-text py-0 my-0"> {{oneChitChat.description}}</p>-->
-<!--        </div>-->
-<!--        <ul class="list-group py-0 my-0 list-group-flush">-->
-<!--          <li class="list-group-item py-0 my-1">{{oneChitChat.authorName}}</li>-->
-<!--          <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>-->
-<!--          <li class="list-group-item py-0 my-1">{{oneChitChat.languageName}}</li>-->
-<!--        </ul>-->
-<!--        <div class="card-body text-center">-->
-<!--          <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary"-->
-<!--             *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"-->
-<!--          >Join</a>-->
-<!--          <a class="card-link" mat-dialog-close>{{translate('Close')}}</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-3">-->
-<!--        <ul class="list-group list-group-flush mt-1"-->
-<!--            *ngFor="let user of oneChitChat.usersInChitchat">-->
-<!--          <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>-->
-<!--        </ul>-->
-<!--      </div>-->
+  <!--          <div class="col-5">-->
+  <!--            <ul class="list-group list-group-flush mt-1"-->
+  <!--                *ngFor="let user of oneChitChat.usersInChitchat">-->
+  <!--              <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>-->
+  <!--            </ul>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--        <div class="card-body py-0 my-1">-->
+  <!--          <h5 class="card-title text-primary py-0 my-0">{{translate('Description')}}</h5>-->
+  <!--          <p class="card-text py-0 my-0"> {{oneChitChat.description}}</p>-->
+  <!--        </div>-->
+  <!--        <ul class="list-group py-0 my-0 list-group-flush">-->
+  <!--          <li class="list-group-item py-0 my-1">{{oneChitChat.authorName}}</li>-->
+  <!--          <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>-->
+  <!--          <li class="list-group-item py-0 my-1">{{oneChitChat.languageName}}</li>-->
+  <!--        </ul>-->
+  <!--        <div class="card-body text-center">-->
+  <!--          <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary"-->
+  <!--             *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"-->
+  <!--          >Join</a>-->
+  <!--          <a class="card-link" mat-dialog-close>{{translate('Close')}}</a>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      <div class="col-3">-->
+  <!--        <ul class="list-group list-group-flush mt-1"-->
+  <!--            *ngFor="let user of oneChitChat.usersInChitchat">-->
+  <!--          <li class="list-group-item p-0 m-0 text-primary">{{user}}</li>-->
+  <!--        </ul>-->
+  <!--      </div>-->
 
-<!--    </div>-->
+  <!--    </div>-->
 
 
-
-<!--    <div class="col-6">-->
-<!--      <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!--    <div class="col-6">-->
+  <!--      <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </ng-container>
