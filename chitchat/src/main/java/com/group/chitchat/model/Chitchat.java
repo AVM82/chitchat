@@ -1,6 +1,7 @@
 package com.group.chitchat.model;
 
 import com.group.chitchat.model.enums.Levels;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -61,6 +63,10 @@ public class Chitchat {
       joinColumns = @JoinColumn(name = "chitchat_id"),
       inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<User> usersInChitchat = new LinkedHashSet<>();
+  @Column(name = "link")
+  private String conferenceLink;
+  @OneToOne(mappedBy = "chitchat", cascade = CascadeType.ALL)
+  private RemindersData remindersData;
 
   @Override
   public String toString() {

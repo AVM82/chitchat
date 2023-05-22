@@ -132,6 +132,24 @@ public class ChitchatController {
   }
 
   /**
+   * Marks as read user messages of chitchat.
+   *
+   * @param chitchatId    A chitchatId
+   * @param date          A date
+   * @param requestHeader An object for obtaining request header parameters.
+   * @param response      object that sets the locale.
+   */
+  @PutMapping("/chat_messages/{chitchatId}")
+  public void markReadMessagesOfChitchat(
+      @PathVariable("chitchatId") Long chitchatId,
+      @RequestParam(value = "date") String date,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    messageService.markAsReadUserMessagesOfChitchat(chitchatId,
+        requestHeader.getUserPrincipal().getName(), date);
+  }
+
+  /**
    * Creates and adds a new chat.
    *
    * @param forCreateChitchatDto An object that contains the necessary data to create a chat.

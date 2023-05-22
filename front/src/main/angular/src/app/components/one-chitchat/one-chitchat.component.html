@@ -29,7 +29,8 @@
                 <a (click)="addToChitchat(oneChitChat)" class="card-link text-primary"
                    *ngIf="oneChitChat.usersInChitchat.length<oneChitChat.capacity"
                 >Join</a>
-                <a class="card-link" mat-dialog-close>{{translate('Close')}}</a>
+                <a class="card-link" mat-dialog-close
+                   (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</a>
               </div>
             </div>
             <!--      <div class="col-3">-->

@@ -27,4 +27,9 @@ export class MessageService {
   getAllUnreadUserChitchats(): Observable<ChitchatUnreadCount[]> {
     return this.httpClient.get<ChitchatUnreadCount[]>(this.url + '/chat_messages/unread_chitchats');
   }
+
+  putMarkAsReadUserMessagesOfChitchat(id: number): Observable<any> {
+    return this.httpClient.put<any>(this.url + '/chat_messages/' + id, null,
+        {params: {date: new Date().toISOString()}});
+  }
 }
