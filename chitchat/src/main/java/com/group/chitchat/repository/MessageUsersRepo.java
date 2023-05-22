@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface MessageUsersRepo extends JpaRepository<MessageUsers, MessageUsersKey> {
 
@@ -25,10 +24,15 @@ public interface MessageUsersRepo extends JpaRepository<MessageUsers, MessageUse
   List<ChitchatUnreadCountDto> findAllUnreadUserChitchats(String userName);
 
   @Modifying
-  @Query("UPDATE MessageUsers m set m.readStatus = true WHERE m.readStatus = false "
-      + "and m.messages.chitchat.id = ?1 "
-      + "and m.user.username = ?2 "
-      + "and m.messages.createdTime < ?3")
+  @Query(value = "UPDATE message_users "
+      + "SET read_status = true "
+      + "WHERE messages_id in ("
+      + "          SELECT message_users.messages_id FROM message_users "
+      + "            JOIN users ON message_users.user_id = users.id "
+      + "            JOIN messages ON message_users.messages_id = messages.id "
+      + "          WHERE message_users.read_status = false "
+      + "and messages.chitchat_id = ?1 and users.username = ?2 and messages.created_time < ?3)",
+      nativeQuery = true)
   int setMarkAsReadUserMessagesOfChitchat(
       Long chitchatId,
       String userName,

@@ -188,15 +188,6 @@ public class MessageService {
       log.info("Wrong json date format {}", date);
       log.info("Set LocalDateTime.now(): {}", parseDateTime);
     }
-    LocalDateTime finalParseDateTime = parseDateTime;
-    messageUsersRepo.findAllByUserUsernameAndReadStatusEquals(userName, false).stream()
-        .filter(messageUsers -> messageUsers.getMessages().getChitchat().getId() == chitchatId
-            && messageUsers.getMessages().getCreatedTime().isBefore(finalParseDateTime))
-        .forEach(messageUsers -> {
-          messageUsers.setReadStatus(true);
-          messageUsersRepo.save(messageUsers);
-        });
-    //TODO:
-    // messageUsersRepo.setMarkAsReadUserMessagesOfChitchat(chitchatId, userName, parseDateTime);
+    messageUsersRepo.setMarkAsReadUserMessagesOfChitchat(chitchatId, userName, parseDateTime);
   }
 }
