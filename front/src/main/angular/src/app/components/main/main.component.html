@@ -34,10 +34,9 @@
                          alt="..."/>
 <!--                  {{currentUser}}-->
                   </div>
-                  <div class="badge bg-white position-absolute"
+                  <div class="badge badge-danger position-absolute"
                        style="font-size:8px;font-weight: bold"
-                       [class.text-danger]="totalCountUnreadUserMessages > 0"
-                  >{{totalCountUnreadUserMessages}}
+                  *ngIf="totalCountUnreadUserMessages > 0">{{totalCountUnreadUserMessages}}
                   </div>
                 </a>
               </li>

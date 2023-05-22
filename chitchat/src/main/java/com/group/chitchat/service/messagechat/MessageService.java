@@ -153,4 +153,26 @@ public class MessageService {
   public Long getTotalCountUnreadUserMessages(String userName) {
     return messageUsersRepo.totalCountUnreadUserMessages(userName);
   }
+
+  /**
+   * Marks as read user messages of chitchat.
+   *
+   * @param chitchatId A chitchatId
+   * @param userName   A userName
+   * @param date       A date
+   */
+  @Transactional
+  public void markAsReadUserMessagesOfChitchat(Long chitchatId,
+      String userName, String date) {
+    LocalDateTime parseDateTime;
+    try {
+      parseDateTime = LocalDateTime.parse(date,
+          DateTimeFormatter.ISO_DATE_TIME);
+    } catch (Exception e) {
+      parseDateTime = LocalDateTime.now();
+      log.info("Wrong json date format {}", date);
+      log.info("Set LocalDateTime.now(): {}", parseDateTime);
+    }
+    messageUsersRepo.setMarkAsReadUserMessagesOfChitchat(chitchatId, userName, parseDateTime);
+  }
 }
