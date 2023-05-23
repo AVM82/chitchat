@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TokenStorageService} from "../../service/token-storage.service";
 import {ChitchatService} from "../../service/chitchat.service";
 import {MessageService} from "../../service/message.service";
@@ -17,6 +17,7 @@ export class OneChitchatComponent implements OnInit{
 
   constructor(
       private chitchatService: ChitchatService,
+      private dialogRef: MatDialogRef<OneChitchatComponent>,
       @Inject(MAT_DIALOG_DATA) private data: [Chitchat],
       private tokenStorageService: TokenStorageService,
       private messageService: MessageService,
@@ -36,6 +37,7 @@ export class OneChitchatComponent implements OnInit{
 
   markAsReadUserMessagesOfChitchat() {
     this.messageService.putMarkAsReadUserMessagesOfChitchat(this.oneChitChat.id).subscribe();
+    this.dialogRef.close();
   }
 
   addConferenceLink() {
