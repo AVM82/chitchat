@@ -38,11 +38,16 @@ export class ChitchatService {
 
   getAll(request: any): Observable<Page> {
     const params = request;
-    return this.httpClient.get<any>(this.url + "/all", { params });
+    return this.httpClient.get<any>(this.url + "/all", {params});
   }
 
   update(obj: Chitchat): Observable<Chitchat> {
-    return this.httpClient.put<Chitchat>(this.url+'/',obj);
+    return this.httpClient.put<Chitchat>(this.url + '/', obj);
+  }
+
+  addChitchatLink(obj: Chitchat, conferenceLink: string): Observable<any> {
+    return this.httpClient.put<Chitchat>(this.url + '/link/' + obj.id,
+        {value: conferenceLink});
   }
 
   filter(filteredLanguage: string, filteredLevel: string,
@@ -54,7 +59,7 @@ export class ChitchatService {
         "&levelId=" + filteredLevel +
         "&dateFrom=" + filteredDateFrom +
         "&dateTo=" + filteredDateTo +
-        "&categoryId=" + (category ? category.id : ''), { params });
+        "&categoryId=" + (category ? category.id : ''), {params});
   }
 
 }
