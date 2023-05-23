@@ -16,6 +16,7 @@ import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
+import com.group.chitchat.repository.TranslationRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
@@ -48,12 +49,11 @@ public class ChitchatService {
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
   private final ReminderPlanner reminderPlanner;
-
-
   /**
    * Messages for sending email.
    */
-  private static final String CONFIRM_CREATE_MESSAGE = "m.create_chitchat";
+  private static final String CONFIRM_CREATE_MESSAGE_KEY = "email_confirm_create_chat";
+  TranslationRepo translationRepo;
   private final BundlesService bundlesService;
 
   private static final String CONFIRM_PARTICIPATION_MESSAGE = "m.participate_chitchat";
@@ -108,35 +108,17 @@ public class ChitchatService {
   private void sendConfirmEmail(String email, Chitchat chitchat, String url) {
     log.info("create message");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
-    String greeting = String.format(bundlesService.getMessForLocale(
-            "email.confirm_greeting", Locale.getDefault()),
+
+    String message = String.format(
+        translationRepo.findByKeyAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
+            .orElseThrow().getMessage(),
         chitchat.getDate().format(formatter),
         chitchat.getCategory().getName(),
         chitchat.getLanguage().getName(),
-        chitchat.getLevel());
-    String step1 = String.format(bundlesService.getMessForLocale(
-            "email.confirm_step_1", Locale.getDefault()),
+        chitchat.getLevel(),
         CalendarService.generateCalendarLink(
-            chitchat.getChatName(),
-            chitchat.getDescription(),
-            chitchat.getDate(),
-            url));
-    String step2 = bundlesService.getMessForLocale(
-        "email.confirm_step_2", Locale.getDefault());
-    String step3 = bundlesService.getMessForLocale(
-        "email.confirm_step_3", Locale.getDefault());
-    String step4 = bundlesService.getMessForLocale(
-        "email.confirm_step_4", Locale.getDefault());
-    String step5 = String.format(bundlesService.getMessForLocale(
-        "email.confirm_step_5", Locale.getDefault()), url);
-    String note1 = bundlesService.getMessForLocale(
-        "email.confirm_notification_1", Locale.getDefault());
-    String note2 = bundlesService.getMessForLocale(
-        "email.confirm_notification_2", Locale.getDefault());
-    String note3 = bundlesService.getMessForLocale(
-        "email.confirm_notification_3", Locale.getDefault());
-
-    String message = greeting + step1 + step2 + step3 + step4 + step5 + note1 + note2 + note3;
+            chitchat.getChatName(), chitchat.getDescription(), chitchat.getDate(), url),
+        url);
 
     emailService.sendEmail(email, "Chitchat: " + chitchat.getChatName(), message);
   }

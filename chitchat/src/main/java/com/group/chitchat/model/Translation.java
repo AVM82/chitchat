@@ -1,8 +1,10 @@
 package com.group.chitchat.model;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,12 +21,11 @@ import lombok.ToString;
 public class Translation {
 
   @Id
+  private int id;
+
   private String key;
 
-  private String english;
+  private Locale locale;
 
-  private String german;
-
-  private String ukrainian;
-
+  private String message;
 }

@@ -67,9 +67,9 @@ public class ReminderPlanner {
               bundlesService.getMessForLocale(TITLE, Locale.getDefault()),
               String.format(bundlesService.getMessForLocale(MESSAGE, Locale.getDefault()),
                   ChronoUnit.MINUTES.between(currentTime, data.getStartTime()), data.getLink()));
-          log.info("Finish scheduled");
         }
       }
     }
+    log.info("Finish scheduled");
   }
 }
