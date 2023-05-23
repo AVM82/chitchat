@@ -36,7 +36,8 @@ public class ProfileController {
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return profileService.getProfile(requestHeader.getUserPrincipal().getName());
+    return ResponseEntity.ok(
+        profileService.getProfile(requestHeader.getUserPrincipal().getName()));
   }
 
   /**
@@ -46,28 +47,36 @@ public class ProfileController {
   public ResponseEntity<UserForResponseDto> getProfileDetails(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return profileService.getProfileDetails(requestHeader.getUserPrincipal().getName());
+
+    return ResponseEntity.ok(
+        profileService.getProfileDetails(requestHeader.getUserPrincipal().getName()));
   }
 
   @GetMapping("/my_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getUserCreatedChats(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return profileService.getUserCreatedChats(requestHeader.getUserPrincipal().getName());
+
+    return ResponseEntity.ok(
+        profileService.getUserCreatedChats(requestHeader.getUserPrincipal().getName()));
   }
 
   @GetMapping("/planned_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getChatsWithUser(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return profileService.getChatsWithUser(requestHeader.getUserPrincipal().getName());
+
+    return ResponseEntity.ok(
+        profileService.getChatsWithUser(requestHeader.getUserPrincipal().getName()));
   }
 
   @GetMapping("/archive_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getArchiveChats(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return profileService.getArchiveChats(requestHeader.getUserPrincipal().getName());
+
+    return ResponseEntity.ok(
+        profileService.getArchiveChats(requestHeader.getUserPrincipal().getName()));
   }
 
   /**
@@ -81,10 +90,10 @@ public class ProfileController {
   @PutMapping()
   public ResponseEntity<UserForResponseDto> updateUserData(@RequestBody UserForEditDto userDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
-
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return profileService.updateProfile(requestHeader.getUserPrincipal().getName(), userDto);
+    return ResponseEntity.ok(
+        profileService.updateProfile(requestHeader.getUserPrincipal().getName(), userDto));
   }
 
   /**
@@ -96,10 +105,10 @@ public class ProfileController {
   @PostMapping("/avatar")
   public ResponseEntity<AvatarDto> uploadAvatar(@RequestParam(value = "avatar") MultipartFile file,
       HttpServletRequest requestHeader, HttpServletResponse response) {
-
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return profileService.uploadAvatar(requestHeader.getUserPrincipal().getName(), file);
+    return ResponseEntity.ok(
+        profileService.uploadAvatar(requestHeader.getUserPrincipal().getName(), file));
   }
 
   /**
@@ -110,9 +119,9 @@ public class ProfileController {
   @GetMapping("/avatar")
   public ResponseEntity<AvatarDto> getAvatarUrl(HttpServletRequest requestHeader,
       HttpServletResponse response) {
-
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return profileService.getAvatarUrl(requestHeader.getUserPrincipal().getName());
+    return ResponseEntity.ok(
+        profileService.getAvatarUrl(requestHeader.getUserPrincipal().getName()));
   }
 }

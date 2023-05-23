@@ -6,8 +6,6 @@ import com.group.chitchat.repository.CategoryRepo;
 import java.util.Comparator;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +23,12 @@ public class CategoryService {
    *
    * @return List of categories.
    */
-  public ResponseEntity<List<CategoryDto>> getAllCategories() {
+  public List<CategoryDto> getAllCategories() {
 
-    return ResponseEntity.ok(
-        categoryRepo.findAll().stream()
-            .map(CategoryDtoService::getFromEntity)
-            .sorted(Comparator.comparing(CategoryDto::getPriority).reversed())
-            .toList());
+    return categoryRepo.findAll().stream()
+        .map(CategoryDtoService::getFromEntity)
+        .sorted(Comparator.comparing(CategoryDto::getPriority).reversed())
+        .toList();
   }
 
   /**
@@ -40,9 +37,9 @@ public class CategoryService {
    * @param categoryId id of category.
    * @return category by id.
    */
-  public ResponseEntity<CategoryDto> getOneCategory(Integer categoryId) {
-    return ResponseEntity.ok(
-        CategoryDtoService.getFromEntity(categoryRepo.findById(categoryId).orElseThrow()));
+  public CategoryDto getOneCategory(Integer categoryId) {
+
+    return CategoryDtoService.getFromEntity(categoryRepo.findById(categoryId).orElseThrow());
   }
 
   /**
@@ -51,12 +48,11 @@ public class CategoryService {
    * @param categoryDto Incoming dto with data for adding to database;
    * @return Response with status and body.
    */
-  public ResponseEntity<CategoryDto> addCategory(CategoryDto categoryDto) {
+  public CategoryDto addCategory(CategoryDto categoryDto) {
     Category category = CategoryDtoService.getFromDto(categoryDto);
     categoryRepo.save(category);
 
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(CategoryDtoService.getFromEntity(category));
+    return CategoryDtoService.getFromEntity(category);
   }
 
   /**
@@ -67,10 +63,10 @@ public class CategoryService {
    * @return Response with status and body with changed category.
    */
   @Transactional
-  public ResponseEntity<CategoryDto> changeCategory(Integer categoryId, CategoryDto categoryDto) {
+  public CategoryDto changeCategory(Integer categoryId, CategoryDto categoryDto) {
     Category category = categoryRepo.findById(categoryId).orElseThrow();
     category.setName(categoryDto.getName());
 
-    return ResponseEntity.ok(CategoryDtoService.getFromEntity(category));
+    return CategoryDtoService.getFromEntity(category);
   }
 }

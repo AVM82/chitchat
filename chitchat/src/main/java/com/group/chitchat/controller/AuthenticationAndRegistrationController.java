@@ -50,11 +50,11 @@ public class AuthenticationAndRegistrationController {
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
       HttpServletRequest requestHeader, HttpServletResponse response,
-      @RequestBody @Valid RegisterRequest request
-  ) {
+      @RequestBody @Valid RegisterRequest request) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    log.info("User with username {} trying to register.", request.getUsername());
-    return ResponseEntity.ok(authenticateService.register(request, requestHeader));
+
+    return ResponseEntity.ok(
+        authenticateService.register(request, requestHeader));
   }
 
   /**
@@ -153,13 +153,17 @@ public class AuthenticationAndRegistrationController {
       @RequestBody AuthenticationRequest request) {
     localeResolverConfig.setLocale(requestHeader, response, null);
     log.info("User with username {} trying to log in.", request.getUsername());
-    return ResponseEntity.ok(authenticateService.authenticate(request));
+
+    return ResponseEntity.ok(
+        authenticateService.authenticate(request));
   }
 
   @PostMapping("/refresh")
   public ResponseEntity<AuthenticationResponse> refresh(HttpServletRequest requestHeader,
       HttpServletResponse response, @RequestBody RefreshRequest request) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return ResponseEntity.ok(authenticateService.refreshAllTokens(request));
+
+    return ResponseEntity.ok(
+        authenticateService.refreshAllTokens(request));
   }
 }

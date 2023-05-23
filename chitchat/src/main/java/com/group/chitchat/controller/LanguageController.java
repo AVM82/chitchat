@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class LanguageController {
   public ResponseEntity<Set<LanguageDto>> getAllLanguages(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(languageService.getAvailableLanguages());
   }
 
@@ -36,6 +38,7 @@ public class LanguageController {
   public ResponseEntity<Levels[]> getAllLevels(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(languageService.getAllLevels());
   }
 
@@ -46,6 +49,8 @@ public class LanguageController {
       HttpServletRequest requestHeader, HttpServletResponse response,
       @RequestBody LanguageDto languageDto) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return languageService.addLanguage(languageDto);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+        languageService.addLanguage(languageDto));
   }
 }

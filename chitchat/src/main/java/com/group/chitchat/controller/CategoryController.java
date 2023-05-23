@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,9 @@ public class CategoryController {
   public ResponseEntity<List<CategoryDto>> getAllCategories(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return categoryService.getAllCategories();
+
+    return ResponseEntity.ok(
+        categoryService.getAllCategories());
   }
 
   @GetMapping("{categoryId}")
@@ -37,17 +40,20 @@ public class CategoryController {
       @PathVariable("categoryId") Integer categoryId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return categoryService.getOneCategory(categoryId);
+
+    return ResponseEntity.ok(
+        categoryService.getOneCategory(categoryId));
   }
 
   @PostMapping
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> addCategory(
       HttpServletRequest requestHeader, HttpServletResponse response,
-      @RequestBody CategoryDto categoryDto
-  ) {
+      @RequestBody CategoryDto categoryDto) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return categoryService.addCategory(categoryDto);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+        categoryService.addCategory(categoryDto));
   }
 
   @PutMapping("{categoryId}")
@@ -55,9 +61,10 @@ public class CategoryController {
   public ResponseEntity<CategoryDto> updateCategory(
       HttpServletRequest requestHeader, HttpServletResponse response,
       @PathVariable("categoryId") Integer categoryId,
-      @RequestBody CategoryDto categoryDto
-  ) {
+      @RequestBody CategoryDto categoryDto) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return categoryService.changeCategory(categoryId, categoryDto);
+
+    return ResponseEntity.ok(
+        categoryService.changeCategory(categoryId, categoryDto));
   }
 }

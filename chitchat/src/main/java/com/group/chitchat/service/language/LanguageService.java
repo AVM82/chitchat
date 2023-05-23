@@ -10,8 +10,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,7 +48,7 @@ public class LanguageService {
    * @param languageDto Incoming dto with new language data  for adding to database.
    * @return Response with status and body with new language.
    */
-  public ResponseEntity<LanguageDto> addLanguage(LanguageDto languageDto) {
+  public LanguageDto addLanguage(LanguageDto languageDto) {
     String codeIso = languageDto.getCodeIso();
     if (!isLanguageCorrect(codeIso)) {
       throw new IllegalArgumentException(
@@ -60,8 +58,8 @@ public class LanguageService {
     } else {
       Language language = LanguageDtoService.getFromDto(languageDto);
       languageRepository.save(language);
-      return ResponseEntity.status(HttpStatus.CREATED)
-          .body(LanguageDtoService.getFromEntity(language));
+
+      return LanguageDtoService.getFromEntity(language);
     }
   }
 
