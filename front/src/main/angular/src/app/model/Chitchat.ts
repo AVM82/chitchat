@@ -3,17 +3,21 @@ export class Chitchat {
   chatName: string;
   authorName: string;
   categoryName: string;
-  avatarUrl: string ;
+  avatarUrl: string;
   description: string;
   languageName: string;
-  level:string;
+  level: string;
   capacity: number;
   date: Date;
-  usersInChitchat:string[];
-  countUnreadMessages:number
+  usersInChitchat: string[];
+  conferenceLink: string;
+  countUnreadMessages: number;
 
 
-  constructor(id: number, chatName: string, authorName: string, categoryName: string, avatarUrl: string, description: string, languageName: string, level: string, capacity: number, date: Date, usersInChitchat: string[], countUnreadMessages: number) {
+  constructor(id: number, chatName: string, authorName: string, categoryName: string,
+              avatarUrl: string, description: string, languageName: string, level: string,
+              capacity: number, date: Date, usersInChitchat: string[], conferenceLink: string,
+              countUnreadMessages: number) {
     this.id = id;
     this.chatName = chatName;
     this.authorName = authorName;
@@ -25,6 +29,7 @@ export class Chitchat {
     this.capacity = capacity;
     this.date = date;
     this.usersInChitchat = usersInChitchat;
+    this.conferenceLink = conferenceLink;
     this.countUnreadMessages = countUnreadMessages;
   }
 }
