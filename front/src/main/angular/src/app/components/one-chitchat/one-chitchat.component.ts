@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TokenStorageService} from "../../service/token-storage.service";
 import {ChitchatService} from "../../service/chitchat.service";
 import {MessageService} from "../../service/message.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-one-chitchat',
@@ -12,9 +13,11 @@ import {MessageService} from "../../service/message.service";
 })
 export class OneChitchatComponent {
   oneChitChat: Chitchat
+  currentUser:string
 
   constructor(
       private chitchatService: ChitchatService,
+      private notificationService: NotificationService,
       private dialogRef: MatDialogRef<OneChitchatComponent>,
       @Inject(MAT_DIALOG_DATA) private data: [Chitchat],
       private tokenStorageService: TokenStorageService,
@@ -23,12 +26,17 @@ export class OneChitchatComponent {
 
   ngOnInit() {
     this.oneChitChat = this.data[0];
+    this.currentUser = this.tokenStorageService.getUser();
   }
 
   addToChitchat(chitchat: Chitchat) {
-    this.chitchatService.addUserInChat(this.tokenStorageService.getUserId(),chitchat.id).subscribe(result => {
-      this.oneChitChat = result;
+    if (chitchat.authorName!=this.tokenStorageService.getUser()) {
+      this.chitchatService.addUserInChat(this.tokenStorageService.getUserId(), chitchat.id).subscribe(result => {
+        this.oneChitChat = result;
       });
+    }else {
+      this.notificationService.showSnackBar("Duplication error!")
+    }
   }
 
   markAsReadUserMessagesOfChitchat() {

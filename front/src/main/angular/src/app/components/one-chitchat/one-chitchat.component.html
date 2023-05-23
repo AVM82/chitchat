@@ -10,7 +10,7 @@
                 <div class="col-6 ">
                   <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"
                        style="width: 7rem">
-                    <img class="card-img-top" src="assets/img/faces/team-4.jpg" alt="..."/>
+                    <img class="card-img-top" src={{oneChitChat.avatarUrl}} alt="..."/>
                   </div>
                   <div class="badge-success text-light position-absolute"
                        style="font-size:16px; top: 0.5rem; left: 0.5rem">{{oneChitChat.authorName}}
@@ -45,7 +45,9 @@
         <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">Participants</span></h4>
         <ul class="list-group list-group-flush ml-2 mt-1"
             *ngFor="let user of oneChitChat.usersInChitchat">
-          <button type="button" class="btn my-0 btn-outline-info btn-sm">{{user}}</button>
+          <button type="button" class="btn my-0 btn-outline-info btn-sm">
+            {{currentUser==user?"disconnect "+user:user}}
+          </button>
         </ul>
       </div>
       <div class="col-sm px-0">
