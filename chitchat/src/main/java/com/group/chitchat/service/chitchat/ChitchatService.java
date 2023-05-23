@@ -261,10 +261,17 @@ public class ChitchatService {
   @Transactional
   public ResponseEntity<SimpleDataDto<String>> addChitchatLink(Long chitchatId,
       SimpleDataDto<String> simpleDto) {
+
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
         .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
-    chitchat.setConferenceLink(simpleDto.getValue());
-    chitchat.getRemindersData().setLink(simpleDto.getValue());
+
+    String inputLink = simpleDto.getValue();
+    int startIndex = inputLink.indexOf("https://");
+    String outputLink = inputLink.substring(startIndex);
+
+    chitchat.setConferenceLink(outputLink);
+    chitchat.getRemindersData().setLink(outputLink);
+
     return ResponseEntity.ok(simpleDto);
   }
 }
