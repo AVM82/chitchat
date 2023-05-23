@@ -60,7 +60,21 @@
       </div>
     </div>
   </div>
-
+  <div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input" readonly>{{translate('Link:')}}</span>
+        <textarea class="form-control" aria-label="With textarea"
+                  [readOnly]="!isAuthor"
+                  [(ngModel)]="tmpConferenceLink"></textarea>
+        <div *ngIf="isAuthor">
+          <a class="card-link" style="cursor: pointer;"
+             (click)="addConferenceLink()"
+          >{{translate('Save')}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!--  <div class="row px-0 mx-0">-->
 <!--    <div class="col-4">-->

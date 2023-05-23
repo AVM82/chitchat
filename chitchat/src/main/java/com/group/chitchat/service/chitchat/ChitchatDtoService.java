@@ -32,6 +32,7 @@ public class ChitchatDtoService {
         .date(chitchat.getDate())
         .usersInChitchat(chitchat.getUsersInChitchat().stream().map(User::getUsername).toList())
         .avatarUrl(chitchat.getAuthor().getUserData().getAvatar())
+        .conferenceLink(chitchat.getConferenceLink())
         .build();
   }
 
