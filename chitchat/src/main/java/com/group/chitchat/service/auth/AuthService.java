@@ -52,6 +52,7 @@ public class AuthService {
    */
   public AuthenticationResponse register(@Valid RegisterRequest request,
       HttpServletRequest httpRequest) {
+    log.info("User with username {} trying to register.", request.getUsername());
 
     String username = request.getUsername();
     if (userRepository.existsByUsername(username)) {

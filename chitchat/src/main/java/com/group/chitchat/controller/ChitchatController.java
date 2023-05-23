@@ -53,33 +53,54 @@ public class ChitchatController {
       @RequestParam(value = "dateTo", required = false) String dateTo,
       @RequestParam(value = "categoryId", required = false) Integer categoryId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
-
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.getPageChitchats(
-        languageId, level, dateFrom, dateTo, categoryId, pageable);
+
+    return ResponseEntity.ok(
+        chitchatService.getAllChitchats(languageId, level, dateFrom, dateTo, categoryId, pageable));
   }
 
+  /**
+   * Returns chitchat by id. Closed end-point.
+   *
+   * @param chitchatId incoming chitchat id.
+   * @return response with status and chitchat by id.
+   */
   @GetMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.getChitchat(chitchatId);
+
+    return ResponseEntity.ok(chitchatService.getChitchat(chitchatId));
   }
 
+  /**
+   * Returns chitchat by id. Opened end-point.
+   *
+   * @param chitchatId incoming chitchat id.
+   * @return response with status and chitchat by id.
+   */
   @GetMapping("/all/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getPublicChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.getChitchat(chitchatId);
+
+    return ResponseEntity.ok(chitchatService.getChitchat(chitchatId));
   }
 
+  /**
+   * Get all messages by chitchat id.
+   *
+   * @param chitchatId A chitchat id
+   * @return Response with status and list of chitchat messages.
+   */
   @GetMapping("/chat_messages/{chitchatId}")
   public ResponseEntity<List<MessageChatDto>> getChitchatAllMessages(
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(messageService.getAllMessagesByChitchatId(chitchatId));
   }
 
@@ -94,6 +115,7 @@ public class ChitchatController {
   public ResponseEntity<List<MessageUsers>> getUnreadUserMessages(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(
         messageService.getAllUnreadUserMessages(requestHeader.getUserPrincipal().getName()));
   }
@@ -109,6 +131,7 @@ public class ChitchatController {
   public ResponseEntity<SimpleDataDto<Long>> getTotalCountUnreadUserMessages(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(
         new SimpleDataDto<Long>(
             messageService
@@ -126,6 +149,7 @@ public class ChitchatController {
   public ResponseEntity<List<ChitchatUnreadCountDto>> getAllUnreadUserChitchats(
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     return ResponseEntity.ok(
         messageService.getAllUnreadUserChitchats(
             requestHeader.getUserPrincipal().getName()));
@@ -145,6 +169,7 @@ public class ChitchatController {
       @RequestParam(value = "date") String date,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
+
     messageService.markAsReadUserMessagesOfChitchat(chitchatId,
         requestHeader.getUserPrincipal().getName(), date);
   }
@@ -161,28 +186,47 @@ public class ChitchatController {
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
       @RequestBody ForCreateChitchatDto forCreateChitchatDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
-
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return chitchatService.addChitchat(
-        forCreateChitchatDto, requestHeader.getUserPrincipal().getName(), requestHeader);
+    return ResponseEntity.ok(
+        chitchatService.addChitchat(
+            forCreateChitchatDto, requestHeader.getUserPrincipal().getName(), requestHeader));
   }
 
+  /**
+   * Add user by id to chitchat by id.
+   *
+   * @param chitchatId    id of chitchat.
+   * @param userId        id of user.
+   * @param requestHeader header.
+   * @param response      Servlet response.
+   * @return Response with chitchat.
+   */
   @PutMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       @RequestParam("userId") Long userId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.addUserToChitchat(chitchatId, userId, requestHeader);
+
+    return ResponseEntity.ok(
+        chitchatService.addUserToChitchat(chitchatId, userId, requestHeader));
   }
 
+  /**
+   * Save link to videoconference.
+   *
+   * @param chitchatId current chitchat.
+   * @param simpleDto  dto with value of link.
+   * @return Response with status and conference link.
+   */
   @PutMapping("/link/{chitchatId}")
   public ResponseEntity<SimpleDataDto<String>> addChitchatLink(
       @RequestBody SimpleDataDto<String> simpleDto,
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-    return chitchatService.addChitchatLink(chitchatId, simpleDto);
+
+    return ResponseEntity.ok(chitchatService.addChitchatLink(chitchatId, simpleDto));
   }
 }
