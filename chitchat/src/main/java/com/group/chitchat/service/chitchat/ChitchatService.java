@@ -8,23 +8,25 @@ import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.Language;
-import com.group.chitchat.model.RemindersData;
 import com.group.chitchat.model.User;
 import com.group.chitchat.model.dto.ChitchatForResponseDto;
 import com.group.chitchat.model.dto.ForCreateChitchatDto;
+import com.group.chitchat.model.dto.SimpleDataDto;
 import com.group.chitchat.model.enums.Levels;
 import com.group.chitchat.repository.CategoryRepo;
 import com.group.chitchat.repository.ChitchatRepo;
 import com.group.chitchat.repository.LanguageRepo;
+import com.group.chitchat.repository.TranslationRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
+import com.group.chitchat.service.email.ReminderPlanner;
 import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashSet;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -46,12 +48,12 @@ public class ChitchatService {
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
   private final CategoryRepo categoryRepo;
-
-
+  private final ReminderPlanner reminderPlanner;
   /**
    * Messages for sending email.
    */
-  private static final String CONFIRM_CREATE_MESSAGE = "m.create_chitchat";
+  private static final String CONFIRM_CREATE_MESSAGE_KEY = "email_confirm_create_chat";
+  TranslationRepo translationRepo;
   private final BundlesService bundlesService;
 
   private static final String CONFIRM_PARTICIPATION_MESSAGE = "m.participate_chitchat";
@@ -91,27 +93,34 @@ public class ChitchatService {
     //TODO add exceptions for two throws below
 
     chitchat.getUsersInChitchat().add(author);
-    createReminderData(chitchat);
+    reminderPlanner.createReminderData(chitchat);
     chitchatRepo.save(chitchat);
+    log.info("New Chitchat has been saved");
 
     String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
         + "/chitchat?id=" + chitchat.getId();
 
-    sendEmail(author.getEmail(), chitchat, String.format(
-        bundlesService.getMessForLocale(CONFIRM_CREATE_MESSAGE, Locale.getDefault()), url), url);
+    sendConfirmCreateEmail(author.getEmail(), chitchat, url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
 
-  private void createReminderData(Chitchat chitchat) {
-    Set<String> usersEmails = new HashSet<>();
-    usersEmails.add(chitchat.getAuthor().getEmail());
-    RemindersData data = RemindersData.builder()
-        .startTime(chitchat.getDate())
-        .emails(usersEmails)
-        .build();
-    data.setChitchat(chitchat);
-    chitchat.setRemindersData(data);
+  private void sendConfirmCreateEmail(String email, Chitchat chitchat, String url) {
+    log.info("create message");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
+
+    String message = String.format(
+        translationRepo.findByKeyAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
+            .orElseThrow().getMessage(),
+        chitchat.getDate().format(formatter),
+        chitchat.getCategory().getName(),
+        chitchat.getLanguage().getName(),
+        chitchat.getLevel(),
+        CalendarService.generateCalendarLink(
+            chitchat.getChatName(), chitchat.getDescription(), chitchat.getDate(), url),
+        url);
+
+    emailService.sendEmail(email, "Chitchat: " + chitchat.getChatName(), message);
   }
 
   /**
@@ -145,8 +154,9 @@ public class ChitchatService {
         .replace("/api/v1/chitchats/" + chitchatId, "")
         + "/chitchat?id=" + chitchatId;
 
-    sendEmail(user.getEmail(), chitchat, String.format(bundlesService.getMessForLocale(
-        CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
+    createConfirmOfParticipationEmail(user.getEmail(), chitchat,
+        String.format(bundlesService.getMessForLocale(
+            CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(
         ChitchatDtoService.getFromEntity(chitchat));
@@ -203,7 +213,8 @@ public class ChitchatService {
    * @param message      Message for sending.
    * @param url          of new chitchat.
    */
-  private void sendEmail(String emailAddress, Chitchat chitchat, String message, String url) {
+  private void createConfirmOfParticipationEmail(String emailAddress, Chitchat chitchat,
+      String message, String url) {
     emailService.sendEmail(
         emailAddress,
         String.format("Chitchat: %s", chitchat.getChatName()),
@@ -240,4 +251,27 @@ public class ChitchatService {
         -> criteriaBuilder.lessThanOrEqualTo(root.get("date"), date);
   }
 
+  /**
+   * Save link to videoconference.
+   *
+   * @param chitchatId current chitchat
+   * @param simpleDto  dto with value of link
+   * @return response with link
+   */
+  @Transactional
+  public ResponseEntity<SimpleDataDto<String>> addChitchatLink(Long chitchatId,
+      SimpleDataDto<String> simpleDto) {
+
+    Chitchat chitchat = chitchatRepo.findById(chitchatId)
+        .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
+
+    String inputLink = simpleDto.getValue();
+    int startIndex = inputLink.indexOf("https://");
+    String outputLink = inputLink.substring(startIndex);
+
+    chitchat.setConferenceLink(outputLink);
+    chitchat.getRemindersData().setLink(outputLink);
+
+    return ResponseEntity.ok(simpleDto);
+  }
 }

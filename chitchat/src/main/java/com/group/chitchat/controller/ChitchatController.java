@@ -176,4 +176,13 @@ public class ChitchatController {
     localeResolverConfig.setLocale(requestHeader, response, null);
     return chitchatService.addUserToChitchat(chitchatId, userId, requestHeader);
   }
+
+  @PutMapping("/link/{chitchatId}")
+  public ResponseEntity<SimpleDataDto<String>> addChitchatLink(
+      @RequestBody SimpleDataDto<String> simpleDto,
+      @PathVariable("chitchatId") Long chitchatId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+    return chitchatService.addChitchatLink(chitchatId, simpleDto);
+  }
 }

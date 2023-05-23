@@ -11,9 +11,11 @@ import {NotificationService} from "../../service/notification.service";
   templateUrl: './one-chitchat.component.html',
   styleUrls: ['./one-chitchat.component.scss']
 })
-export class OneChitchatComponent {
+export class OneChitchatComponent implements OnInit{
   oneChitChat: Chitchat
   currentUser:string
+  isAuthor: boolean = false;
+  tmpConferenceLink: string;
 
   constructor(
       private chitchatService: ChitchatService,
@@ -26,6 +28,8 @@ export class OneChitchatComponent {
 
   ngOnInit() {
     this.oneChitChat = this.data[0];
+    this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
+    this.tmpConferenceLink = this.oneChitChat.conferenceLink;
     this.currentUser = this.tokenStorageService.getUser();
   }
 
@@ -42,5 +46,9 @@ export class OneChitchatComponent {
   markAsReadUserMessagesOfChitchat() {
     this.messageService.putMarkAsReadUserMessagesOfChitchat(this.oneChitChat.id).subscribe();
     this.dialogRef.close();
+  }
+
+  addConferenceLink() {
+    this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe();
   }
 }

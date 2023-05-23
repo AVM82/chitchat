@@ -27,4 +27,5 @@ public class ChitchatForResponseDto {
   private LocalDateTime date;
   private List<String> usersInChitchat;
   private String avatarUrl;
+  private String conferenceLink;
 }
