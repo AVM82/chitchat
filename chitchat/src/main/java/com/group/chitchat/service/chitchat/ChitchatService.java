@@ -100,12 +100,12 @@ public class ChitchatService {
     String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
         + "/chitchat?id=" + chitchat.getId();
 
-    sendConfirmEmail(author.getEmail(), chitchat, url);
+    sendConfirmCreateEmail(author.getEmail(), chitchat, url);
 
     return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
   }
 
-  private void sendConfirmEmail(String email, Chitchat chitchat, String url) {
+  private void sendConfirmCreateEmail(String email, Chitchat chitchat, String url) {
     log.info("create message");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
 
@@ -154,8 +154,9 @@ public class ChitchatService {
         .replace("/api/v1/chitchats/" + chitchatId, "")
         + "/chitchat?id=" + chitchatId;
 
-    sendEmail(user.getEmail(), chitchat, String.format(bundlesService.getMessForLocale(
-        CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
+    createConfirmOfParticipationEmail(user.getEmail(), chitchat,
+        String.format(bundlesService.getMessForLocale(
+            CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
 
     return ResponseEntity.ok(
         ChitchatDtoService.getFromEntity(chitchat));
@@ -212,7 +213,8 @@ public class ChitchatService {
    * @param message      Message for sending.
    * @param url          of new chitchat.
    */
-  private void sendEmail(String emailAddress, Chitchat chitchat, String message, String url) {
+  private void createConfirmOfParticipationEmail(String emailAddress, Chitchat chitchat,
+      String message, String url) {
     emailService.sendEmail(
         emailAddress,
         String.format("Chitchat: %s", chitchat.getChatName()),
