@@ -46,7 +46,7 @@ public class LanguageService {
    * Adds new language to database.
    *
    * @param languageDto Incoming dto with new language data  for adding to database.
-   * @return Response with status and body with new language.
+   * @return dto with new language.
    */
   public LanguageDto addLanguage(LanguageDto languageDto) {
     String codeIso = languageDto.getCodeIso();

@@ -175,6 +175,15 @@ public class ChitchatController {
             forCreateChitchatDto, requestHeader.getUserPrincipal().getName(), requestHeader));
   }
 
+  /**
+   * Add user by id to chitchat by id.
+   *
+   * @param chitchatId    id of chitchat.
+   * @param userId        id of user.
+   * @param requestHeader header.
+   * @param response      Servlet response.
+   * @return Response with chitchat.
+   */
   @PutMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
       @PathVariable("chitchatId") Long chitchatId,

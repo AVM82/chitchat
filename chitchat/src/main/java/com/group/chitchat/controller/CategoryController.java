@@ -26,6 +26,11 @@ public class CategoryController {
   private final CategoryService categoryService;
   private final LocaleResolverConfig localeResolverConfig;
 
+  /**
+   * Returns descending sorted list of categories.
+   *
+   * @return List of categories.
+   */
   @GetMapping("/all")
   public ResponseEntity<List<CategoryDto>> getAllCategories(
       HttpServletRequest requestHeader, HttpServletResponse response) {
@@ -45,6 +50,14 @@ public class CategoryController {
         categoryService.getOneCategory(categoryId));
   }
 
+  /**
+   * Adds new category to database.
+   *
+   * @param requestHeader header.
+   * @param response      response.
+   * @param categoryDto   dto with new category name.
+   * @return response with new category.
+   */
   @PostMapping
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> addCategory(

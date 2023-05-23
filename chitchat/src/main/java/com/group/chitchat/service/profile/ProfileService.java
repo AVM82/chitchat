@@ -65,7 +65,7 @@ public class ProfileService {
    * Returns all chitchats in which the user is the author.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return chitchats created by the user.
    */
   public List<ChitchatForResponseDto> getUserCreatedChats(String username) {
     Long authorId = userRepo.findByUsername(username)
@@ -84,7 +84,7 @@ public class ProfileService {
    * Returns all chitchats in which the user is the member.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return all chitchats with user.
    */
   public List<ChitchatForResponseDto> getChatsWithUser(String username) {
     User user = userRepo.findByUsername(username)
@@ -103,7 +103,7 @@ public class ProfileService {
    * Returns archive chitchats of user.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return archive chitchats of user.
    */
   public List<ChitchatForResponseDto> getArchiveChats(String username) {
     User user = userRepo.findByUsername(username)

@@ -34,6 +34,11 @@ public class LanguageController {
     return ResponseEntity.ok(languageService.getAvailableLanguages());
   }
 
+  /**
+   * Returns the array of currently available levels.
+   *
+   * @return array available language levels.
+   */
   @GetMapping("/levels")
   public ResponseEntity<Levels[]> getAllLevels(
       HttpServletRequest requestHeader, HttpServletResponse response) {
@@ -42,7 +47,12 @@ public class LanguageController {
     return ResponseEntity.ok(languageService.getAllLevels());
   }
 
-
+  /**
+   * Adds new language to database.
+   *
+   * @param languageDto dto with new language.
+   * @return Response with status and body with new language.
+   */
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
   public ResponseEntity<LanguageDto> addLanguage(
