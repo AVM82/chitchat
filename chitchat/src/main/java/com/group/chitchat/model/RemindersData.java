@@ -38,7 +38,7 @@ public class RemindersData {
   private String link;
 
   @Column(name = "reminded")
-  private Boolean reminded = false;
+  private Boolean reminded;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "reminder_emails", joinColumns = @JoinColumn(name = "data_id"))
