@@ -40,6 +40,12 @@ public class CategoryController {
         categoryService.getAllCategories());
   }
 
+  /**
+   * Returns one category by id.
+   *
+   * @param categoryId id of category.
+   * @return Response with category by id.
+   */
   @GetMapping("{categoryId}")
   public ResponseEntity<CategoryDto> getOneCategory(
       @PathVariable("categoryId") Integer categoryId,
@@ -69,6 +75,12 @@ public class CategoryController {
         categoryService.addCategory(categoryDto));
   }
 
+  /**
+   * Adds new category to database.
+   *
+   * @param categoryDto Incoming dto with data for adding to database;
+   * @return Response with status and body.
+   */
   @PutMapping("{categoryId}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<CategoryDto> updateCategory(

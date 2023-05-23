@@ -59,6 +59,12 @@ public class ChitchatController {
         chitchatService.getAllChitchats(languageId, level, dateFrom, dateTo, categoryId, pageable));
   }
 
+  /**
+   * Returns chitchat by id. Closed end-point.
+   *
+   * @param chitchatId incoming chitchat id.
+   * @return response with status and chitchat by id.
+   */
   @GetMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getChitchat(
       @PathVariable("chitchatId") Long chitchatId,
@@ -68,6 +74,12 @@ public class ChitchatController {
     return ResponseEntity.ok(chitchatService.getChitchat(chitchatId));
   }
 
+  /**
+   * Returns chitchat by id. Opened end-point.
+   *
+   * @param chitchatId incoming chitchat id.
+   * @return response with status and chitchat by id.
+   */
   @GetMapping("/all/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> getPublicChitchat(
       @PathVariable("chitchatId") Long chitchatId,
@@ -77,6 +89,12 @@ public class ChitchatController {
     return ResponseEntity.ok(chitchatService.getChitchat(chitchatId));
   }
 
+  /**
+   * Get all messages by chitchat id.
+   *
+   * @param chitchatId A chitchat id
+   * @return Response with status and list of chitchat messages.
+   */
   @GetMapping("/chat_messages/{chitchatId}")
   public ResponseEntity<List<MessageChatDto>> getChitchatAllMessages(
       @PathVariable("chitchatId") Long chitchatId,
@@ -195,6 +213,13 @@ public class ChitchatController {
         chitchatService.addUserToChitchat(chitchatId, userId, requestHeader));
   }
 
+  /**
+   * Save link to videoconference.
+   *
+   * @param chitchatId current chitchat.
+   * @param simpleDto  dto with value of link.
+   * @return Response with status and conference link.
+   */
   @PutMapping("/link/{chitchatId}")
   public ResponseEntity<SimpleDataDto<String>> addChitchatLink(
       @RequestBody SimpleDataDto<String> simpleDto,

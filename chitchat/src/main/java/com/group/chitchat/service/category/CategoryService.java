@@ -60,7 +60,7 @@ public class CategoryService {
    *
    * @param categoryId  id of category.
    * @param categoryDto Incoming dto with data for adding to database.
-   * @return Response with status and body with changed category.
+   * @return changed category.
    */
   @Transactional
   public CategoryDto changeCategory(Integer categoryId, CategoryDto categoryDto) {

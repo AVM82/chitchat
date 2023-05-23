@@ -158,6 +158,12 @@ public class AuthenticationAndRegistrationController {
         authenticateService.authenticate(request));
   }
 
+  /**
+   * Refresh all tokens.
+   *
+   * @param request contains refresh token
+   * @return two new tokens
+   */
   @PostMapping("/refresh")
   public ResponseEntity<AuthenticationResponse> refresh(HttpServletRequest requestHeader,
       HttpServletResponse response, @RequestBody RefreshRequest request) {

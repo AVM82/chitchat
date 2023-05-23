@@ -26,6 +26,11 @@ public class LanguageController {
   private final LanguageService languageService;
   private final LocaleResolverConfig localeResolverConfig;
 
+  /**
+   * Returns the set of currently available languages.
+   *
+   * @return Set available languages.
+   */
   @GetMapping("/all")
   public ResponseEntity<Set<LanguageDto>> getAllLanguages(
       HttpServletRequest requestHeader, HttpServletResponse response) {

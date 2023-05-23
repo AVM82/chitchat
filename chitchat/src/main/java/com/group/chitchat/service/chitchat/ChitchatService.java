@@ -58,10 +58,10 @@ public class ChitchatService {
   private final EmailService emailService;
 
   /**
-   * Returns list of chitchats.
+   * Returns chitchat by id.
    *
    * @param chitchatId incoming chitchat id.
-   * @return list of chitchats.
+   * @return chitchat.
    */
   public ChitchatForResponseDto getChitchat(Long chitchatId) {
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
@@ -248,9 +248,9 @@ public class ChitchatService {
   /**
    * Save link to videoconference.
    *
-   * @param chitchatId current chitchat
-   * @param simpleDto  dto with value of link
-   * @return response with link
+   * @param chitchatId current chitchat.
+   * @param simpleDto  dto with value of link.
+   * @return conference link.
    */
   @Transactional
   public SimpleDataDto<String> addChitchatLink(Long chitchatId,

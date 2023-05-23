@@ -52,6 +52,11 @@ public class ProfileController {
         profileService.getProfileDetails(requestHeader.getUserPrincipal().getName()));
   }
 
+  /**
+   * Returns all chitchats in which the user is the author.
+   *
+   * @return chitchats created by the user.
+   */
   @GetMapping("/my_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getUserCreatedChats(
       HttpServletRequest requestHeader, HttpServletResponse response) {
@@ -61,6 +66,11 @@ public class ProfileController {
         profileService.getUserCreatedChats(requestHeader.getUserPrincipal().getName()));
   }
 
+  /**
+   * Returns all chitchats in which the user is the member.
+   *
+   * @return all chitchats with user.
+   */
   @GetMapping("/planned_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getChatsWithUser(
       HttpServletRequest requestHeader, HttpServletResponse response) {
@@ -70,6 +80,11 @@ public class ProfileController {
         profileService.getChatsWithUser(requestHeader.getUserPrincipal().getName()));
   }
 
+  /**
+   * Returns archive chitchats of user.
+   *
+   * @return archive chitchats of user.
+   */
   @GetMapping("/archive_chitchats")
   public ResponseEntity<List<ChitchatForResponseDto>> getArchiveChats(
       HttpServletRequest requestHeader, HttpServletResponse response) {
