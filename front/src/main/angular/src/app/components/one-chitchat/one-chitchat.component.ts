@@ -1,9 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TokenStorageService} from "../../service/token-storage.service";
 import {ChitchatService} from "../../service/chitchat.service";
-import {MessageService} from "../../service/message.service";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-one-chitchat',
@@ -12,35 +11,23 @@ import {MessageService} from "../../service/message.service";
 })
 export class OneChitchatComponent implements OnInit{
   oneChitChat: Chitchat
-  isAuthor: boolean = false;
-  tmpConferenceLink: string;
+  oneChitChatSubject = new Subject<Chitchat>();
 
   constructor(
       private chitchatService: ChitchatService,
       private dialogRef: MatDialogRef<OneChitchatComponent>,
       @Inject(MAT_DIALOG_DATA) private data: [Chitchat],
-      private tokenStorageService: TokenStorageService,
-      private messageService: MessageService,
-  ) {  }
+  ) {
+    this.oneChitChatSubject.subscribe((val) => {
+      this.oneChitChat = val;
+    });
+  }
 
   ngOnInit() {
-    this.oneChitChat = this.data[0];
-    this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
-    this.tmpConferenceLink = this.oneChitChat.conferenceLink;
+    this.oneChitChatSubject.next(this.data[0]);
   }
 
-  addToChitchat(chitchat: Chitchat) {
-    this.chitchatService.addUserInChat(this.tokenStorageService.getUserId(),chitchat.id).subscribe(result => {
-      this.oneChitChat = result;
-      });
-  }
-
-  markAsReadUserMessagesOfChitchat() {
-    this.messageService.putMarkAsReadUserMessagesOfChitchat(this.oneChitChat.id).subscribe();
+  closeEvent($event: any) {
     this.dialogRef.close();
-  }
-
-  addConferenceLink() {
-    this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe();
   }
 }
