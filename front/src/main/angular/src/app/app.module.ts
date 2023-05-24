@@ -43,6 +43,9 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgOptimizedImage} from "@angular/common";
 import {InternalChatComponent} from "./components/internal-chat/internal-chat.component";
+import {
+  OneChitchatContentComponent
+} from "./components/one-chitchat-content/one-chitchat-content.component";
 
 
 const appRoutes: Routes = [
@@ -70,6 +73,7 @@ const appRoutes: Routes = [
     ProfileUserChitchatsTableComponent,
     PasswordRecoveryComponent,
     InternalChatComponent,
+    OneChitchatContentComponent,
   ],
   imports: [
     BrowserModule,
