@@ -1,4 +1,5 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {Clipboard} from '@angular/cdk/clipboard';
 import {Chitchat} from "../../model/Chitchat";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TokenStorageService} from "../../service/token-storage.service";
@@ -19,6 +20,7 @@ export class OneChitchatComponent implements OnInit{
 
   constructor(
       private chitchatService: ChitchatService,
+      private clipboard: Clipboard,
       private notificationService: NotificationService,
       private dialogRef: MatDialogRef<OneChitchatComponent>,
       @Inject(MAT_DIALOG_DATA) private data: [Chitchat],
@@ -50,5 +52,9 @@ export class OneChitchatComponent implements OnInit{
 
   addConferenceLink() {
     this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe();
+  }
+
+  copyDataToClipboard(avatarUrl: string) {
+    this.clipboard.copy(avatarUrl);
   }
 }
