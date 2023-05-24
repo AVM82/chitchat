@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
 import {TokenStorageService} from "../../service/token-storage.service";
 import {ChitchatService} from "../../service/chitchat.service";
@@ -37,6 +37,11 @@ export class OneChitchatContentComponent{
       this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
       this.tmpConferenceLink = this.oneChitChat.conferenceLink;
     });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event: any) {
+    this.markAsReadUserMessagesOfChitchat();
   }
 
   addToChitchat(chitchat: Chitchat) {
