@@ -18,7 +18,6 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,10 +41,11 @@ public class ProfileService {
    * @param username of current user.
    * @return response with information of profile.
    */
-  public ResponseEntity<UserForResponseDto> getProfile(String username) {
+  public UserForResponseDto getProfile(String username) {
     User user = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username));
-    return ResponseEntity.ok(UserDtoService.profileDtoFromUser(user));
+
+    return UserDtoService.profileDtoFromUser(user);
   }
 
   /**
@@ -54,19 +54,20 @@ public class ProfileService {
    * @param username of current user.
    * @return response with information of profile.
    */
-  public ResponseEntity<UserForResponseDto> getProfileDetails(String username) {
+  public UserForResponseDto getProfileDetails(String username) {
     User user = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username));
-    return ResponseEntity.ok(UserDtoService.profileDetailsDtoFromUser(user));
+
+    return UserDtoService.profileDetailsDtoFromUser(user);
   }
 
   /**
    * Returns all chitchats in which the user is the author.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return chitchats created by the user.
    */
-  public ResponseEntity<List<ChitchatForResponseDto>> getUserCreatedChats(String username) {
+  public List<ChitchatForResponseDto> getUserCreatedChats(String username) {
     Long authorId = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username)).getId();
     List<Chitchat> chitchats = chitchatRepo.findAllByAuthorId(authorId).orElseThrow();
@@ -74,9 +75,8 @@ public class ProfileService {
     if (chitchats.isEmpty()) {
       throw new ChitchatsNotFoundException();
     } else {
-      return ResponseEntity.ok(
-          chitchats.stream().filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
-              .map(ChitchatDtoService::getFromEntity).toList());
+      return chitchats.stream().filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
+          .map(ChitchatDtoService::getFromEntity).toList();
     }
   }
 
@@ -84,9 +84,9 @@ public class ProfileService {
    * Returns all chitchats in which the user is the member.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return all chitchats with user.
    */
-  public ResponseEntity<List<ChitchatForResponseDto>> getChatsWithUser(String username) {
+  public List<ChitchatForResponseDto> getChatsWithUser(String username) {
     User user = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username));
     List<Chitchat> chitchats = chitchatRepo.findByUsersInChitchatContaining(user).orElseThrow();
@@ -94,9 +94,8 @@ public class ProfileService {
     if (chitchats.isEmpty()) {
       throw new ChitchatsNotFoundException();
     } else {
-      return ResponseEntity.ok(
-          chitchats.stream().filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
-              .map(ChitchatDtoService::getFromEntity).toList());
+      return chitchats.stream().filter(chitchat -> chitchat.getDate().isAfter(LocalDateTime.now()))
+          .map(ChitchatDtoService::getFromEntity).toList();
     }
   }
 
@@ -104,9 +103,9 @@ public class ProfileService {
    * Returns archive chitchats of user.
    *
    * @param username of current user.
-   * @return response with chitchats.
+   * @return archive chitchats of user.
    */
-  public ResponseEntity<List<ChitchatForResponseDto>> getArchiveChats(String username) {
+  public List<ChitchatForResponseDto> getArchiveChats(String username) {
     User user = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username));
     List<Chitchat> chitchats = chitchatRepo.findByUsersInChitchatContaining(user).orElseThrow();
@@ -114,9 +113,8 @@ public class ProfileService {
     if (chitchats.isEmpty()) {
       throw new ChitchatsNotFoundException();
     } else {
-      return ResponseEntity.ok(
-          chitchats.stream().filter(chitchat -> chitchat.getDate().isBefore(LocalDateTime.now()))
-              .map(ChitchatDtoService::getFromEntity).toList());
+      return chitchats.stream().filter(chitchat -> chitchat.getDate().isBefore(LocalDateTime.now()))
+          .map(ChitchatDtoService::getFromEntity).toList();
     }
   }
 
@@ -128,7 +126,7 @@ public class ProfileService {
    * @return response with new data of user.
    */
   @Transactional
-  public ResponseEntity<UserForResponseDto> updateProfile(String username, UserForEditDto userDto) {
+  public UserForResponseDto updateProfile(String username, UserForEditDto userDto) {
     User user = userRepo.findByUsername(username)
         .orElseThrow(() -> new UserNotFoundException(username));
 
@@ -154,7 +152,7 @@ public class ProfileService {
       Language language = languageRepo.findById(userDto.getNativeLanguage()).orElseThrow();
       user.getUserData().setNativeLanguage(language);
     }
-    return ResponseEntity.ok(UserDtoService.profileDetailsDtoFromUser(user));
+    return UserDtoService.profileDetailsDtoFromUser(user);
   }
 
   /**
@@ -165,20 +163,18 @@ public class ProfileService {
    * @return url of avatar.
    */
   @Transactional
-  public ResponseEntity<AvatarDto> uploadAvatar(String userName, MultipartFile file) {
+  public AvatarDto uploadAvatar(String userName, MultipartFile file) {
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
 
     String oldAvatar = user.getUserData().getAvatar();
-
     String avatarUrl = fileStorage.saveFile(userName, file);
     user.getUserData().setAvatar(avatarUrl);
 
     if (oldAvatar != null) {
       fileStorage.deleteFile(oldAvatar);
     }
-
-    return ResponseEntity.ok(new AvatarDto(avatarUrl));
+    return new AvatarDto(avatarUrl);
   }
 
   /**
@@ -187,9 +183,10 @@ public class ProfileService {
    * @param userName of current user
    * @return url of user avatar.
    */
-  public ResponseEntity<AvatarDto> getAvatarUrl(String userName) {
+  public AvatarDto getAvatarUrl(String userName) {
     User user = userRepo.findByUsername(userName)
         .orElseThrow(() -> new UserNotFoundException(userName));
-    return ResponseEntity.ok(new AvatarDto(user.getUserData().getAvatar()));
+
+    return new AvatarDto(user.getUserData().getAvatar());
   }
 }
