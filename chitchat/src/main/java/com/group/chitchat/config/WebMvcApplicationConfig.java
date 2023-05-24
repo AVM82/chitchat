@@ -68,8 +68,9 @@ public class WebMvcApplicationConfig implements WebMvcConfigurer {
   public void addViewControllers(ViewControllerRegistry registry) {
     String viewName = "index.html";
     registry.addViewController("/").setViewName(viewName);
+    registry.addViewController("/login").setViewName(viewName);
+    registry.addViewController("/register").setViewName(viewName);
     registry.addViewController("/chitchat").setViewName(viewName);
-    registry.addViewController("/one_chitchat").setViewName(viewName);
     registry.addViewController("/profile").setViewName(viewName);
     registry.addViewController("/click").setViewName(viewName);
     registry.addViewController("/password_recovery").setViewName(viewName);
