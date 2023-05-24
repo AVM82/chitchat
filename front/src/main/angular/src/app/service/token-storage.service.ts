@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 
-const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
-const REFRESH_TOKEN_KEY = 'auth-refresh-token';
+const TOKEN_KEY = 'auth-chitchat-token';
+const USER_KEY = 'auth-chitchat-user';
+const REFRESH_TOKEN_KEY = 'auth-chitchat-refresh-token';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +14,17 @@ export class TokenStorageService {
 
   public saveToken(token: string): void {
     console.log(token)
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.setItem(TOKEN_KEY, token);
   }
 
   public saveRefreshToken(refreshToken: string): void {
-    window.sessionStorage.removeItem(REFRESH_TOKEN_KEY);
-    window.sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    window.localStorage.removeItem(REFRESH_TOKEN_KEY);
+    window.localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   }
 
   public getToken(): string | null {
-    return sessionStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   public tokenExpired(token: any) {
@@ -33,12 +33,12 @@ export class TokenStorageService {
   }
 
   public saveUser() {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, this.getUser());
+    window.localStorage.removeItem(USER_KEY);
+    window.localStorage.setItem(USER_KEY, this.getUser());
   }
 
   public getUser(): any {
-    let token = sessionStorage.getItem(TOKEN_KEY);
+    let token = localStorage.getItem(TOKEN_KEY);
     if (token != null) {
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
       return decodedJWT.user_name;
@@ -46,7 +46,7 @@ export class TokenStorageService {
   }
 
   public getUserId(): any {
-    let token = sessionStorage.getItem(TOKEN_KEY);
+    let token = localStorage.getItem(TOKEN_KEY);
     if (token != null) {
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
       console.log('user_id: ' + decodedJWT.user_id);
@@ -55,7 +55,7 @@ export class TokenStorageService {
   }
 
   logOut(): void {
-    window.sessionStorage.clear();
+    window.localStorage.clear();
     window.location.reload();
   }
 }
