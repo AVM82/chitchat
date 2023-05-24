@@ -28,14 +28,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,18 +58,16 @@ public class ChitchatService {
   private final EmailService emailService;
 
   /**
-   * Returns list of chitchats.
+   * Returns chitchat by id.
    *
    * @param chitchatId incoming chitchat id.
-   * @return list of chitchats.
+   * @return chitchat.
    */
-  public ResponseEntity<ChitchatForResponseDto> getChitchat(Long chitchatId) {
-    Optional<Chitchat> chitchatOptional = chitchatRepo.findById(chitchatId);
-    if (chitchatOptional.isEmpty()) {
-      throw new ChitchatsNotFoundException(chitchatId);
-    } else {
-      return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchatOptional.get()));
-    }
+  public ChitchatForResponseDto getChitchat(Long chitchatId) {
+    Chitchat chitchat = chitchatRepo.findById(chitchatId)
+        .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
+
+    return ChitchatDtoService.getFromEntity(chitchat);
   }
 
   /**
@@ -80,7 +76,7 @@ public class ChitchatService {
    * @param chitchatDto Dto for create chitchat.
    * @return response with info of chitchat.
    */
-  public ResponseEntity<ChitchatForResponseDto> addChitchat(
+  public ChitchatForResponseDto addChitchat(
       ForCreateChitchatDto chitchatDto, String authorName, HttpServletRequest request) {
 
     User author = userRepo.findByUsername(authorName)
@@ -102,7 +98,7 @@ public class ChitchatService {
 
     sendConfirmCreateEmail(author.getEmail(), chitchat, url);
 
-    return ResponseEntity.ok(ChitchatDtoService.getFromEntity(chitchat));
+    return ChitchatDtoService.getFromEntity(chitchat);
   }
 
   private void sendConfirmCreateEmail(String email, Chitchat chitchat, String url) {
@@ -131,7 +127,7 @@ public class ChitchatService {
    * @return chitchatDto for response
    */
   @Transactional
-  public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(Long chitchatId, Long userId,
+  public ChitchatForResponseDto addUserToChitchat(Long chitchatId, Long userId,
       HttpServletRequest request) {
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
         .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
@@ -158,8 +154,7 @@ public class ChitchatService {
         String.format(bundlesService.getMessForLocale(
             CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
 
-    return ResponseEntity.ok(
-        ChitchatDtoService.getFromEntity(chitchat));
+    return ChitchatDtoService.getFromEntity(chitchat);
   }
 
   /**
@@ -173,7 +168,7 @@ public class ChitchatService {
    * @param pageable    Information for pagination.
    * @return Page by parameters.
    */
-  public ResponseEntity<Page<ChitchatForResponseDto>> getPageChitchats(
+  public Page<ChitchatForResponseDto> getAllChitchats(
       String languageId, String levelStr, String dateFromStr, String dateToStr,
       Integer categoryId, Pageable pageable) {
 
@@ -201,8 +196,7 @@ public class ChitchatService {
     }
     Page<Chitchat> page = chitchatRepo.findAll(specification, pageable);
 
-    return ResponseEntity.ok(page
-        .map(ChitchatDtoService::getFromEntity));
+    return page.map(ChitchatDtoService::getFromEntity);
   }
 
   /**
@@ -254,12 +248,12 @@ public class ChitchatService {
   /**
    * Save link to videoconference.
    *
-   * @param chitchatId current chitchat
-   * @param simpleDto  dto with value of link
-   * @return response with link
+   * @param chitchatId current chitchat.
+   * @param simpleDto  dto with value of link.
+   * @return conference link.
    */
   @Transactional
-  public ResponseEntity<SimpleDataDto<String>> addChitchatLink(Long chitchatId,
+  public SimpleDataDto<String> addChitchatLink(Long chitchatId,
       SimpleDataDto<String> simpleDto) {
 
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
@@ -272,6 +266,6 @@ public class ChitchatService {
     chitchat.setConferenceLink(outputLink);
     chitchat.getRemindersData().setLink(outputLink);
 
-    return ResponseEntity.ok(simpleDto);
+    return simpleDto;
   }
 }
