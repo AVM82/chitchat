@@ -23,6 +23,13 @@ export class OneChitchatContentComponent{
       private messageService: MessageService,
   ) {  }
 
+  ngOnInit() {
+    if (this.oneChitChat) {
+      this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
+      this.tmpConferenceLink = this.oneChitChat.conferenceLink;
+    }
+  }
+
   ngAfterViewInit() {
     this.oneChitChatSubject.subscribe((val) => {
       // console.log(this.oneChitChat, val);

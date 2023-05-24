@@ -1,8 +1,7 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Chitchat} from "../../model/Chitchat";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ChitchatService} from "../../service/chitchat.service";
-import {OneChitchatContentComponent} from "../one-chitchat-content/one-chitchat-content.component";
 import {Subject} from "rxjs";
 
 @Component({
@@ -18,12 +17,14 @@ export class OneChitchatComponent implements OnInit{
       private chitchatService: ChitchatService,
       private dialogRef: MatDialogRef<OneChitchatComponent>,
       @Inject(MAT_DIALOG_DATA) private data: [Chitchat],
-  ) {  }
-
-  @ViewChild(OneChitchatContentComponent, {static: false}) content: OneChitchatContentComponent;
+  ) {
+    this.oneChitChatSubject.subscribe((val) => {
+      this.oneChitChat = val;
+    });
+  }
 
   ngOnInit() {
-    this.oneChitChat = this.data[0];
+    this.oneChitChatSubject.next(this.data[0]);
   }
 
   closeEvent($event: any) {
