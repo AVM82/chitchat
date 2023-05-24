@@ -5,6 +5,7 @@ import com.group.chitchat.model.RemindersData;
 import com.group.chitchat.repository.RemindersDataRepo;
 import com.group.chitchat.service.internationalization.BundlesService;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +38,7 @@ public class ReminderPlanner {
     RemindersData data = RemindersData.builder()
         .startTime(chitchat.getDate())
         .emails(usersEmails)
+        .reminded(false)
         .build();
     data.setChitchat(chitchat);
     chitchat.setRemindersData(data);
@@ -63,11 +65,11 @@ public class ReminderPlanner {
           emailService.sendEmail(
               email,
               bundlesService.getMessForLocale(TITLE, Locale.getDefault()),
-              String.format(
-                  bundlesService.getMessForLocale(MESSAGE, Locale.getDefault()), data.getLink()));
-          log.info("Finish scheduled");
+              String.format(bundlesService.getMessForLocale(MESSAGE, Locale.getDefault()),
+                  ChronoUnit.MINUTES.between(currentTime, data.getStartTime()), data.getLink()));
         }
       }
     }
+    log.info("Finish scheduled");
   }
 }
