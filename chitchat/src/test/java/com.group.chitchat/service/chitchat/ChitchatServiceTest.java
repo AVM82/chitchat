@@ -139,7 +139,7 @@ class ChitchatServiceTest {
     assertEquals(
         "Sorry but User with name notValidName doesn't exist in db!", exception.getMessage());
   }
-
+}
 //  @Test
 //  void userShouldToAddToSetUserInChitchat() {
 //    ChitchatForResponseDto responseDto = chitchatService.addChitchat(
@@ -147,12 +147,11 @@ class ChitchatServiceTest {
 //
 //    Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
 //  }
-
-  @Test
-  void getPageChitchats() {
-  }
-
-  @Test
-  void addChitchatLink() {
-  }
-}
+//
+//  @Test
+//  void getPageChitchats() {
+//  }
+//
+//  @Test
+//  void addChitchatLink() {
+//  }
