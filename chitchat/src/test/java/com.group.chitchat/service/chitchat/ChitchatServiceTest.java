@@ -26,6 +26,7 @@ import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,9 +55,7 @@ class ChitchatServiceTest {
   private static ForCreateChitchatDto forCreateChitchatDto;
   private static StringBuffer chitchatUrl;
 
-  private final ChitchatService chitchatService = new ChitchatService(chitchatRepoMock,
-      userRepoMock, languageRepoMock, categoryRepoMock, reminderPlannerMock, translationRepoMock,
-      bundlesServiceMock, emailServiceMock);
+  private static ChitchatService chitchatService;
 
   @BeforeAll
   static void createInfrastructure() {
@@ -75,13 +74,17 @@ class ChitchatServiceTest {
 
     requestMock = TestEnvironment.createMockHttpServletRequest();
 
-    emailServiceMock = TestEnvironment.createMockEmailService();
     reminderPlannerMock = TestEnvironment.createMockReminderPlanner();
     bundlesServiceMock = TestEnvironment.createMockBundleService();
   }
 
   @BeforeEach
   void setUp() {
+    emailServiceMock = TestEnvironment.createMockEmailService();
+    chitchatService = new ChitchatService(chitchatRepoMock,
+        userRepoMock, languageRepoMock, categoryRepoMock, reminderPlannerMock, translationRepoMock,
+        bundlesServiceMock, emailServiceMock);
+
     chitchatUrl = new StringBuffer("testUrl");
     Mockito.when(requestMock.getRequestURL()).thenReturn(chitchatUrl);
     Mockito.when(userRepoMock.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
@@ -139,14 +142,15 @@ class ChitchatServiceTest {
     assertEquals(
         "Sorry but User with name notValidName doesn't exist in db!", exception.getMessage());
   }
+
+  @Test
+  void userShouldToAddToSetUserInChitchat() {
+    ChitchatForResponseDto responseDto = chitchatService.addChitchat(
+        forCreateChitchatDto, user.getUsername(), requestMock);
+
+    Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
+  }
 }
-//  @Test
-//  void userShouldToAddToSetUserInChitchat() {
-//    ChitchatForResponseDto responseDto = chitchatService.addChitchat(
-//        forCreateChitchatDto, user.getUsername(), requestMock);
-//
-//    Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
-//  }
 //
 //  @Test
 //  void getPageChitchats() {

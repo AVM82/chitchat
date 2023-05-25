@@ -219,7 +219,7 @@ public class ChitchatController {
    * @param response      response.
    * @return response with body of updated chitchat.
    */
-  @PutMapping("/{chitchatId}")
+  @PutMapping("/remove_user/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> removeUserFromChitchat(
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
