@@ -123,20 +123,20 @@ public class ChitchatService {
    * Add user by id to chitchat by id.
    *
    * @param chitchatId chitchat id.
-   * @param userId     user id.
    * @return chitchatDto for response
    */
   @Transactional
-  public ChitchatForResponseDto addUserToChitchat(Long chitchatId, Long userId,
+  public ChitchatForResponseDto addUserToChitchat(Long chitchatId,
       HttpServletRequest request) {
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
         .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
 
-    User user = userRepo.findById(userId)
-        .orElseThrow(() -> new UserNotFoundException(userId));
+    String userName = request.getUserPrincipal().getName();
+    User user = userRepo.findByUsername(userName)
+        .orElseThrow(() -> new UserNotFoundException(userName));
 
     if (chitchat.getUsersInChitchat().contains(user)) {
-      throw new UserAlreadyExistException(userId);
+      throw new UserAlreadyExistException(userName);
     }
     Set<User> usersInChitchat = chitchat.getUsersInChitchat();
     usersInChitchat.add(user);
@@ -154,6 +154,34 @@ public class ChitchatService {
         String.format(bundlesService.getMessForLocale(
             CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
 
+    return ChitchatDtoService.getFromEntity(chitchat);
+  }
+
+  /**
+   * Removes user from chitchat. Also removes email from reminder data.
+   *
+   * @param chitchatId id of chitchat.
+   * @param userName   name of user.
+   * @return dto for response with updated data of chitchat.
+   */
+  @Transactional
+  public ChitchatForResponseDto removeUserFromChitchat(Long chitchatId, String userName) {
+    Chitchat chitchat = chitchatRepo.findById(chitchatId)
+        .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
+    User user = userRepo.findByUsername(userName)
+        .orElseThrow(() -> new UserNotFoundException(userName));
+
+    Set<User> usersInChitchat = chitchat.getUsersInChitchat();
+    if (usersInChitchat.contains(user)) {
+      usersInChitchat.remove(user);
+      chitchat.setUsersInChitchat(usersInChitchat);
+    }
+
+    Set<String> emails = chitchat.getRemindersData().getEmails();
+    if (emails.contains(user.getEmail())) {
+      emails.remove(user.getEmail());
+      chitchat.getRemindersData().setEmails(emails);
+    }
     return ChitchatDtoService.getFromEntity(chitchat);
   }
 
