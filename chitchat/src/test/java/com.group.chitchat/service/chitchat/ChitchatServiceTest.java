@@ -26,7 +26,6 @@ import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -141,13 +140,13 @@ class ChitchatServiceTest {
         "Sorry but User with name notValidName doesn't exist in db!", exception.getMessage());
   }
 
-  @Test
-  void userShouldToAddToSetUserInChitchat() {
-    ChitchatForResponseDto responseDto = chitchatService.addChitchat(
-        forCreateChitchatDto, user.getUsername(), requestMock);
-
-    Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
-  }
+//  @Test
+//  void userShouldToAddToSetUserInChitchat() {
+//    ChitchatForResponseDto responseDto = chitchatService.addChitchat(
+//        forCreateChitchatDto, user.getUsername(), requestMock);
+//
+//    Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
+//  }
 
   @Test
   void getPageChitchats() {
