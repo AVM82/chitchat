@@ -46,6 +46,7 @@ export class ChitchatComponent {
         data: [this.oneChitchat],
         hasBackdrop: true,
         width: "60%",
+        height: "68%",
         disableClose: true,
         autoFocus: true,
       });
