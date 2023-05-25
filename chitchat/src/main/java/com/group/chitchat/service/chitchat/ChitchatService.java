@@ -78,7 +78,6 @@ public class ChitchatService {
    */
   public ChitchatForResponseDto addChitchat(
       ForCreateChitchatDto chitchatDto, String authorName, HttpServletRequest request) {
-
     User author = userRepo.findByUsername(authorName)
         .orElseThrow(() -> new UserNotFoundException(authorName));
     Language language = languageRepo.findById(chitchatDto.getLanguageId()).orElseThrow();
@@ -92,12 +91,9 @@ public class ChitchatService {
     reminderPlanner.createReminderData(chitchat);
     chitchatRepo.save(chitchat);
     log.info("New Chitchat has been saved");
-
     String url = request.getRequestURL().toString().replace("/api/v1/chitchats", "")
         + "/chitchat?id=" + chitchat.getId();
-
     sendConfirmCreateEmail(author.getEmail(), chitchat, url);
-
     return ChitchatDtoService.getFromEntity(chitchat);
   }
 
@@ -115,7 +111,6 @@ public class ChitchatService {
         CalendarService.generateCalendarLink(
             chitchat.getChatName(), chitchat.getDescription(), chitchat.getDate(), url),
         url);
-
     emailService.sendEmail(email, "Chitchat: " + chitchat.getChatName(), message);
   }
 
