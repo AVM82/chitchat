@@ -23,7 +23,7 @@ public class Language {
   @Id
   @Column(name = "id", unique = true)
   private String codeIso;
-  @Column(unique = true)
+  @Column(name = "name", unique = true)
   private String name;        //TODO change value to key from i18n file
 
   @Override
