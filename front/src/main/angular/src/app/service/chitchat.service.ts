@@ -35,6 +35,10 @@ export class ChitchatService {
     console.log(urla);
     return this.httpClient.put<Chitchat>(urla, null);
   }
+  deleteUserFromChat(chitchat_id: number): Observable<Chitchat> {
+    console.log("delete from chitchat");
+    return this.httpClient.put<Chitchat>(this.url + '/remove_user/' + chitchat_id, null);
+  }
 
   getAll(request: any): Observable<Page> {
     const params = request;
