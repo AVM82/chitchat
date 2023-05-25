@@ -197,7 +197,6 @@ public class ChitchatController {
    * Add user by id to chitchat by id.
    *
    * @param chitchatId    id of chitchat.
-   * @param userId        id of user.
    * @param requestHeader header.
    * @param response      Servlet response.
    * @return Response with chitchat.
@@ -205,12 +204,30 @@ public class ChitchatController {
   @PutMapping("/{chitchatId}")
   public ResponseEntity<ChitchatForResponseDto> addUserToChitchat(
       @PathVariable("chitchatId") Long chitchatId,
-      @RequestParam("userId") Long userId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
 
     return ResponseEntity.ok(
-        chitchatService.addUserToChitchat(chitchatId, userId, requestHeader));
+        chitchatService.addUserToChitchat(chitchatId, requestHeader));
+  }
+
+  /**
+   * Removes user from chitchat.
+   *
+   * @param chitchatId    current chitchat id.
+   * @param requestHeader header.
+   * @param response      response.
+   * @return response with body of updated chitchat.
+   */
+  @PutMapping("/remove_user/{chitchatId}")
+  public ResponseEntity<ChitchatForResponseDto> removeUserFromChitchat(
+      @PathVariable("chitchatId") Long chitchatId,
+      HttpServletRequest requestHeader, HttpServletResponse response) {
+    localeResolverConfig.setLocale(requestHeader, response, null);
+
+    return ResponseEntity.ok(
+        chitchatService.removeUserFromChitchat(
+            chitchatId, requestHeader.getUserPrincipal().getName()));
   }
 
   /**
