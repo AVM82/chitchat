@@ -27,6 +27,10 @@ export class TokenStorageService {
     return localStorage.getItem(TOKEN_KEY);
   }
 
+  public getRefreshToken(): string | null {
+    return localStorage.getItem(REFRESH_TOKEN_KEY);
+  }
+
   public tokenExpired(token: any) {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;
