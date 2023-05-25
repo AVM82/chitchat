@@ -9,9 +9,13 @@ import {EmailConfirmComponent} from "./components/email-confirm/email-confirm.co
 import {
   PasswordRecoveryComponent
 } from "./components/password-recovery/password-recovery.component";
+import {LoginComponent} from "./auth/login/login.component";
+import {RegisterComponent} from "./auth/register/register.component";
 
 const routes: Routes = [
   {path: '', component: MainComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'chitchat', component: ChitchatRefComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'click', component: EmailConfirmComponent},

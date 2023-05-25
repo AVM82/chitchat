@@ -9,7 +9,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {CategoryComponent} from "./components/category/category.component";
 import {MatIconModule} from "@angular/material/icon";
 import {ChitchatComponent} from './components/chitchat/chitchat.component';
@@ -102,7 +102,8 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     NgOptimizedImage,
   ],
-  providers: [authInterceptorProviders,authErrorInterceptorProviders,langInterceptorProviders],
+  providers: [authInterceptorProviders, authErrorInterceptorProviders, langInterceptorProviders,
+    {provide: MatDialogRef, useValue: {}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
