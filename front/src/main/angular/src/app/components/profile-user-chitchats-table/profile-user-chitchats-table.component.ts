@@ -65,21 +65,21 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   ngOnInit(): void {
-    if (this.chitchatsType === 'my_chitchats') {
-      this.profileService.getUserCreatedChats().subscribe(result => {
-        this.setDataSource(result);
-      });
-    } else if (this.chitchatsType === 'planned_chitchats') {
-      this.profileService.getChatsWithUser().subscribe(result => {
-        this.setDataSource(result);
-      });
-    } else if (this.chitchatsType === 'archive_chitchats') {
-      this.profileService.getArchiveChats().subscribe(result => {
-        this.setDataSource(result);
-      });
-    }
     this.messageService.getAllUnreadUserChitchats().subscribe(result => {
       this.unreadChitchats = result;
+      if (this.chitchatsType === 'my_chitchats') {
+        this.profileService.getUserCreatedChats().subscribe(result => {
+          this.setDataSource(result);
+        });
+      } else if (this.chitchatsType === 'planned_chitchats') {
+        this.profileService.getChatsWithUser().subscribe(result => {
+          this.setDataSource(result);
+        });
+      } else if (this.chitchatsType === 'archive_chitchats') {
+        this.profileService.getArchiveChats().subscribe(result => {
+          this.setDataSource(result);
+        });
+      }
     });
   }
 
