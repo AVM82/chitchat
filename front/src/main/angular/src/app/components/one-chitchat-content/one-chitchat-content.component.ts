@@ -5,6 +5,7 @@ import {ChitchatService} from "../../service/chitchat.service";
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MessageService} from "../../service/message.service";
 import {Subject} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-one-chitchat-content',
@@ -14,6 +15,7 @@ import {Subject} from "rxjs";
 export class OneChitchatContentComponent{
   @Input() oneChitChat: Chitchat
   isAuthor: boolean = false;
+  isRouting: boolean = false;
   currentUser:string
   tmpConferenceLink: string;
   @Input() oneChitChatSubject: Subject<Chitchat>;
@@ -21,12 +23,15 @@ export class OneChitchatContentComponent{
 
   constructor(
       private chitchatService: ChitchatService,
+      private router: Router,
       private clipboard: Clipboard,
       private tokenStorageService: TokenStorageService,
       private messageService: MessageService,
   ) {  }
 
   ngOnInit() {
+    this.isRouting = this.router.url.includes("chitchat?id=");
+    console.log(this.router.url)
     this.currentUser = this.tokenStorageService.getUser();
     if (this.oneChitChat) {
       this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
@@ -36,7 +41,6 @@ export class OneChitchatContentComponent{
 
   ngAfterViewInit() {
     this.oneChitChatSubject.subscribe((val) => {
-      // console.log(this.oneChitChat, val);
       this.oneChitChat = val;
       this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
       this.tmpConferenceLink = this.oneChitChat.conferenceLink;
@@ -71,5 +75,9 @@ export class OneChitchatContentComponent{
     this.chitchatService.deleteUserFromChat(oneChitChat.id).subscribe(result => {
       this.oneChitChat = result;
     });
+  }
+
+  backToStartPage() {
+    this.router.navigate(['/']);
   }
 }
