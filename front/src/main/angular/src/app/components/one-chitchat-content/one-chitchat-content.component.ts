@@ -66,4 +66,10 @@ export class OneChitchatContentComponent{
   copyDataToClipboard(avatarUrl: string) {
     this.clipboard.copy(avatarUrl);
   }
+
+  deleteUserFromChitchat(oneChitChat: Chitchat) {
+    this.chitchatService.deleteUserFromChat(oneChitChat.id).subscribe(result => {
+      this.oneChitChat = result;
+    });
+  }
 }
