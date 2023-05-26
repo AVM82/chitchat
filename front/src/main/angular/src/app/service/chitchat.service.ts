@@ -32,11 +32,9 @@ export class ChitchatService {
 
   addUserInChat(user_id: number, chitchat_id: number): Observable<Chitchat> {
     const urla = this.url + '/' + chitchat_id + '?userId=' + user_id;
-    console.log(urla);
     return this.httpClient.put<Chitchat>(urla, null);
   }
   deleteUserFromChat(chitchat_id: number): Observable<Chitchat> {
-    console.log("delete from chitchat");
     return this.httpClient.put<Chitchat>(this.url + '/remove_user/' + chitchat_id, null);
   }
 

@@ -13,7 +13,6 @@ export class TokenStorageService {
   }
 
   public saveToken(token: string): void {
-    console.log(token)
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
   }
@@ -49,7 +48,6 @@ export class TokenStorageService {
     let token = localStorage.getItem(TOKEN_KEY);
     if (token != null) {
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
-      console.log('user_id: ' + decodedJWT.user_id);
       return decodedJWT.user_id;
     }
   }
