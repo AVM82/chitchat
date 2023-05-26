@@ -38,7 +38,5 @@ export class EmailConfirmComponent {
       let currentUserId = this.tokenStorage.getUserId();
       this.router.navigate(['/profile']);
     });
-
-    console.log("***** "+this.clickToken)
   }
 }
