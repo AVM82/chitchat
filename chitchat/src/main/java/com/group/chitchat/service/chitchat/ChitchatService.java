@@ -3,6 +3,7 @@ package com.group.chitchat.service.chitchat;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
+import com.group.chitchat.exception.LinkAdditionNotAllowedException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
@@ -290,7 +291,7 @@ public class ChitchatService {
     if (!chitchat.getAuthor().getUsername().equals(userName)) {
       log.warn("Not author {} tried to save link in chitchat with id {}",
           userName, chitchat.getId());
-      throw new RuntimeException("User is not author");
+      throw new LinkAdditionNotAllowedException(userName);
     }
 
     String inputLink = simpleDto.getValue();
