@@ -244,6 +244,7 @@ public class ChitchatController {
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
 
-    return ResponseEntity.ok(chitchatService.addChitchatLink(chitchatId, simpleDto));
+    return ResponseEntity.ok(chitchatService.addChitchatLink(chitchatId, simpleDto,
+        requestHeader.getUserPrincipal().getName()));
   }
 }

@@ -282,10 +282,16 @@ public class ChitchatService {
    */
   @Transactional
   public SimpleDataDto<String> addChitchatLink(Long chitchatId,
-      SimpleDataDto<String> simpleDto) {
+      SimpleDataDto<String> simpleDto, String userName) {
 
     Chitchat chitchat = chitchatRepo.findById(chitchatId)
         .orElseThrow(() -> new ChitchatsNotFoundException(chitchatId));
+
+    if (!chitchat.getAuthor().getUsername().equals(userName)) {
+      log.warn("Not author {} tried to save link in chitchat with id {}",
+          userName, chitchat.getId());
+      throw new RuntimeException("User is not author");
+    }
 
     String inputLink = simpleDto.getValue();
     int startIndex = inputLink.indexOf("https://");
