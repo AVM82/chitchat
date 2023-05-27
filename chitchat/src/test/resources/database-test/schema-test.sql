@@ -155,3 +155,12 @@ CREATE TABLE IF NOT EXISTS translation
     locale           varchar(2),
     message          varchar(255)
 );
+
+
+-- CREATE TABLE IF NOT EXISTS translation
+-- (
+--     message_key      varchar(100) PRIMARY KEY,
+--     locale_en        varchar(2000),
+--     locale_de        varchar(2000),
+--     locale_uk        varchar(2000)
+--     );

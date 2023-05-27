@@ -73,8 +73,9 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.chitchats":"id"=2, "t.users":"username"="testUser1", "t.chitchat_users":("chitchat_id"=2,
+   *
+   * <p>"t.chitchats":"id"=2, "t.users":"username"="testUser1",
+   * "t.chitchat_users":("chitchat_id"=2,
    * "user_id"=2), "t.languages": "id"="deutsch", "t.categories":"name"="Casual Conversation",
    * "t.user_data":"user_id"=2.
    */
@@ -99,8 +100,8 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.chitchats":"id"=1, "t.users":"username"="testUser2", "t.chitchat_users":("chitchat_id"=1,
+   *
+   * <p>"t.chitchats":"id"=1, "t.users":"username"="testUser2", "t.chitchat_users":("chitchat_id"=1,
    * "user_id"=1), "t.languages":"id"="en", "t.user_data":"user_id"=1.
    */
   @Test
@@ -125,8 +126,8 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.messages", "t.users":"username"="testUser3", "t.chitchats":"id"=2.
+   *
+   * <p>"t.messages", "t.users":"username"="testUser3", "t.chitchats":"id"=2.
    */
   @Test
   @WithMockUser("testUserUser")
@@ -149,7 +150,7 @@ class ChitchatControllerTest {
         .andExpect(content().string(expectedResult));
   }
 
-// ==========================================================================================
+
 //  @Test
 //  @WithMockUser("testUser1")
 //  void getUnreadUserMessagesTest() throws Exception {
@@ -163,10 +164,6 @@ class ChitchatControllerTest {
 ////        + "\"subscriptionType\":\"CHAT\""
 //        + "}]";
 //
-//
-////    HttpServletRequest requestHeader = Mockito.mock(HttpServletRequest.class);
-////    Mockito.when(requestHeader.getUserPrincipal()).thenReturn(userPrincipal());
-//
 //    this.mockMvc.perform(
 //            get("/api/v1/chitchats/chat_messages/unread_messages")
 //                .accept(MediaType.APPLICATION_JSON)
@@ -176,13 +173,12 @@ class ChitchatControllerTest {
 //        .andExpect(content().string(expectedResult));
 //  }
 
-//===========================================================================================
 
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.message_users":"read_status", "t.users":"username".
+   *
+   * <p>"t.message_users":"read_status", "t.users":"username".
    */
   @Test
   @WithMockUser("testUser2")
@@ -199,8 +195,8 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.message_users":"read_status", "t.chitchats":"id", "t.users":"username"="testUser1".
+   *
+   * <p>"t.message_users":"read_status", "t.chitchats":"id", "t.users":"username"="testUser1".
    */
   @Test
   @WithMockUser("testUser1")
@@ -218,10 +214,11 @@ class ChitchatControllerTest {
 
 
   /**
-   * Uses the following lines from the H2 in memory database tables(t) created by the script in the
-   * folder: test/resources/database-test.
-   * <p>
-   * "t.users":"username"="testUser2", "t.languages":"id"="en", "t.categories":"id"=2,
+   * This method does not check the sending of messages by email. Uses the following lines from the
+   * H2 in memory database tables(t) created by the script in the folder:
+   * test/resources/database-test.
+   *
+   * <p>"t.users":"username"="testUser2", "t.languages":"id"="en", "t.categories":"id"=2,
    * "t.chitchat_users":("chitchat_id", "user_id"=1), "t.reminder_data":"chitchat_id",
    * "t.reminder_emails":("data_id", "email"), "t.chitchats".
    */
@@ -240,7 +237,7 @@ class ChitchatControllerTest {
         + "    }";
 
     Optional<Translation> optional = Optional.of(
-        new Translation(1, "email_confirm_participate_chitchat", Locale.US, "message"));
+        new Translation(1, "title_reminder", Locale.US, "message"));
     Mockito.when(translationRepo.findByMessageKeyAndLocale(any(), any())).thenReturn(optional);
 
     this.mockMvc.perform(
@@ -256,8 +253,8 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.message_users":("messages_id", "user_id"=1, "read_status"), "t.messages": ("id",
+   *
+   * <p>"t.message_users":("messages_id", "user_id"=1, "read_status"), "t.messages": ("id",
    * "chitchat_id"=1, "created_time"), "t.users":"username"="testUser2".
    */
   @Test
@@ -283,15 +280,21 @@ class ChitchatControllerTest {
 
 
   /**
-   * Uses the following lines from the H2 in memory database tables(t) created by the script in the
-   * folder: test/resources/database-test.
-   * <p>
-   * "t.chitchats":"id"=3, "t.users":"username"="testUser3", "t.chitchat_users":("chitchat_id"=3,
+   * This method does not check the sending of messages by email. Uses the following lines from the
+   * H2 in memory database tables(t) created by the script in the folder:
+   * test/resources/database-test.
+   *
+   * <p>"t.chitchats":"id"=3, "t.users":"username"="testUser3", "t.chitchat_users":("chitchat_id"=3,
    * "user_id"=3), "t.reminder_data":"chitchat_id"=3, "t.reminder_emails":("data_id"=3, "email").
    */
   @Test
   @WithMockUser("testUser3")
   void addUserToChitchatTest() throws Exception {
+
+    Optional<Translation> optional = Optional.of(
+        new Translation(1, "title_reminder",
+            Locale.US, "message"));
+    Mockito.when(translationRepo.findByMessageKeyAndLocale(any(), any())).thenReturn(optional);
 
     this.mockMvc.perform(
             put("/api/v1/chitchats/3")
@@ -303,8 +306,8 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.chitchats":"id"=4, "t.users":"username"="testUser1", "t.chitchat_users":("chitchat_id"=4,
+   *
+   * <p>"t.chitchats":"id"=4, "t.users":"username"="testUser1", "t.chitchat_users":("chitchat_id"=4,
    * "user_id"=2), "t.reminder_data":"chitchat_id"=4, "t.reminder_emails":("data_id"=4, "email"),
    */
   @Test
@@ -322,23 +325,23 @@ class ChitchatControllerTest {
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
-   * <p>
-   * "t.chitchats":"id"=4, "t.reminder_data":"chitchat_id"=4.
+   *
+   * <p>"t.chitchats":"id"=4, "t.reminder_data":"chitchat_id"=4, "t.users":"username"="testUser2".
    */
-//  @Test
-//  @WithMockUser("testUser1")
-//  void addChitchatLinkTest() throws Exception {
-//
-//    String simpleDataDto = "{\"value\":\"https://1.203\"}";
-//
-//    this.mockMvc.perform(
-//            put("/api/v1/chitchats/link/4")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .content(simpleDataDto))
-//        .andDo(print())
-//        .andExpect(status().isOk());
-//  }
+  @Test
+  @WithMockUser("testUser2")
+  void addChitchatLinkTest() throws Exception {
+
+    String simpleDataDto = "{\"value\":\"https://1.203\"}";
+
+    this.mockMvc.perform(
+            put("/api/v1/chitchats/link/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(simpleDataDto))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 
 }
 

@@ -206,7 +206,7 @@ public class ChitchatController {
       @PathVariable("chitchatId") Long chitchatId,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
-System.out.println("44444444444444444444444444444444444444");
+
     return ResponseEntity.ok(
         chitchatService.addUserToChitchat(chitchatId, requestHeader));
   }
