@@ -65,9 +65,9 @@ public class ReminderPlanner {
 
         data.setReminded(true);
         Locale locale = data.getLocale();
-        String title = translationRepo.findByKeyMessageAndLocale(TITLE, locale)
+        String title = translationRepo.findByMessageKeyAndLocale(TITLE, locale)
             .orElseThrow(() -> new NotValidTranslationKeyException(TITLE)).getMessage();
-        String message = translationRepo.findByKeyMessageAndLocale(MESSAGE, locale)
+        String message = translationRepo.findByMessageKeyAndLocale(MESSAGE, locale)
             .orElseThrow(() -> new NotValidTranslationKeyException(MESSAGE)).getMessage();
 
         for (String email : data.getEmails()) {

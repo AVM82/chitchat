@@ -112,13 +112,13 @@ public class ChitchatService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
 
     String title = String.format(
-        translationRepo.findByKeyMessageAndLocale(CONFIRM_CREATE_TITLE_KEY, Locale.getDefault())
+        translationRepo.findByMessageKeyAndLocale(CONFIRM_CREATE_TITLE_KEY, Locale.getDefault())
             .orElseThrow(()
                 -> new NotValidTranslationKeyException(CONFIRM_CREATE_TITLE_KEY)).getMessage(),
         chitchat.getChatName());
 
     String message = String.format(
-        translationRepo.findByKeyMessageAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
+        translationRepo.findByMessageKeyAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
             .orElseThrow(()
                 -> new NotValidTranslationKeyException(CONFIRM_CREATE_MESSAGE_KEY)).getMessage(),
         chitchat.getDate().format(formatter),
@@ -185,14 +185,14 @@ public class ChitchatService {
         url);
 
     String message = String.format(
-        translationRepo.findByKeyMessageAndLocale(
+        translationRepo.findByMessageKeyAndLocale(
                 CONFIRM_PARTICIPATION_MESSAGE_KEY, Locale.getDefault())
             .orElseThrow(() -> new NotValidTranslationKeyException(
                 CONFIRM_PARTICIPATION_MESSAGE_KEY)).getMessage(),
         url,
         calendarLink);
 
-    String title = String.format(translationRepo.findByKeyMessageAndLocale(
+    String title = String.format(translationRepo.findByMessageKeyAndLocale(
                 CONFIRM_PARTICIPATION_TITLE_KEY, Locale.getDefault())
             .orElseThrow(() -> new NotValidTranslationKeyException(
                 CONFIRM_PARTICIPATION_TITLE_KEY)).getMessage(),

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TranslationRepo extends JpaRepository<Translation, String> {
 
-  Optional<Translation> findByKeyMessageAndLocale(String key, Locale locale);
+  Optional<Translation> findByMessageKeyAndLocale(String key, Locale locale);
 }
