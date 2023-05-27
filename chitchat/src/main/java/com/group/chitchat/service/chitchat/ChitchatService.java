@@ -4,6 +4,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.LinkAdditionNotAllowedException;
+import com.group.chitchat.exception.NotValidTranslationKeyException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.model.Category;
@@ -43,6 +44,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Log4j2
 public class ChitchatService {
 
+  private static final String CONFIRM_PARTICIPATION_TITLE_KEY = "title_confirm_participate";
+  private static final String CONFIRM_CREATE_TITLE_KEY = "title_confirm_create";
   private final ChitchatRepo chitchatRepo;
   private final UserRepo userRepo;
   private final LanguageRepo languageRepo;
@@ -55,7 +58,9 @@ public class ChitchatService {
   TranslationRepo translationRepo;
   private final BundlesService bundlesService;
 
-  private static final String CONFIRM_PARTICIPATION_MESSAGE = "m.participate_chitchat";
+  private static final String CONFIRM_PARTICIPATION_MESSAGE_KEY =
+      "email_confirm_participate_chitchat";
+
   private final EmailService emailService;
 
   /**
@@ -106,9 +111,16 @@ public class ChitchatService {
     log.info("create message");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
 
+    String title = String.format(
+        translationRepo.findByMessageKeyAndLocale(CONFIRM_CREATE_TITLE_KEY, Locale.getDefault())
+            .orElseThrow(()
+                -> new NotValidTranslationKeyException(CONFIRM_CREATE_TITLE_KEY)).getMessage(),
+        chitchat.getChatName());
+
     String message = String.format(
-        translationRepo.findByKeyAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
-            .orElseThrow().getMessage(),
+        translationRepo.findByMessageKeyAndLocale(CONFIRM_CREATE_MESSAGE_KEY, Locale.getDefault())
+            .orElseThrow(()
+                -> new NotValidTranslationKeyException(CONFIRM_CREATE_MESSAGE_KEY)).getMessage(),
         chitchat.getDate().format(formatter),
         chitchat.getCategory().getName(),
         chitchat.getLanguage().getName(),
@@ -117,7 +129,7 @@ public class ChitchatService {
             chitchat.getChatName(), chitchat.getDescription(), chitchat.getDate(), url),
         url);
 
-    emailService.sendEmail(email, "Chitchat: " + chitchat.getChatName(), message);
+    emailService.sendEmail(email, title, message);
   }
 
   /**
@@ -151,11 +163,42 @@ public class ChitchatService {
         .replace("/api/v1/chitchats/" + chitchatId, "")
         + "/chitchat?id=" + chitchatId;
 
-    createConfirmOfParticipationEmail(user.getEmail(), chitchat,
-        String.format(bundlesService.getMessForLocale(
-            CONFIRM_PARTICIPATION_MESSAGE, Locale.getDefault()), url), url);
+    createConfirmOfParticipationEmail(user.getEmail(), chitchat, url);
 
     return ChitchatDtoService.getFromEntity(chitchat);
+  }
+
+  /**
+   * Sends a confirmation email.
+   *
+   * @param emailAddress of user.
+   * @param chitchat     Entity with data.
+   * @param url          of new chitchat.
+   */
+  private void createConfirmOfParticipationEmail(String emailAddress, Chitchat chitchat,
+      String url) {
+
+    String calendarLink = CalendarService.generateCalendarLink(
+        chitchat.getChatName(),
+        chitchat.getDescription(),
+        chitchat.getDate(),
+        url);
+
+    String message = String.format(
+        translationRepo.findByMessageKeyAndLocale(
+                CONFIRM_PARTICIPATION_MESSAGE_KEY, Locale.getDefault())
+            .orElseThrow(() -> new NotValidTranslationKeyException(
+                CONFIRM_PARTICIPATION_MESSAGE_KEY)).getMessage(),
+        url,
+        calendarLink);
+
+    String title = String.format(translationRepo.findByMessageKeyAndLocale(
+                CONFIRM_PARTICIPATION_TITLE_KEY, Locale.getDefault())
+            .orElseThrow(() -> new NotValidTranslationKeyException(
+                CONFIRM_PARTICIPATION_TITLE_KEY)).getMessage(),
+        chitchat.getChatName());
+
+    emailService.sendEmail(emailAddress, title, message);
   }
 
   /**
@@ -226,27 +269,6 @@ public class ChitchatService {
     Page<Chitchat> page = chitchatRepo.findAll(specification, pageable);
 
     return page.map(ChitchatDtoService::getFromEntity);
-  }
-
-  /**
-   * Sends a confirmation email.
-   *
-   * @param emailAddress of user.
-   * @param chitchat     Entity with data.
-   * @param message      Message for sending.
-   * @param url          of new chitchat.
-   */
-  private void createConfirmOfParticipationEmail(String emailAddress, Chitchat chitchat,
-      String message, String url) {
-    emailService.sendEmail(
-        emailAddress,
-        String.format("Chitchat: %s", chitchat.getChatName()),
-        message + CalendarService.generateCalendarLink(
-            chitchat.getChatName(),
-            chitchat.getDescription(),
-            chitchat.getDate(),
-            url)
-    );
   }
 
   private Specification<Chitchat> languageSpecification(Language language) {

@@ -67,15 +67,28 @@ public class TestEnvironment {
   }
 
   /**
-   * Create translation object for test.
+   * Create translation object with message for test.
    *
    * @return Translation object.
    */
-  public static Translation createTranslation() {
+  public static Translation createTranslationMessage() {
     return Translation.builder()
         .locale(Locale.ENGLISH)
-        .key("email_confirm_create_chat")
+        .messageKey("email_confirm_create_chat")
         .message("test message: %s %s %s %s %s %s")
+        .build();
+  }
+
+  /**
+   * Create translation object with title for test.
+   *
+   * @return Translation object.
+   */
+  public static Translation createTranslationTitle() {
+    return Translation.builder()
+        .locale(Locale.ENGLISH)
+        .messageKey("title_confirm_create")
+        .message("test title: %s")
         .build();
   }
 
