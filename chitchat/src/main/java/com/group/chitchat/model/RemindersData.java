@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,11 +33,16 @@ public class RemindersData {
   @Column(name = "chitchat_id")
   private Long chitchatId;
 
+  @NotNull
   @Column(name = "time")
   private LocalDateTime startTime;
 
   @Column(name = "link")
   private String link;
+
+  @NotNull
+  @Column(name = "locale")
+  private Locale locale;
 
   @Column(name = "reminded")
   private Boolean reminded;

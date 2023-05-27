@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
 import com.group.chitchat.exception.LinkAdditionNotAllowedException;
+import com.group.chitchat.exception.NotValidTranslationKeyException;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
@@ -100,6 +101,18 @@ public class AdviceController {
   @ExceptionHandler({LinkAdditionNotAllowedException.class})
   public ErrorResponse handleLinkAdditionNotAllowed(LinkAdditionNotAllowedException ex) {
     return ErrorResponse.create(ex, FORBIDDEN, logInfoAndGiveMessage(ex.getMessage()));
+  }
+
+  /**
+   * Exception handler for runtime exception when key of message not found.
+   *
+   * @param ex NotValidTranslationKeyException.
+   * @return a response with message of exception.
+   */
+  @ResponseBody
+  @ExceptionHandler({NotValidTranslationKeyException.class})
+  public ErrorResponse handleNotValidTranslationKey(NotValidTranslationKeyException ex) {
+    return ErrorResponse.create(ex, NOT_FOUND, logInfoAndGiveMessage(ex.getMessage()));
   }
 
   /**

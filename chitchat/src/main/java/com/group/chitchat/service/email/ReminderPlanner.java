@@ -1,9 +1,10 @@
 package com.group.chitchat.service.email;
 
+import com.group.chitchat.exception.NotValidTranslationKeyException;
 import com.group.chitchat.model.Chitchat;
 import com.group.chitchat.model.RemindersData;
 import com.group.chitchat.repository.RemindersDataRepo;
-import com.group.chitchat.service.internationalization.BundlesService;
+import com.group.chitchat.repository.TranslationRepo;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -22,11 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReminderPlanner {
 
-  private static final String MESSAGE = "m.mail_reminder";
-  private static final String TITLE = "m.title_reminder";
+  private static final String MESSAGE = "mail_reminder";
+  private static final String TITLE = "title_reminder";
   private final RemindersDataRepo repo;
-  private final BundlesService bundlesService;
   private final EmailService emailService;
+  private final TranslationRepo translationRepo;
 
   /**
    * Save data to reminder table.
@@ -38,6 +39,7 @@ public class ReminderPlanner {
     RemindersData data = RemindersData.builder()
         .startTime(chitchat.getDate())
         .emails(usersEmails)
+        .locale(new Locale(chitchat.getLanguage().getCodeIso()))
         .reminded(false)
         .build();
     data.setChitchat(chitchat);
@@ -60,13 +62,18 @@ public class ReminderPlanner {
 
     if (remindersDataOptional.isPresent()) {
       for (RemindersData data : remindersDataOptional.get()) {
+
         data.setReminded(true);
+        Locale locale = data.getLocale();
+        String title = translationRepo.findByKeyMessageAndLocale(TITLE, locale)
+            .orElseThrow(() -> new NotValidTranslationKeyException(TITLE)).getMessage();
+        String message = translationRepo.findByKeyMessageAndLocale(MESSAGE, locale)
+            .orElseThrow(() -> new NotValidTranslationKeyException(MESSAGE)).getMessage();
+
         for (String email : data.getEmails()) {
-          emailService.sendEmail(
-              email,
-              bundlesService.getMessForLocale(TITLE, Locale.getDefault()),
-              String.format(bundlesService.getMessForLocale(MESSAGE, Locale.getDefault()),
-                  ChronoUnit.MINUTES.between(currentTime, data.getStartTime()), data.getLink()));
+          emailService.sendEmail(email, title, String.format(
+              message, ChronoUnit.MINUTES.between(currentTime, data.getStartTime()),
+              data.getLink()));
         }
       }
     }

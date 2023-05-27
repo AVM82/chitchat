@@ -90,7 +90,7 @@ class ChitchatServiceTest {
     Mockito.when(userRepoMock.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
     Mockito.when(languageRepoMock.findById(any())).thenReturn(Optional.of(language));
     Mockito.when(categoryRepoMock.findById(any())).thenReturn(Optional.of(category));
-    Mockito.when(translationRepoMock.findByKeyAndLocale(any(), any()))
+    Mockito.when(translationRepoMock.findByKeyMessageAndLocale(any(), any()))
         .thenReturn(Optional.of(translation));
 
   }
