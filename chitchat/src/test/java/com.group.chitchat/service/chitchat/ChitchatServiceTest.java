@@ -3,6 +3,7 @@ package com.group.chitchat.service.chitchat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -51,7 +52,8 @@ class ChitchatServiceTest {
   private static Chitchat chitchat;
   private static Language language;
   private static Category category;
-  private static Translation translation;
+  private static Translation translationMessage;
+  private static Translation translationTitle;
   private static ForCreateChitchatDto forCreateChitchatDto;
   private static StringBuffer chitchatUrl;
 
@@ -63,7 +65,8 @@ class ChitchatServiceTest {
     chitchat = TestEnvironment.createChitchat(user);
     language = TestEnvironment.createLanguage();
     category = TestEnvironment.createCategory();
-    translation = TestEnvironment.createTranslation();
+    translationMessage = TestEnvironment.createTranslationMessage();
+    translationTitle = TestEnvironment.createTranslationTitle();
     forCreateChitchatDto = TestEnvironment.createForCreateChitchatDto();
 
     chitchatRepoMock = TestEnvironment.createMockChitchatRepo();
@@ -90,8 +93,10 @@ class ChitchatServiceTest {
     Mockito.when(userRepoMock.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
     Mockito.when(languageRepoMock.findById(any())).thenReturn(Optional.of(language));
     Mockito.when(categoryRepoMock.findById(any())).thenReturn(Optional.of(category));
-    Mockito.when(translationRepoMock.findByKeyAndLocale(any(), any()))
-        .thenReturn(Optional.of(translation));
+    Mockito.when(translationRepoMock.findByMessageKeyAndLocale(
+        eq("email_confirm_create_chat"), any())).thenReturn(Optional.of(translationMessage));
+    Mockito.when(translationRepoMock.findByMessageKeyAndLocale(
+        eq("title_confirm_create"), any())).thenReturn(Optional.of(translationTitle));
 
   }
 
@@ -116,10 +121,11 @@ class ChitchatServiceTest {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
     assertEquals("testEmail", emailCaptor.getValue());
-    assertEquals("Chitchat: " + forCreateChitchatDto.getChatHeader(), titleCaptor.getValue());
+    assertEquals(String.format(translationTitle.getMessage(), forCreateChitchatDto.getChatHeader()),
+        titleCaptor.getValue());
     assertEquals(
         String.format(
-            translation.getMessage(),
+            translationMessage.getMessage(),
             forCreateChitchatDto.getDate().format(formatter),
             category.getName(),
             language.getName(),

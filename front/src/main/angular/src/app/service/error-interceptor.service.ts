@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -31,7 +30,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(catchError(err => {
 
       if (err.status === 403) {
-        console.log("error 403");
         //this.tokenService.logOut();
         this.notificationService.showSnackBar("403");
         // window.location.reload();
@@ -39,42 +37,34 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
       if (err.status === 401) {
         //this.tokenService.logOut();
-        console.log("error 401");
         this.notificationService.showSnackBar("401");
         // window.location.reload();
-        if (err instanceof HttpErrorResponse && err.status === 401
-            && this.tokenStorageService
-            .tokenExpired(this.tokenStorageService.getRefreshToken() || '')) {
+        if (!this.tokenStorageService.getRefreshToken()) {
+          console.log('no refresh token');
           this.tokenStorageService.logOut();
-        }
-        else if (err instanceof HttpErrorResponse && err.status === 401
-            && !this.tokenStorageService
-            .tokenExpired(this.tokenStorageService.getRefreshToken() || '')) { // Checking the type of error required
+        } else { // Checking the type of error required
           if (this.isRefreshing) {
             return next.handle(this.addToken(req));
           } else {
             this.isRefreshing = true;
 
-            if (this.tokenStorageService.getUser()) {
-              return this.authService.refreshToken(
-                  this.tokenStorageService.getRefreshToken() || '').pipe( // call some function to update the token
-                  switchMap((value) => {
-                    this.tokenStorageService.saveToken(value.token);
-                    this.tokenStorageService.saveRefreshToken(value.refreshToken);
+            return this.authService.refreshToken(
+                this.tokenStorageService.getRefreshToken() || '').pipe( // call some function to update the token
+                switchMap((value) => {
+                  this.tokenStorageService.saveToken(value.token);
+                  this.tokenStorageService.saveRefreshToken(value.refreshToken);
 
-                    console.log("resend new request with new token", value.token);
-                    this.isRefreshing = false;
-                    return next.handle(this.addToken(req)); // Re-invoking a failed request with an updated token
-                  }),
-                  catchError((error) => {
-                    this.isRefreshing = false;
-                    if (error.status == '401' || error.status == '403') {
-                      this.tokenStorageService.logOut();
-                    }
-                    return throwError(() => error);
-                  })
-              );
-            }
+                  console.log("resend new request with new token", value.token);
+                  this.isRefreshing = false;
+                  return next.handle(this.addToken(req)); // Re-invoking a failed request with an updated token
+                }),
+                catchError((error) => {
+                  this.isRefreshing = false;
+                  console.log('error of refresh token');
+                  this.tokenStorageService.logOut();
+                  return throwError(() => error);
+                })
+            );
           }
         }
         return throwError(err); // Forwarding unhandled errors further
@@ -82,7 +72,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
 
       const error = err.error.message || err.statusText;
-      console.log(err);
       this.notificationService.showSnackBar(error);
       return throwError(() => error);
     }));
