@@ -64,11 +64,9 @@ CREATE TABLE IF NOT EXISTS chitchats
 
 CREATE TABLE IF NOT EXISTS chitchat_users
 (
-    chitchat_id int4,
-    user_id     int4,
-    PRIMARY KEY (chitchat_id, user_id),
-    CONSTRAINT fk_participating_chitchats FOREIGN KEY (chitchat_id) REFERENCES chitchats (id),
-    CONSTRAINT fk_participating_users FOREIGN KEY (user_id) REFERENCES users (id)
+    chitchat_id int4 REFERENCES chitchats (id),
+    user_id     int4 REFERENCES users (id),
+    PRIMARY KEY (chitchat_id, user_id)
 );
 
 
@@ -138,6 +136,7 @@ CREATE TABLE IF NOT EXISTS reminder_data
     time          TIMESTAMP WITHOUT TIME ZONE,
     link          varchar(255),
     reminded      boolean,
+    locale        varchar(2),
     PRIMARY KEY (chitchat_id)
 );
 
@@ -149,11 +148,10 @@ CREATE TABLE IF NOT EXISTS reminder_emails
 );
 
 
-CREATE TABLE IF NOT EXISTS translation
-(
-    id        int4,
-    key       varchar(100),
-    locale    varchar(2),
-    message   varchar(2000),
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS translation
+-- (
+--     id int4 PRIMARY KEY,
+--     key       varchar(100),
+--     locale    varchar(2),
+--     message   varchar(2000)
+-- );
