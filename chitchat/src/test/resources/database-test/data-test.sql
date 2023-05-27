@@ -51,10 +51,10 @@ VALUES (1, 1),
 --        (3, 1);
 
 INSERT INTO reminder_data
-VALUES (1, '2023-05-31 14:00:00.000000', 'https://1.11', false, "en"),
-       (2, '2023-05-20 13:00:00.000000', 'https://1.22', false, "en"),
-       (3, '2023-05-02 11:25:03.040000', null, false, "en"),
-       (4, '2023-05-11 14:05:12.100000', null, false, "en");
+VALUES (1, '2023-05-31 14:00:00.000000', 'https://1.11', false, 'en'),
+       (2, '2023-05-20 13:00:00.000000', 'https://1.22', false, 'en'),
+       (3, '2023-05-02 11:25:03.040000', null, false, 'en'),
+       (4, '2023-05-11 14:05:12.100000', null, false, 'en');
 
 INSERT INTO reminder_emails
 VALUES (1, 'useremail2@gmail.com'),
@@ -75,5 +75,5 @@ VALUES (1, 2, false),
        (2, 1, true),
        (3, 1, false);
 
--- INSERT INTO translation
--- VALUES (1, 'email_confirm_create_chat', 'en', 'Hello, it is test message!');
+INSERT INTO translation
+VALUES (1, 'email_confirm_create_chat', 'en', 'Hello, it is test message!');

@@ -148,10 +148,10 @@ CREATE TABLE IF NOT EXISTS reminder_emails
 );
 
 
--- CREATE TABLE IF NOT EXISTS translation
--- (
---     id int4 PRIMARY KEY,
---     key       varchar(100),
---     locale    varchar(2),
---     message   varchar(2000)
--- );
+CREATE TABLE IF NOT EXISTS translation
+(
+    id               int4 PRIMARY KEY,
+    message_key      varchar(100),
+    locale           varchar(2),
+    message          varchar(255)
+);
