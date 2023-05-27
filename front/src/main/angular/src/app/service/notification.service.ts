@@ -9,7 +9,6 @@ export class NotificationService {
   constructor(private snackbar: MatSnackBar) { }
 
   public showSnackBar(message: string): void {
-    console.log("Напечатано "+ message)
     this.snackbar.open(message, undefined, {
       duration: 2000,
       verticalPosition: 'top',

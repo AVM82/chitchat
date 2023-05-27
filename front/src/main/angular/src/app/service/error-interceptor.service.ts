@@ -30,7 +30,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(catchError(err => {
 
       if (err.status === 403) {
-        console.log("error 403");
         //this.tokenService.logOut();
         this.notificationService.showSnackBar("403");
         // window.location.reload();
@@ -38,7 +37,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
       if (err.status === 401) {
         //this.tokenService.logOut();
-        console.log("error 401");
         this.notificationService.showSnackBar("401");
         // window.location.reload();
         if (!this.tokenStorageService.getRefreshToken()) {
@@ -74,7 +72,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
 
       const error = err.error.message || err.statusText;
-      console.log(err);
       this.notificationService.showSnackBar(error);
       return throwError(() => error);
     }));

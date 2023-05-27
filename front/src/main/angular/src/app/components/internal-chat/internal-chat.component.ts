@@ -32,7 +32,7 @@ export class InternalChatComponent implements OnInit, OnDestroy {
   init(chitchatId: number) {
     this.chitchatId = chitchatId;
     this.messageService.getChitchatAllMessages(this.chitchatId).subscribe(data => {
-      this.msg = data;
+      this.msg = data.reverse();
       this.initializeWebSocketConnection();
     });
   }
@@ -50,7 +50,7 @@ export class InternalChatComponent implements OnInit, OnDestroy {
       that.stompClient.subscribe('/message.' + this.chitchatId.toString(), (message: any) => {
         if (message.body) {
           // @ts-ignore
-          that.msg.push(JSON.parse(message.body));
+          that.msg.unshift(JSON.parse(message.body));
         }
       });
     });

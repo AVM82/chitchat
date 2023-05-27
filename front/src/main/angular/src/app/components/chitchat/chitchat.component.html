@@ -25,10 +25,10 @@
 
       </div>
       <div class="badge bg-warning text-dark position-absolute"
-           style="font-size:24px; top: 0.2rem; left: 0.2rem">{{chitchat.level}}
+           style="font-size:1.5em; top: 0.2rem; left: 0.2rem">{{chitchat.level}}
       </div>
       <div class="badge bg-white position-absolute"
-           style="font-size:24px; top: 0.2rem; right: 0.2rem"
+           style="font-size:1.4em; top: 0.2rem; right: 0.2rem"
            [class.text-success]="chitchat.languageName==='english'"
            [class.text-danger]="chitchat.languageName!=='english'"
       >{{chitchat.languageName}}
@@ -40,9 +40,9 @@
           <!-- Product name-->
           <h4 class="fw-bolder my-0 text-danger text-truncate">{{chitchat.authorName}}</h4>
           <h4 class="fw-bolder my-0" style="color: black"
-          >Start:{{chitchat.date|date: 'dd-MM-yyyy hh:mm'}}</h4>
+          >Start:{{chitchat.date|date: 'dd-MM-yyyy HH:mm'}}</h4>
 
-          <h3 class="fw-bolder my-1 text-dark"
+          <h3 class="fw-bolder my-1 text-dark text-truncate"
           >Theme :{{chitchat.chatName}}</h3>
           <div>
 

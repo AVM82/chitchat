@@ -38,7 +38,6 @@ export class RegisterComponent {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password
       }).subscribe(data => {
-        console.log(data);
         this.notificationService.showSnackBar('Successfully Registered!');
         this.dialogRef.close();
       }, error => {
