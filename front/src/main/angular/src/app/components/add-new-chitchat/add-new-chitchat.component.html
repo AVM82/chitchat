@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <!--    календарь - срок выполнения-->
+    <!--    календар -->
     <div class="input-group">
 
       <mat-form-field>
@@ -77,12 +77,9 @@
                data-background-color="light"
                readonly="true">
         <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-        <!-- иконка календаря (для открытия календаря) -->
 
         <mat-datepicker #picker></mat-datepicker>
-        <!-- компонент календаря (открывается по нажатию)-->
 
-        <!--кнопка очистки даты -->
         <button
             (click)="tmpDate = null"
 
@@ -103,8 +100,11 @@
     </div>
 
     <div class="card-body text-center">
-      <a href="#" (click)="addNewChitchat()" class="card-link text-success">{{translate('Create')}}</a>
-      <a href="#" class="card-link">{{translate('Close')}}</a>
+      <button type="button" (click)="addNewChitchat()" class="mx-1 btn btn-success btn-sm"
+      >{{translate('Create')}}</button>
+
+      <button type="button" (click)="closeDialog()" class="mx-1 btn btn-warning btn-sm"
+      >{{translate('Close')}}</button>
     </div>
 
   </div>
