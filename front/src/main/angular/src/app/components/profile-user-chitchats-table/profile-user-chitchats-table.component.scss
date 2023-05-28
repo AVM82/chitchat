@@ -6,6 +6,11 @@ table{
   width:100%;
 }
 
+.mat-column-number,
+.mat-column-description {
+  max-width: 15rem !important;
+}
+
 .mat-footer-row,
 .mat-header-row,
 .mat-row {
