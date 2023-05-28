@@ -75,77 +75,9 @@ VALUES (1, 2, false),
        (2, 1, true),
        (3, 1, false);
 
-INSERT INTO translation
-VALUES (1, 'title_confirm_participate', 'en', 'Hello, it is test message!'),
-       (2, 'title_confirm_create', 'en', 'Hello, it is message!'),
-       (3, 'title_confirm_participate', 'en', 'Hello, it is test!'),
-       (4, 'email_confirm_participate_chitchat', 'en', 'Hello test message!')
-
 -- INSERT INTO translation
--- VALUES ('email_confirm_create_chat', 'Hello! You have scheduled a new Chitchat.
--- Date: %s
--- Category: %s
--- Language: %s
--- Level: %s
---
--- Here are a few steps to follow:
---
--- 1. Follow the link to Google Calendar: %s
--- 2. In Google Calendar, click the "Add Google Meet video conference" button.
--- 3. Copy the link to the video conference that appears on the Google Calendar page by clicking the \"Copy\" button.
--- 4. Click the "Save" button in Google Calendar to not forget about the meeting.
--- 5. Go to the Chitchat page using this link: %s
---    and paste the copied link into the "Video conference link" field.
---
--- Now, the link to the video conference will be sent to all meeting participants via email and will be available on your Chitchat page shortly before the start.
---
--- You can discuss any questions with the participants before the meeting in the internal text chat on the Chitchat page.
---
--- If you have any questions, feel free to contact support for further assistance.
---
--- We wish you successful meetings in Chitchat!', 'Hallo,
--- sie haben einen neuen Chitchat geplant.
--- Datum: %s
--- Kategorie: %s
--- Sprache: %s
--- Level: %s
---
--- Hier sind ein paar Schritte, die Sie befolgen sollten:
---
--- 1. Folgen Sie dem Link zu Google Kalender: %s
--- 2. Klicken Sie in Google Kalender auf die Schaltfläche "Google Meet Videokonferenz hinzufügen".
--- 3. Kopieren Sie den Link zur Videokonferenz, der auf der Google Kalender-Seite angezeigt wird, indem Sie auf die Schaltfläche "Kopieren" klicken.
--- 4. Klicken Sie auf die Schaltfläche "Speichern" in Google Kalender, um das Meeting nicht zu vergessen.
--- 5. Gehen Sie zur Chitchat-Seite über folgenden Link: %s
---    und fügen Sie den kopierten Link in das Feld "Videokonferenz-Link" ein.
---
--- Der Link zur Videokonferenz wird nun allen Teilnehmern per E-Mail zugesendet und steht kurz vor Beginn auch auf Ihrer Chitchat-Seite zur Verfügung.
---
--- Sie können vor dem Meeting eventuelle Fragen mit den Teilnehmern im internen Textchat auf der Chitchat-Seite besprechen.
---
--- Wenn Sie Fragen haben, können Sie sich gerne an den Support wenden.
---
--- Wir wünschen Ihnen erfolgreiche Meetings in Chitchat!', 'Привіт! Ви запланували новий Chitchat.
--- Дата: %s
--- Категорія: %s
--- Мова: %s
--- Рівень: %s
---
--- Ось кілька кроків, які потрібно виконати:
---
--- 1. Перейдіть за посиланням до Google Календаря: %s
--- 2. У Google Календарі натисніть кнопку "Додати відеоконференцію Google Meet"
--- 3. Скопіюйте посилання на відеоконференцію,яке з''явиться на сторінці Google Календаря, натиснувши кнопку "Скопіювати".
--- 4. Натисніть кнопку "Зберегти" у Google Календарі, щоб не забути про зустріч.
--- 5. Перейдіть на сторінку Chitchat по цьому посиланню: %s
---    та вставте скопійоване посилання у поле "Посилання на відеоконференцію".
---
--- Тепер посилання на відеоконференцію буде надіслано всім учасникам зустрічі по електронній пошті та буде доступне на сторінці Чіт-чату незадовго до початку.
---
--- Ви можете обговорити будь-які питання з учасниками перед зустріччю у внутрішньому текстовому чаті на сторінці Чіт-чату.
---
--- Якщо у вас виникнуть питання, звертайтеся до служби підтримки для отримання допомоги.
---
--- Бажаємо успішних зустрічей у Chitchat!'),
---
---        ('title_reminder', 'Your chitchat will start soon', 'Ihr Chitchat beginnt bald', 'Ваш Chitchat скоро розпочнеться');
+-- VALUES (1, 'title_confirm_participate', 'en', 'Hello, it is test message!'),
+--        (2, 'title_confirm_create', 'en', 'Hello, it is message!'),
+--        (3, 'title_confirm_participate', 'en', 'Hello, it is test!'),
+--        (4, 'email_confirm_participate_chitchat', 'en', 'Hello test message!');
+

@@ -153,14 +153,5 @@ CREATE TABLE IF NOT EXISTS translation
     id               int4 PRIMARY KEY,
     message_key      varchar(100),
     locale           varchar(2),
-    message          varchar(255)
+    message          varchar(2000)
 );
-
-
--- CREATE TABLE IF NOT EXISTS translation
--- (
---     message_key      varchar(100) PRIMARY KEY,
---     locale_en        varchar(2000),
---     locale_de        varchar(2000),
---     locale_uk        varchar(2000)
---     );
