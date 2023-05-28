@@ -151,29 +151,6 @@ class ChitchatControllerTest {
   }
 
 
-//  @Test
-//  @WithMockUser("testUser1")
-//  void getUnreadUserMessagesTest() throws Exception {
-//
-//    String expectedResult = "[{"
-////        + "\"id\":3,"
-////        + "\"authorName\":\"testUser2\","
-////        + "\"chitchatId\":1,"
-////        + "\"message\":\"Test message two!\","
-////        + "\"createdTime\":\"2023-05-04T13:11:25.040\","
-////        + "\"subscriptionType\":\"CHAT\""
-//        + "}]";
-//
-//    this.mockMvc.perform(
-//            get("/api/v1/chitchats/chat_messages/unread_messages")
-//                .accept(MediaType.APPLICATION_JSON)
-//        )
-//        .andDo(print())
-//        .andExpect(status().isOk())
-//        .andExpect(content().string(expectedResult));
-//  }
-
-
   /**
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.

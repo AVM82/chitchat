@@ -9,17 +9,6 @@ VALUES (DEFAULT, 'testUser2', 'useremail2@gmail.com',
         '$2a$12$jT.nKuZmve3EWeKLlmuLYeNFCNh9ezb7zSXYSjKrHTwilPSKu.1LS',
         true, true, true, true);
 
--- INSERT INTO roles
--- VALUES (DEFAULT, 'ADMIN'),
---        (DEFAULT, 'USER');
-
-
--- INSERT INTO users_roles
--- VALUES (1, 1),
---        (1, 2),
---        (2, 2),
---        (3, 2);
-
 INSERT INTO languages
 VALUES ('uk', 'українська'),
        ('en', 'english'),
@@ -39,16 +28,6 @@ VALUES (DEFAULT, 1, 'test header', 1, 'test description', 'en', 'A1', 10, '2023-
 INSERT INTO chitchat_users
 VALUES (1, 1),
        (2, 2);
-
--- INSERT INTO permissions
--- VALUES (DEFAULT, 'FREE'),
---        (DEFAULT, 'SUBSCRIPTION'),
---        (DEFAULT, 'PAID');
-
--- INSERT INTO users_permissions
--- VALUES (1, 1),
---        (2, 1),
---        (3, 1);
 
 INSERT INTO reminder_data
 VALUES (1, '2023-05-31 14:00:00.000000', 'https://1.11', false, 'en'),
@@ -74,10 +53,3 @@ INSERT INTO message_users
 VALUES (1, 2, false),
        (2, 1, true),
        (3, 1, false);
-
--- INSERT INTO translation
--- VALUES (1, 'title_confirm_participate', 'en', 'Hello, it is test message!'),
---        (2, 'title_confirm_create', 'en', 'Hello, it is message!'),
---        (3, 'title_confirm_participate', 'en', 'Hello, it is test!'),
---        (4, 'email_confirm_participate_chitchat', 'en', 'Hello test message!');
-
