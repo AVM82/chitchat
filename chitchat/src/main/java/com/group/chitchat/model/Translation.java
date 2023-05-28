@@ -1,5 +1,6 @@
 package com.group.chitchat.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -22,11 +23,12 @@ import lombok.ToString;
 public class Translation {
 
   @Id
+  @Column(name = "id")
   private int id;
-
-  private String key;
-
+  @Column(name = "message_key")
+  private String messageKey;
+  @Column(name = "locale")
   private Locale locale;
-
+  @Column(name = "message")
   private String message;
 }

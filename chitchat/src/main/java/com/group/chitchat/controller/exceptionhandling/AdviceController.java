@@ -6,6 +6,8 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.group.chitchat.exception.ChitchatsNotFoundException;
+import com.group.chitchat.exception.LinkAdditionNotAllowedException;
+import com.group.chitchat.exception.NotValidTranslationKeyException;
 import com.group.chitchat.exception.RoleNotExistException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
@@ -90,6 +92,30 @@ public class AdviceController {
   }
 
   /**
+   * Exception handler for runtime exception when not author trying to add link.
+   *
+   * @param ex LinkAdditionNotAllowedException.
+   * @return a response with message of exception.
+   */
+  @ResponseBody
+  @ExceptionHandler({LinkAdditionNotAllowedException.class})
+  public ErrorResponse handleLinkAdditionNotAllowed(LinkAdditionNotAllowedException ex) {
+    return ErrorResponse.create(ex, FORBIDDEN, logInfoAndGiveMessage(ex.getMessage()));
+  }
+
+  /**
+   * Exception handler for runtime exception when key of message not found.
+   *
+   * @param ex NotValidTranslationKeyException.
+   * @return a response with message of exception.
+   */
+  @ResponseBody
+  @ExceptionHandler({NotValidTranslationKeyException.class})
+  public ErrorResponse handleNotValidTranslationKey(NotValidTranslationKeyException ex) {
+    return ErrorResponse.create(ex, NOT_FOUND, logInfoAndGiveMessage(ex.getMessage()));
+  }
+
+  /**
    * Exception handler for runtime exceptions when an authentication error occurs.
    *
    * @return a response with the value of this exception.
@@ -97,7 +123,6 @@ public class AdviceController {
   @ResponseBody
   @ExceptionHandler({AuthenticationException.class})
   public ErrorResponse errorAuthentication(AuthenticationException ex) {
-    ex.printStackTrace();
     return ErrorResponse.create(ex, FORBIDDEN, logInfoAndGiveMessage(
         bundlesService.getExceptionMessForLocale(FORBIDDEN, Locale.getDefault())));
   }

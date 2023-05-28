@@ -1,118 +1,126 @@
 <ng-container *transloco="let translate;">
-  <div class="card ml-2 mt-2" style="width: 18rem;">
-    <div class="row mx-0">
-      <div class="col-6 ">
-        <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden" style="width: 7rem">
+  <div class="card container mt-2 align-items-center">
+    <div class="row">
+      <div class="col">
+        <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden" style="width: 5rem;">
           <img class="card-img-top" src={{tmpAvatar}} id="img-avatar" alt="..."/>
         </div>
       </div>
     </div>
-    <div class="input-group mb-3">
-      <input style="margin-left: 10px; height: 2%" [value]="editProfile ? 'Cancel': 'Edit'"
+    <div class="input-group">
+      <input [value]="editProfile ? 'Cancel': 'Edit data'" class="badge-info ml-2"
              id="editProfile" type="button"
              (click)="editProfileChange()">
-      <input style="margin-left: 10px; height: 2%" [value]="'Password recovery by e-mail'"
+      <input [value]="'Password recovery by e-mail'" class="badge-danger ml-1"
              id="passwordRecovery" type="button"
              [disabled]="!editProfile"
+             [hidden]="!editProfile"
              (click)="passwordRecovery()">
-      <input type="file" class="file-input" [disabled]="!editProfile"
+      <input type="file" class="file-input"
+             [disabled]="!editProfile"
+             [hidden]="!editProfile"
              [accept]="requiredFileType"
              (change)="onFileSelected($event)" #fileUpload>
-      <div class="file-upload">
+      <div class="file-upload ml-3"
+           [hidden]="!editProfile">
         {{fileName || "Change avatar: max " + MAX_AVATAR_SIZE / 1024 + "Kb"}}
-        <button mat-mini-fab color="primary" class="upload-btn" [disabled]="!editProfile"
+        <button mat-mini-fab color="primary" class="upload-btn mt-1 mb-1"
+                [disabled]="!editProfile"
                 (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>
       </div>
     </div>
 
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text pl-2" id="inputGroup-sizing-userName">{{translate(
-            'Username')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-userName">
+          {{translate('user name')}}</span>
       </div>
-      <input type="text" readonly class="form-control pl-2 mr-2" aria-label="Default"
+      <input type="text" readonly class="form-control" aria-label="Default"
              [disabled]="!editProfile"
              [(ngModel)]="tmpUserName"
              aria-describedby="inputGroup-sizing-userName">
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-email">{{translate(
-            'email')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-email">
+          {{translate('e-mail')}}</span>
       </div>
-      <input type="text" readonly class="form-control mr-2" aria-label="Default"
+      <input type="text" readonly class="form-control" aria-label="Default"
              [disabled]="!editProfile"
              [(ngModel)]="tmpEmail"
              aria-describedby="inputGroup-sizing-email">
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-role">{{translate('role')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-role">
+          {{translate('role')}}</span>
       </div>
-      <select class="custom-select mr-2" id="inputGroupSelect03"
+      <select class="custom-select" id="inputGroupSelect03"
               [disabled]="!editProfile"
               [(ngModel)]="tmpRole">
-        <option class="text-uppercase text-start" *ngFor="let role of roles"
+        <option class="text-start" *ngFor="let role of roles"
                 [ngValue]="role">{{role}}</option>
       </select>
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-nativeLanguage">{{translate(
-            'nativeLanguage')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-nativeLanguage">
+          {{translate('native language')}}</span>
       </div>
-      <select class="custom-select mr-2" id="inputGroupSelect02"
+      <select class="custom-select" id="inputGroupSelect02"
               [disabled]="!editProfile"
               [(ngModel)]="tmpNativeLanguage" (change)="changeNativeLanguage()">
-        <option class="text-uppercase text-start" *ngFor="let language of languages"
+        <option class="text-start" *ngFor="let language of languages"
                 [ngValue]="language">{{language.languageName}}</option>
       </select>
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">{{translate(
-            'firstname')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-default">
+          {{translate('first name')}}</span>
       </div>
-      <input type="text" class="form-control mr-2" aria-label="Default"
+      <input type="text" class="form-control" aria-label="Default"
              [disabled]="!editProfile"
              [(ngModel)]="tmpFirstname"
              aria-describedby="inputGroup-sizing-default">
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-lastname">{{translate(
-            'lastname')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-lastname">
+          {{translate('last name')}}</span>
       </div>
-      <input type="text" class="form-control mr-2" aria-label="Default"
+      <input type="text" class="form-control" aria-label="Default"
              [disabled]="!editProfile"
              [(ngModel)]="tmpLastname"
              aria-describedby="inputGroup-sizing-lastname">
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-gender">{{translate('gender')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-gender">
+          {{translate('gender')}}</span>
       </div>
-      <select class="custom-select mr-2" id="inputGroupSelect01" [value]="tmpGender"
+      <select class="custom-select" id="inputGroupSelect01" [value]="tmpGender"
               [disabled]="!editProfile"
               [(ngModel)]="tmpGender">
         <option class="text-start" *ngFor="let gender of genders"
                 [ngValue]="gender">{{gender}}</option>
       </select>
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-1">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-dob">{{translate('dob')}}</span>
+        <span class="input-group-text" id="inputGroup-sizing-dob">
+          {{translate('date of birth')}}</span>
       </div>
-      <input type="date" class="form-control mr-2" aria-label="Default"
+      <input type="date" class="form-control" aria-label="Default"
              [disabled]="!editProfile"
              [(ngModel)]="tmpDob">
     </div>
     <div class="card-body text-center">
-      <a (click)="save()" class="card-link text-success" [hidden]="!editProfile">{{translate(
-          'Save')}}</a>
-      <a href="#" class="card-link">{{translate('Close')}}</a>
+      <a (click)="save()" class="card-link text-success" [hidden]="!editProfile">
+        {{translate('Save')}}</a>
+      <a [routerLink]="['']" class="card-link">{{translate('Close')}}</a>
     </div>
   </div>
 </ng-container>
