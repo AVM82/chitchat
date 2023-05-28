@@ -1,10 +1,11 @@
 <ng-container *transloco="let translate;">
-  <div class="row">
-    <div class="col-2 mb-2">
+  <div class="container">
+    <div class="col mb-2">
       <app-category (selectCategoryEvent)="selectCategory($event)"></app-category>
     </div>
-  <div class="col mr-2">
-      <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 shadow border-radius-xl">
+
+  <div class="col ml-5">
+      <nav aria-label="" class="navbar navbar-expand-xl px-0 mt-2 shadow border-radius-xl">
         <img alt="" src="assets/img/cup.svg" style=" margin-left:10px; height: 40px;">
         <div class="container-fluid py-1 px-2">
           <nav aria-label="breadcrumb">

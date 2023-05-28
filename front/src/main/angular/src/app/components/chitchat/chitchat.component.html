@@ -1,16 +1,14 @@
 <ng-container *transloco="let translate;">
   <div class="row my-0">
-    <div class="col-10 ">
+    <div class="col-11">
       <app-chitchat-filter [selectedCategory]="selectedCategory"
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
     </div>
-    <div class="col-1 m-0">
-      <div class="text-right col-6">
-        <button (click)="openAddTaskDialog()" class="btn align-items-end mt-1"
-        style="height:45px; background-color: #0a53be">
+    <div class="col py-0 px-0 mx-0">
+        <button (click)="openAddTaskDialog()" class="btn pt-0 mx-1 px-1"
+        style="width:70px; height:45px; background-color: #0a53be">
           {{translate('Add new')}}
         </button>
-      </div>
     </div>
   </div>
 <!--Dashboard-->
