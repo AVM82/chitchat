@@ -68,22 +68,19 @@ class ChitchatServiceTest {
     translationMessage = TestEnvironment.createTranslationMessage();
     translationTitle = TestEnvironment.createTranslationTitle();
     forCreateChitchatDto = TestEnvironment.createForCreateChitchatDto();
-
-    chitchatRepoMock = TestEnvironment.createMockChitchatRepo();
     languageRepoMock = TestEnvironment.createMockLanguageRepo();
     userRepoMock = TestEnvironment.createMockUserRepo();
     categoryRepoMock = TestEnvironment.createMockCategoryRepo();
     translationRepoMock = TestEnvironment.createMockTranslationRepo();
-
     requestMock = TestEnvironment.createMockHttpServletRequest();
-
-    reminderPlannerMock = TestEnvironment.createMockReminderPlanner();
     bundlesServiceMock = TestEnvironment.createMockBundleService();
   }
 
   @BeforeEach
   void setUp() {
     emailServiceMock = TestEnvironment.createMockEmailService();
+    reminderPlannerMock = TestEnvironment.createMockReminderPlanner();
+    chitchatRepoMock = TestEnvironment.createMockChitchatRepo();
     chitchatService = new ChitchatService(chitchatRepoMock,
         userRepoMock, languageRepoMock, categoryRepoMock, reminderPlannerMock, translationRepoMock,
         bundlesServiceMock, emailServiceMock);
@@ -155,6 +152,39 @@ class ChitchatServiceTest {
         forCreateChitchatDto, user.getUsername(), requestMock);
 
     Assertions.assertTrue(responseDto.getUsersInChitchat().contains(user.getUsername()));
+  }
+
+  @Test
+  void shouldBeCreatedNewReminderWhenChitchatAdded() {
+    chitchatService.addChitchat(forCreateChitchatDto, user.getUsername(), requestMock);
+    ArgumentCaptor<Chitchat> chitchatCaptor = ArgumentCaptor.forClass(Chitchat.class);
+
+    verify(reminderPlannerMock, times(1))
+        .createReminderData(chitchatCaptor.capture());
+
+    assertEquals(forCreateChitchatDto.getDate(), chitchatCaptor.getValue().getDate());
+    assertEquals(user.getEmail(), chitchatCaptor.getValue().getAuthor().getEmail());
+    assertEquals(forCreateChitchatDto.getLanguageId(),
+        chitchatCaptor.getValue().getLanguage().getCodeIso());
+  }
+
+  @Test
+  void checkInputAndOutputParametersWhenSaveCall() {
+    chitchatService.addChitchat(forCreateChitchatDto, user.getUsername(), requestMock);
+    ArgumentCaptor<Chitchat> chitchatCaptor = ArgumentCaptor.forClass(Chitchat.class);
+
+    verify(chitchatRepoMock, times(1)).save(chitchatCaptor.capture());
+
+    assertEquals(forCreateChitchatDto.getLevel(), chitchatCaptor.getValue().getLevel());
+    assertEquals(forCreateChitchatDto.getCapacity(), chitchatCaptor.getValue().getCapacity());
+    assertEquals(forCreateChitchatDto.getChatHeader(), chitchatCaptor.getValue().getChatName());
+    assertEquals(forCreateChitchatDto.getLanguageId(),
+        chitchatCaptor.getValue().getLanguage().getCodeIso());
+    assertEquals(forCreateChitchatDto.getDescription(), chitchatCaptor.getValue().getDescription());
+    assertEquals(forCreateChitchatDto.getCategoryId(),
+        chitchatCaptor.getValue().getCategory().getId());
+    assertEquals(forCreateChitchatDto.getDate(), chitchatCaptor.getValue().getDate());
+    assertEquals(user.getUsername(), chitchatCaptor.getValue().getAuthor().getUsername());
   }
 }
 //

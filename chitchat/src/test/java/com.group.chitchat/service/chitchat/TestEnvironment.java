@@ -102,6 +102,8 @@ public class TestEnvironment {
         .date(LocalDateTime.now())
         .chatHeader("test chat name")
         .description("test chat description")
+        .categoryId(1)
+        .languageId("en")
         .build();
   }
 
