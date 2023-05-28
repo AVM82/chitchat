@@ -1,7 +1,7 @@
 <div class="col">
 <div class="input-group">
-<input class="form-control" id="input" style="height: 40px" type="text" placeholder="Message" [(ngModel)]="input">
-  <img alt="" src="assets/img/envelope.svg" (click)="sendMessage()" style="cursor: pointer;height: 40px;">
+<input class="form-control" id="input" style="height: 32px" type="text" placeholder="Message" [(ngModel)]="input">
+  <img alt="" src="assets/img/send.svg" (click)="sendMessage()" style="cursor: pointer;height: 25px;">
 </div>
 <div class="px-0 pt-1" style="height: 400px;overflow-y: scroll;">
   <div class="container" *ngFor="let m of msg">

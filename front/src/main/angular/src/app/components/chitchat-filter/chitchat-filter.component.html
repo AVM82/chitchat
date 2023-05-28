@@ -1,25 +1,35 @@
 <ng-container *transloco="let translate;">
-  <div class="row row-cols-12 justify-content-center">
-    <div class="col-2 mb-2">
-    </div>
-    <div class="col-10">
-      <label style=" font-size: 16px">{{translate('Filter')}}</label>
-      {{translate('Language:')}} <select class="marg" [value]='' (change)="getFilter()"
-                        [(ngModel)]="filteredLanguage">
+  <div class="row mx-1 shadow rounded " style="height: 50px; background-color: white">
+    <div class="col pt-2">
+      <img alt="" src="assets/img/filter.svg" style="height: 35px;">
+      <span class="badge shadow" style="margin-left: 40px; background-color: #eccccf; color:#24292e; font-size: 18px">{{translate('language:')}}</span>
+      <select class="ml-2 marg rounded pl-1 shadow"
+                                         style="height: 30px; color: #24292e; font-size:18px; width: 120px"
+                                         [value]='' (change)="getFilter()"
+                                         [(ngModel)]="filteredLanguage">
       <option [ngValue]="''">{{translate('All')}}</option>
       <option *ngFor="let language of languages"
               [ngValue]="language.codeIso">{{language.languageName}}</option>
     </select>
-      {{translate('Level:')}} <select class="marg" [value]='' (change)="getFilter()"
-                     [(ngModel)]="filteredLevel">
+
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 20px; font-size: 18px">{{translate('level:')}}</span>
+      <select class="ml-2 marg rounded pl-1 shadow"
+              style="height: 30px; color: #24292e; font-size:18px; width: 90px"
+              [value]='' (change)="getFilter()"
+                                      [(ngModel)]="filteredLevel">
       <option [ngValue]="''">{{translate('All')}}</option>
       <option *ngFor="let level of levels"
               [ngValue]="level">{{level}}</option>
     </select>
-      {{translate('Date from')}} <input type="date" (change)="getFilter()"
-                       max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
-      {{translate('to')}} <input class="marg" type="date" (change)="getFilter()"
-                min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
+
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 100px; font-size: 18px">{{translate('from:')}}</span>
+      <input class="marg pl-1 ml-2 rounded shadow" type="date" (change)="getFilter()"
+             style="border-width: 1px; height: 30px; color: #24292e; font-size:18px;"
+             max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 20px; font-size: 18px">{{translate('to:')}}</span>
+      <input class="marg pl-1 ml-2 rounded shadow" type="date" (change)="getFilter()"
+             style="border-width: 1px; height: 30px; color: #24292e; font-size:18px;"
+                                 min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
     </div>
   </div>
 </ng-container>

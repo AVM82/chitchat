@@ -1,79 +1,82 @@
 <ng-container *transloco="let translate;">
-<div class="row my-0">
-  <div class="col-10 ">
-    <app-chitchat-filter [selectedCategory]="selectedCategory"
-                         (chitchatsEvent)="filter($event)"></app-chitchat-filter>
-  </div>
-  <div class="col-1 m-0">
-    <div class="text-right col-6">
-      <button (click)="openAddTaskDialog()" class="btn btn-primary align-items-end mb-0">
-        {{translate('Add new')}}
-      </button>
+  <div class="row my-0">
+    <div class="col-10 ">
+      <app-chitchat-filter [selectedCategory]="selectedCategory"
+                           (chitchatsEvent)="filter($event)"></app-chitchat-filter>
+    </div>
+    <div class="col-1 m-0">
+      <div class="text-right col-6">
+        <button (click)="openAddTaskDialog()" class="btn align-items-end mt-1"
+        style="height:45px; background-color: #0a53be">
+          {{translate('Add new')}}
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div class="row gx-1 my-0 mx-4 gx-lg-4 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
-  <div class="col mb-5" *ngFor="let chitchat of chitchats">
-    <div class="card h-100 shadow text-center  p-3 mb-1 bg-white rounded "
-         style="width: 15rem;">
+<!--Dashboard-->
 
-      <!-- Product image-->
-      <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-        <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}"
-             alt="..."/>
-
-
-      </div>
-      <div class="badge bg-warning text-dark position-absolute"
-           style="font-size:1.5em; top: 0.2rem; left: 0.2rem">{{chitchat.level}}
-      </div>
-      <div class="badge bg-white position-absolute"
-           style="font-size:1.4em; top: 0.2rem; right: 0.2rem"
-           [class.text-success]="chitchat.languageName==='english'"
-           [class.text-danger]="chitchat.languageName!=='english'"
-      >{{chitchat.languageName}}
-      </div>
-
-      <!-- Product details-->
-      <div class="card-body" style="padding: 5px;">
-        <div class="text-center">
-          <!-- Product name-->
-          <h4 class="fw-bolder my-0 text-danger text-truncate">{{chitchat.authorName}}</h4>
-          <h4 class="fw-bolder my-0" style="color: black"
-          >Start:{{chitchat.date|date: 'dd-MM-yyyy HH:mm'}}</h4>
-
-          <h3 class="fw-bolder my-1 text-dark text-truncate"
-          >Theme :{{chitchat.chatName}}</h3>
-          <div>
-
-          <div class="progress mx-1 h4 " style="height: 30px">
-            <div class="progress-bar font-weight-bold progress-bar-success text-start" role="progressbar"
-                 aria-valuemin="0" aria-valuemax="100" [style.width]="100*chitchat.usersInChitchat.length/chitchat.capacity+'%'">
-              <div style="float:right;">
-                <img alt="" src="assets/img/faces/people.svg" style="height: 25px">
-                {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}
-              </div>
-
-              </div>
+  <div class="row row-cols-md-4">
+    <div class="col" *ngFor="let chitchat of chitchats">
+<!--      Card    -->
+    <div class="card shadow border-success mb-3" style="width: 20rem;">
+      <!--      Header -->
+      <div class="card-header shadow pl-5 pt-1 m-2 rounded border-success text-truncate"
+      style="background-color: #eccccf; height: 25px; font-size: 14px"
+      >{{chitchat.chatName}}</div>
+      <!--      Header -->
+      <div class="card-body text-dark">
+        <div class="row">
+          <div class="col w-50 pl-1 pr-0">
+            <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden"
+                 style="width: 6rem">
+              <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}"
+                   alt="..."/>
             </div>
+            <h4 class="fw-bolder my-0 text-truncate">{{chitchat.authorName}}</h4>
+            <h4 class="fw-bolder py-1 my-0 text-info text-truncate"><span class="py-0 text-dark text-truncate">language:</span>{{"  "
+            + chitchat.languageName}}</h4>
+            <h4 class="fw-bolder py-0 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">level:</span>{{"  "
+            + chitchat.level}}</h4>
+          </div>
+          <div class="col w-50 pl-1 pr-0 m-0">
+            <h4 class="py-1 my-0"><span
+                class="badge badge-success py-1">When</span>{{chitchat.date|date: '  dd/MM/yyyy'}}
+            </h4>
+            <h4 class="fw-bolder pt-0 my-0"><span
+                class="badge badge-danger py-1">Time</span>{{chitchat.date|date: '  HH:mm'}}
+            </h4>
+            <h4 class="pt-1 my-0"><span class="badge badge-info py-1">Description</span></h4>
+            <textarea class="form-control mt-0" [disabled]="true" style="font-size: 11px" rows="10">{{"   "+chitchat.description}}</textarea>
           </div>
         </div>
       </div>
-      <!-- Product actions-->
-      <a class="btn btn-primary mx-4 mb-2" (click)="openChitChat(chitchat)">
-        {{translate('More details')}}</a>
+      <!--      Footer -->
+      <div class="progress my-1 mx-2 h4 " style="height: 30px">
+        <div class="progress-bar text-dark pt-1 text-start" role="progressbar"
+             style="background-color: #eccccf; font-weight: bold"
+             aria-valuemin="0" aria-valuemax="100" [style.width]="100*chitchat.usersInChitchat.length/chitchat.capacity+'%'">
+          <div style="float:right;">
+            <img alt="" src="assets/img/faces/people.svg" style="margin-left:5px; height: 25px">
+            {{chitchat.usersInChitchat.length}}/{{chitchat.capacity}}
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-sm shadow text-light my-1" style="background-color: #0a58ca" (click)="openChitChat(chitchat)">
+          {{translate('More details')}}</a>
+      </div>
+      <!--      Footer -->
     </div>
+      <!--      Card    -->
+  </div>
   </div>
 
-</div>
-  <div>
-
-  </div>
-  <div style ="margin-left:45px; width: 93%">
-  <mat-paginator [pageSizeOptions]="[10]" [pageSize]="10" [length]="totalElements"
-                 [hidePageSize]="true"
-                 [showFirstLastButtons] = "true"
-                 (page)="nextPage($event)">
-  </mat-paginator>
+  <!--Dashboard-->
+  <div class="shadow rounded mr-2" style ="margin-top: 10px;">
+    <mat-paginator [pageSizeOptions]="[10]" [pageSize]="10" [length]="totalElements"
+                   [hidePageSize]="true"
+                   [showFirstLastButtons] = "true"
+                   (page)="nextPage($event)">
+    </mat-paginator>
   </div>
 </ng-container>
