@@ -25,11 +25,19 @@
       <div class="card-body text-dark">
         <div class="row">
           <div class="col w-50 pl-1 pr-0">
+<!--            Avatar image -->
             <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden"
                  style="border: 1px solid #86b7fe;width: 6rem">
               <img class="card-img-top" src="{{chitchat.avatarUrl || 'assets/img/user.png'}}"
                    alt="..."/>
             </div>
+            <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
+                 style="border: 1px solid #86b7fe;width: 1rem; top: 0.3rem; right: 3.7rem">
+              <img class="card-img-top" src="assets/img/flags/gb.svg"
+                   alt="..."/>
+            </div>
+
+<!--            End image -->
             <h4 class="fw-bolder my-0 text-truncate">{{chitchat.authorName}}</h4>
             <h4 class="fw-bolder py-1 my-0 text-info text-truncate"><span class="py-0 text-dark text-truncate">language:</span>{{"  "
             + chitchat.languageName}}</h4>
