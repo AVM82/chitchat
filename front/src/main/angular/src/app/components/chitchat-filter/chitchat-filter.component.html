@@ -1,10 +1,12 @@
 <ng-container *transloco="let translate;">
-  <div class="d-flex ml-1 mr-0 shadow rounded " style="height: 50px; background-color: white">
+  <div class="d-flex ml-1 mr-0 shadow rounded " style="height: 40px; background-color: white">
     <div class="col pt-2">
-      <img alt="" src="assets/img/filter.svg" style="height: 35px;">
-      <span class="badge shadow" style="margin-left: 10px; background-color: #eccccf; color:#24292e; font-size: 18px">{{translate('language:')}}</span>
+      <img alt="" src="assets/img/filter.svg" style="height: 25px;">
+      <span class="badge shadow" style="margin-left: 10px; background-color: #eccccf; color:#24292e;
+      font-size: 16px">{{translate('language:')}}</span>
       <select class="ml-2 marg rounded pl-1 shadow"
-                                         style="height: 30px; color: #24292e; font-size:18px; width: 120px"
+                                         style="height: 22px; color: #24292e;
+                                         font-size:16px; width: 120px"
                                          [value]='' (change)="getFilter()"
                                          [(ngModel)]="filteredLanguage">
       <option [ngValue]="''">{{translate('All')}}</option>
@@ -12,9 +14,10 @@
               [ngValue]="language.codeIso">{{language.languageName}}</option>
     </select>
 
-      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 10px; font-size: 18px">{{translate('level:')}}</span>
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e;
+      margin-left: 10px; font-size: 16px">{{translate('level:')}}</span>
       <select class="ml-2 marg rounded pl-1 shadow"
-              style="height: 30px; color: #24292e; font-size:18px; width: 90px"
+              style="height: 22px; color: #24292e; font-size:16px; width: 90px"
               [value]='' (change)="getFilter()"
                                       [(ngModel)]="filteredLevel">
       <option [ngValue]="''">{{translate('All')}}</option>
@@ -22,13 +25,15 @@
               [ngValue]="level">{{level}}</option>
     </select>
 
-      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 60px; font-size: 18px">{{translate('from:')}}</span>
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e;
+      margin-left: 60px; font-size: 16px">{{translate('from:')}}</span>
       <input class="marg pl-1 ml-2 rounded shadow" type="date" (change)="getFilter()"
-             style="border-width: 1px; height: 30px; color: #24292e; font-size:18px;"
+             style="border-width: 1px; height: 22px; color: #24292e; font-size:16px;"
              max="{{filteredDateTo}}" [(ngModel)]="filteredDateFrom">
-      <span class="badge shadow" style="background-color: #eccccf; color: #24292e; margin-left: 10px; font-size: 18px">{{translate('to:')}}</span>
+      <span class="badge shadow" style="background-color: #eccccf; color: #24292e;
+      margin-left: 10px; font-size: 16px">{{translate('to:')}}</span>
       <input class="marg pl-1 ml-2 rounded shadow" type="date" (change)="getFilter()"
-             style="border-width: 1px; height: 30px; color: #24292e; font-size:18px;"
+             style="border-width: 1px; height: 22px; color: #24292e; font-size:16px;"
                                  min="{{filteredDateFrom}}" [(ngModel)]="filteredDateTo">
     </div>
   </div>
