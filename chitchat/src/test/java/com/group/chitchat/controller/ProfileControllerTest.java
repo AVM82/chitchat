@@ -1,17 +1,12 @@
 package com.group.chitchat.controller;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.group.chitchat.ChitchatApplication;
-import com.group.chitchat.model.MessageUsersKey;
-import com.group.chitchat.repository.TranslationRepo;
 import com.group.chitchat.service.email.ChitchatEmailService;
 import com.group.chitchat.service.profile.StorageServiceS3Bucket;
 import org.junit.jupiter.api.Test;
@@ -29,18 +24,15 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(classes = ProfileController.class)
 @AutoConfigureMockMvc
 @ComponentScan("com.group.chitchat")
-public class ProfileControllerTest {
+class ProfileControllerTest {
 
   @Autowired
   MockMvc mockMvc;
-
 
   @MockBean
   StorageServiceS3Bucket storageServiceS3Bucket;
   @MockBean
   ChitchatEmailService chitchatEmailService;
-//  @MockBean
-//  TranslationRepo translationRepo;
 
   /**
    * Checks the performance of the controller.
@@ -56,8 +48,7 @@ public class ProfileControllerTest {
    * folder: test/resources/database-test.
    *
    * <p>"t.users":"username"="testUser2",
-   * "t.users_roles":("user_id"=1,"role_id"=1),
-   * "t.roles":("id"=1, "name"="ADMIN"),
+   * "t.users_roles":("user_id"=1,"role_id"=1), "t.roles":("id"=1, "name"="ADMIN"),
    * "t.user_data":("user_id"=1, "avatar"=null)
    */
   @Test
@@ -89,8 +80,7 @@ public class ProfileControllerTest {
    * folder: test/resources/database-test.
    *
    * <p>"t.users":"username"="testUser1",
-   * "t.users_roles":("user_id"=2,"role_id"=2),
-   * "t.roles":("id"=2, "name"="USER"),
+   * "t.users_roles":("user_id"=2,"role_id"=2), "t.roles":("id"=2, "name"="USER"),
    * "t.user_data":("user_id"=2, "avatar" and other)
    */
   @Test
@@ -158,8 +148,7 @@ public class ProfileControllerTest {
    * folder: test/resources/database-test.
    *
    * <p>"t.users":"username"="testUser1",
-   * "t.chitchat_user":("chitchat_id"=2, "user_id"=2),
-   * "t.chitchat":("id"=2, "time"=....).
+   * "t.chitchat_user":("chitchat_id"=2, "user_id"=2), "t.chitchat":("id"=2, "time"=....).
    */
   @Test
   @WithMockUser("testUser1")
@@ -193,8 +182,7 @@ public class ProfileControllerTest {
    * folder: test/resources/database-test.
    *
    * <p>"t.users":"username"="testUser3",
-   * "t.chitchat_user":("chitchat_id"=3, "user_id"=3),
-   * "t.chitchat":("id"=3, "time"=....).
+   * "t.chitchat_user":("chitchat_id"=3, "user_id"=3), "t.chitchat":("id"=3, "time"=....).
    */
   @Test
   @WithMockUser("testUser3")
@@ -229,9 +217,8 @@ public class ProfileControllerTest {
    * folder: test/resources/database-test.
    *
    * <p>"t.users":"username"="testUser4",
-   * "t.roles":("id"=4,"name"="OBSERVER"),
-   * "t.user_data",
-   * "t.languages":("id"="en", "name"="english"),
+   * "t.roles":("id"=4,"name"="OBSERVER"), "t.user_data", "t.languages":("id"="en",
+   * "name"="english"),
    */
   @Test
   @WithMockUser("testUser4")
@@ -268,9 +255,4 @@ public class ProfileControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string(expectedResult));
   }
-
-
-
-
-
 }
