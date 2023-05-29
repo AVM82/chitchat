@@ -221,6 +221,7 @@ class ChitchatControllerTest {
         + "\"id\":5,"
         + "\"chatName\":\"testChat\","
         + "\"authorName\":\"testUser2\","
+        + "\"authorLanguage\":\"uk\","
         + "\"categoryName\":\"Casual Conversation\","
         + "\"description\":\"testing\","
         + "\"languageName\":\"english\","
@@ -229,7 +230,8 @@ class ChitchatControllerTest {
         + "\"date\":\"2023-05-27T12:16:29.834\","
         + "\"usersInChitchat\":[\"testUser2\"],"
         + "\"avatarUrl\":null,"
-        + "\"conferenceLink\":null}";
+        + "\"conferenceLink\":null"
+        + "}";
 
     Optional<Translation> optional = Optional.of(
         new Translation(1, "title_reminder", Locale.US, "message"));
