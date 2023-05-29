@@ -84,6 +84,7 @@ class ChitchatControllerTest {
   void getChitchatTest() throws Exception {
 
     String expectedResult = "{\"id\":2,\"chatName\":\"lets go\",\"authorName\":\"testUser1\","
+        + "\"authorLanguage\":\"en\","
         + "\"categoryName\":\"Casual Conversation\",\"description\":\"speak with me\","
         + "\"languageName\":\"deutsch\",\"level\":\"NATIVE\",\"capacity\":2,"
         + "\"date\":\"2023-06-01T12:00:00\",\"usersInChitchat\":[\"testUser1\"],"
@@ -109,6 +110,7 @@ class ChitchatControllerTest {
   void getPublicChitchatTest() throws Exception {
 
     String expectedResult = "{\"id\":1,\"chatName\":\"test header\",\"authorName\":\"testUser2\","
+        + "\"authorLanguage\":\"uk\","
         + "\"categoryName\":\"Computer Science and IT\",\"description\":\"test description\","
         + "\"languageName\":\"english\",\"level\":\"A1\",\"capacity\":10,"
         + "\"date\":\"2023-05-01T12:00:00\",\"usersInChitchat\":[\"testUser2\"],"

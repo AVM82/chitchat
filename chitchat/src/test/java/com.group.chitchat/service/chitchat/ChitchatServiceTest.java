@@ -117,7 +117,7 @@ class ChitchatServiceTest {
         .sendEmail(emailCaptor.capture(), titleCaptor.capture(), messageCaptor.capture());
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM uuuu HH:mm");
-    assertEquals("testEmail", emailCaptor.getValue());
+    assertEquals(user.getEmail(), emailCaptor.getValue());
     assertEquals(String.format(translationTitle.getMessage(), forCreateChitchatDto.getChatHeader()),
         titleCaptor.getValue());
     assertEquals(
@@ -178,20 +178,13 @@ class ChitchatServiceTest {
     assertEquals(forCreateChitchatDto.getLevel(), chitchatCaptor.getValue().getLevel());
     assertEquals(forCreateChitchatDto.getCapacity(), chitchatCaptor.getValue().getCapacity());
     assertEquals(forCreateChitchatDto.getChatHeader(), chitchatCaptor.getValue().getChatName());
-    assertEquals(forCreateChitchatDto.getLanguageId(),
-        chitchatCaptor.getValue().getLanguage().getCodeIso());
     assertEquals(forCreateChitchatDto.getDescription(), chitchatCaptor.getValue().getDescription());
-    assertEquals(forCreateChitchatDto.getCategoryId(),
-        chitchatCaptor.getValue().getCategory().getId());
     assertEquals(forCreateChitchatDto.getDate(), chitchatCaptor.getValue().getDate());
     assertEquals(user.getUsername(), chitchatCaptor.getValue().getAuthor().getUsername());
+    assertEquals(forCreateChitchatDto.getCategoryId(),
+        chitchatCaptor.getValue().getCategory().getId());
+    assertEquals(forCreateChitchatDto.getLanguageId(),
+        chitchatCaptor.getValue().getLanguage().getCodeIso());
   }
 }
-//
-//  @Test
-//  void getPageChitchats() {
-//  }
-//
-//  @Test
-//  void addChitchatLink() {
-//  }
+

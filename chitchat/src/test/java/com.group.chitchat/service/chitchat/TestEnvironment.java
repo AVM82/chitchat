@@ -30,12 +30,14 @@ public class TestEnvironment {
    * @return user object.
    */
   public static User createUser() {
+    Language language = new Language("en", "english");
+    UserData userData = UserData.builder().nativeLanguage(language).build();
     return User.builder()
         .id(1L)
         .username("testName")
         .email("testEmail")
         .password("testPassword")
-        .userData(new UserData())
+        .userData(userData)
         .build();
   }
 
