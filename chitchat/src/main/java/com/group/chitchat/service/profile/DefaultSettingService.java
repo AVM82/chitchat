@@ -1,13 +1,17 @@
 package com.group.chitchat.service.profile;
 
+import com.group.chitchat.model.Language;
 import com.group.chitchat.model.Permission;
 import com.group.chitchat.model.Role;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.UserData;
 import com.group.chitchat.model.enums.PermissionEnum;
 import com.group.chitchat.model.enums.RoleEnum;
+import com.group.chitchat.repository.LanguageRepo;
 import com.group.chitchat.repository.PermissionRepo;
 import com.group.chitchat.repository.RoleRepo;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +21,13 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class RoleService {
+public class DefaultSettingService {
 
   private static final PermissionEnum DEFAULT_PERMISSION = PermissionEnum.FREE;
   private static final RoleEnum DEFAULT_ROLE = RoleEnum.USER;
   private final RoleRepo roleRepo;
   private final PermissionRepo permissionRepo;
+  private final LanguageRepo languageRepo;
 
   /**
    * Add new role to current user and delete default role, if exist.
@@ -63,5 +68,21 @@ public class RoleService {
     defaultRole.setUsers(new HashSet<>());
     defaultRole.getUsers().add(user);
     user.getRoles().add(defaultRole);
+  }
+
+  /**
+   * Set native language of user depending on the default transmitted value.
+   *
+   * @param user current user
+   */
+  public void setDefaultLanguage(User user) {
+    String languageId = Locale.getDefault().getLanguage();
+    Language language = languageRepo.findById(languageId).orElseThrow();
+    user.getUserData().setNativeLanguage(language);
+  }
+
+  public void setUserData(User user) {
+    UserData userData = user.getUserData();
+    userData.setUser(user);
   }
 }

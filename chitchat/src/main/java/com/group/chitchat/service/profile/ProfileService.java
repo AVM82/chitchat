@@ -33,7 +33,7 @@ public class ProfileService {
   private final LanguageRepo languageRepo;
   private final RoleRepo roleRepo;
   private final FileStorageService fileStorage;
-  private final RoleService roleService;
+  private final DefaultSettingService roleService;
 
   /**
    * Returns information of users profile.
