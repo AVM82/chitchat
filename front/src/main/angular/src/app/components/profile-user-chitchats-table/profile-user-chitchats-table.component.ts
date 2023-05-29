@@ -106,6 +106,7 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
       let oneChitchat = result;
       this.dialog.open(OneChitchatComponent, {
         data: [oneChitchat],
+        width: "65%",
         hasBackdrop: true,
         disableClose: true,
         autoFocus: true,

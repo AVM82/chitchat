@@ -1,5 +1,8 @@
 <ng-container *transloco="let translate;">
-<div class="sidebar mt-2 ml-2" data-background-color="white"
+  <div class="d-flex">
+
+
+<div class="sidebar rounded mt-2 ml-2 mr-2" style="width: 15%" data-background-color="white"
      data-color="purple" data-image="../assets/img/sidebar-1.jpg">
   <div class="logo">
     <b class="simple-text text-primary logo-normal">
@@ -7,7 +10,7 @@
     </b>
   </div>
   <div class="sidebar-wrapper">
-    <ul class="nav">
+    <ul class="nav" style="width: 85%">
       <li [class.active]="null === selectedCategory" class="nav-item"
           (click)="selectCategory(null)">
         <a class="nav-link">
@@ -23,4 +26,5 @@
     </ul>
   </div>
 </div>
+  </div>
 </ng-container>

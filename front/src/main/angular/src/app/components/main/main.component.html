@@ -3,8 +3,9 @@
     <div class="col-2 mb-2">
       <app-category (selectCategoryEvent)="selectCategory($event)"></app-category>
     </div>
-  <div class="col mr-2">
-      <nav aria-label="" class="navbar navbar-expand-lg px-0 mt-2 shadow border-radius-xl">
+
+    <div class="col-10 ">
+      <nav aria-label="" class="navbar rounded navbar-expand-xl px-0 mt-2 mr-2 shadow border-radius-xl">
         <img alt="" src="assets/img/cup.svg" style=" margin-left:10px; height: 40px;">
         <div class="container-fluid py-1 px-2">
           <nav aria-label="breadcrumb">
@@ -28,9 +29,11 @@
               </li>
               <li *ngIf="isLoggedIn" class="nav-item d-flex align-items-center">
                 <a class="btn btn-round py-0 px-0 btn-lg mb-0 text-success"
-                   target="_blank" >
-                  <div class="ratio ratio-1x1 rounded-circle overflow-hidden" style="width: 40px; height: 40px">
-                    <img class="card-img-top" (click)="openUserProfile()" style=" height: 40px" src="{{avatarUrl || 'assets/img/user.png'}}"
+                   target="_blank">
+                  <div class="ratio ratio-1x1 rounded-circle overflow-hidden"
+                       style="border: 1px solid #86b7fe;width: 40px; height: 40px">
+                    <img class="card-img-top" (click)="openUserProfile()" style=" height: 40px"
+                         src="{{avatarUrl || 'assets/img/user.png'}}"
                          alt="..."/>
                     <!--                  {{currentUser}}-->
                   </div>
