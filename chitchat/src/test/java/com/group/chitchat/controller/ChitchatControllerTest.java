@@ -74,9 +74,11 @@ class ChitchatControllerTest {
    * Uses the following lines from the H2 in memory database tables(t) created by the script in the
    * folder: test/resources/database-test.
    *
-   * <p>"t.chitchats":"id"=2, "t.users":"username"="testUser1",
-   * "t.chitchat_users":("chitchat_id"=2,
-   * "user_id"=2), "t.languages": "id"="deutsch", "t.categories":"name"="Casual Conversation",
+   * <p>"t.chitchats":"id"=2,
+   * "t.users":"username"="testUser1",
+   * "t.chitchat_users":("chitchat_id"=2,"user_id"=2),
+   * "t.languages": "id"="deutsch",
+   * "t.categories":"name"="Casual Conversation",
    * "t.user_data":"user_id"=2.
    */
   @Test
@@ -87,7 +89,7 @@ class ChitchatControllerTest {
         + "\"authorLanguage\":\"en\","
         + "\"categoryName\":\"Casual Conversation\",\"description\":\"speak with me\","
         + "\"languageName\":\"deutsch\",\"level\":\"NATIVE\",\"capacity\":2,"
-        + "\"date\":\"2023-06-01T12:00:00\",\"usersInChitchat\":[\"testUser1\"],"
+        + "\"date\":\"2033-06-01T12:00:00\",\"usersInChitchat\":[\"testUser1\"],"
         + "\"avatarUrl\":null,\"conferenceLink\":null}";
 
     this.mockMvc.perform(
@@ -205,7 +207,7 @@ class ChitchatControllerTest {
   @WithMockUser("testUser2")
   void addChitchatTest() throws Exception {
 
-    String testChitchat = "{"
+    String addChitchat = "{"
         + "    \"chatHeader\":\"testChat\","
         + "    \"categoryId\":2,"
         + "    \"description\":\"testing\","
@@ -215,6 +217,22 @@ class ChitchatControllerTest {
         + "    \"date\":\"2023-05-27T12:16:29.834\""
         + "    }";
 
+    String expectedResult = "{"
+        + "\"id\":5,"
+        + "\"chatName\":\"testChat\","
+        + "\"authorName\":\"testUser2\","
+        + "\"authorLanguage\":\"uk\","
+        + "\"categoryName\":\"Casual Conversation\","
+        + "\"description\":\"testing\","
+        + "\"languageName\":\"english\","
+        + "\"level\":\"B1\","
+        + "\"capacity\":4,"
+        + "\"date\":\"2023-05-27T12:16:29.834\","
+        + "\"usersInChitchat\":[\"testUser2\"],"
+        + "\"avatarUrl\":null,"
+        + "\"conferenceLink\":null"
+        + "}";
+
     Optional<Translation> optional = Optional.of(
         new Translation(1, "title_reminder", Locale.US, "message"));
     Mockito.when(translationRepo.findByMessageKeyAndLocale(any(), any())).thenReturn(optional);
@@ -223,9 +241,10 @@ class ChitchatControllerTest {
             post("/api/v1/chitchats")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(testChitchat))
+                .content(addChitchat))
         .andDo(print())
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(content().string(expectedResult));
   }
 
 
@@ -268,7 +287,7 @@ class ChitchatControllerTest {
    */
   @Test
   @WithMockUser("testUser3")
-  void addUserToChitchatTest() throws Exception {
+  void addUserToChitchatTestStatus() throws Exception {
 
     Optional<Translation> optional = Optional.of(
         new Translation(1, "title_reminder",
@@ -276,7 +295,7 @@ class ChitchatControllerTest {
     Mockito.when(translationRepo.findByMessageKeyAndLocale(any(), any())).thenReturn(optional);
 
     this.mockMvc.perform(
-            put("/api/v1/chitchats/3")
+            put("/api/v1/chitchats/4")
                 .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk());
