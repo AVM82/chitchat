@@ -19,6 +19,7 @@ public class ChitchatForResponseDto {
   private long id;
   private String chatName;
   private String authorName;
+  private String authorLanguage;
   private String categoryName;
   private String description;
   private String languageName;
