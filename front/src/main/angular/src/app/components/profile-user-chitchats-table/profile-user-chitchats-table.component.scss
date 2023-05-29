@@ -2,6 +2,15 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  overflow: auto;
+}
+
 table{
   width:100%;
 }
@@ -11,11 +20,7 @@ table{
   max-width: 15rem !important;
 }
 
-.mat-footer-row,
-.mat-header-row,
-.mat-row {
-  display: inline-flex !important;
-  min-width: 100% !important;
+.mat-column-usersInChitchat {
+  max-width: 7rem !important;
 }
-
 
