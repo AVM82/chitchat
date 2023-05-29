@@ -1,5 +1,6 @@
+
 <ng-container *transloco="let translate;">
-  <div class="row my-0">
+  <div class="row my-0 ">
     <div class="col-11">
       <app-chitchat-filter [selectedCategory]="selectedCategory"
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
@@ -33,7 +34,8 @@
             </div>
             <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
                  style="border: 1px solid #86b7fe;width: 1rem; top: 0.3rem; right: 3.7rem">
-              <img class="card-img-top" src="assets/img/flags/gb.svg"
+              <img class="card-img-top"
+                   src="{{'assets/img/flags/'+chitchat.authorLanguage+'.svg' || 'assets/img/flags/uk.svg'}}"
                    alt="..."/>
             </div>
 

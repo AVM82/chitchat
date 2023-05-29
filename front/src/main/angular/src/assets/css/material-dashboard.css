@@ -15134,7 +15134,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar {
-    position: fixed;
+    /*position: fixed;*/
     top: 0;
     bottom: 0;
     left: 0;
@@ -15241,7 +15241,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .sidebar .nav .caret {
     margin-top: 13px;
-    position: absolute;
+    /*position: absolute;*/
     right: 6px;
 }
 
@@ -15436,7 +15436,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar[data-color="purple"] li.active > a {
-    background-color: #9c27b0;
+    background-color: #0a53be;
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
 }
 
