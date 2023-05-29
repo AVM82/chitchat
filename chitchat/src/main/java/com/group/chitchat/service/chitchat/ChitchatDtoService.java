@@ -29,6 +29,7 @@ public class ChitchatDtoService {
         .level(chitchat.getLevel())
         .capacity(chitchat.getCapacity())
         .authorName(chitchat.getAuthor().getUsername())
+        .authorLanguage(chitchat.getAuthor().getUserData().getNativeLanguage().getCodeIso())
         .date(chitchat.getDate())
         .usersInChitchat(chitchat.getUsersInChitchat().stream().map(User::getUsername).toList())
         .avatarUrl(chitchat.getAuthor().getUserData().getAvatar())
