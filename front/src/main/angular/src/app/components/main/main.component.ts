@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
   levels: Level[];
   avatarUrl: string;
   selectedCategory: Category | null;
-  selectedLanguage: string = 'en';
+  selectedLanguage: string;
   isLoggedIn: boolean = false;
   currentUser: string = '';
   totalCountUnreadUserMessages: any;
@@ -41,6 +41,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedLanguage = this.translocoService.getActiveLang();
     this.checkUserLogged();
     this.languageService.getAll().subscribe(result => {
       this.languages = result;
@@ -62,6 +63,7 @@ export class MainComponent implements OnInit {
             this.notificationService.showSnackBar('You have unread chat messages.')
           }
         });
+    this.selectedLanguage = this.translocoService.getActiveLang();
   }
 
   login() {

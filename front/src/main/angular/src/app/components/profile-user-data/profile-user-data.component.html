@@ -11,13 +11,13 @@
     <div class="my-2 input-group">
       <button type="button" class="btn btn-info shadow btn-sm rounded"
               (click)="editProfileChange()"
-      >{{editProfile ? 'Cancel':'Edit data'}}</button>
+      >{{editProfile ? translate('Cancel'):translate('Edit data')}}</button>
 
       <button type="button" class="ml-2 btn btn-warning shadow btn-sm rounded"
               [disabled]="!editProfile"
               [hidden]="!editProfile"
               (click)="passwordRecovery()"
-      >Password recovery by e-mail</button>
+      >{{translate('Password recovery by e-mail')}}</button>
 
       <input type="file" class="file-input"
              [disabled]="!editProfile"
@@ -26,7 +26,7 @@
              (change)="onFileSelected($event)" #fileUpload>
       <div class="file-upload mt-3 ml-3"
            [hidden]="!editProfile">
-        {{fileName || "Upload avatar: (max " + MAX_AVATAR_SIZE / 1024 + "Kb) "}}
+        {{fileName || translate('Upload avatar: (max') + MAX_AVATAR_SIZE / 1024 + "Kb) "}}
         <button mat-mini-fab color="primary" class="upload-btn ml-2 mb-1"
                 [disabled]="!editProfile"
                 (click)="fileUpload.click()">
