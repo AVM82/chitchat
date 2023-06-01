@@ -37,7 +37,9 @@
         </div>
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
         <div>
-          <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+          <a href="{{tmpConferenceLink}}"
+             *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
+          >{{tmpConferenceLink}}</a>
         </div>
         <div *ngIf="isAuthor">
           <textarea class="form-control w-100" rows="1" aria-label="With textarea"
@@ -125,7 +127,9 @@
       </div>
       <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
       <div>
-        <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+        <a href="{{tmpConferenceLink}}"
+           *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
+        >{{tmpConferenceLink}}</a>
       </div>
           <div *ngIf="isAuthor">
                    <textarea class="form-control w-100" rows="1" aria-label="With textarea"
