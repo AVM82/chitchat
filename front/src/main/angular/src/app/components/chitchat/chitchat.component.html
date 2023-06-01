@@ -1,13 +1,13 @@
 
 <ng-container *transloco="let translate;">
   <div class="row my-0 ">
-    <div class="col-11">
+    <div class="col-9">
       <app-chitchat-filter [selectedCategory]="selectedCategory"
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
     </div>
     <div class="col py-0 px-0 mx-0">
-        <button (click)="openAddTaskDialog()" class="btn rounded pt-2 mt-0 mx-1 px-1"
-        style="width:70px; height:38px; background-color: #0a53be">
+        <button (click)="openAddTaskDialog()" class="btn rounded mt-0 mx-1 px-2"
+        style="height:38px; background-color: #0a53be">
           {{translate('Add new')}}
         </button>
     </div>
