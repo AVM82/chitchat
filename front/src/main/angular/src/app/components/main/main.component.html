@@ -1,10 +1,13 @@
 <ng-container *transloco="let translate;">
   <div class="row mx-2 px-0">
     <nav aria-label="" class="navbar rounded navbar-expand-xl px-0 mt-2 mr-2 shadow border-radius-xl">
-      <img alt="" src="assets/img/cup.svg" style=" margin-left:10%; height: 40px;">
+      <img alt="" src="assets/img/cup.svg" style="margin-bottom: 1rem; margin-left:10%; height: 40px;">
       <div class="container-fluid py-1 px-2">
         <nav aria-label="breadcrumb">
-          <p style="margin-top:1rem; color: #0a53be; font-weight: bold; font-size: 30px">Chit<span style="color: white">--</span>Chat</p>
+          <p style="margin-top:1rem; color: #0a53be; font-weight: bold; font-size: 30px">Chit
+            <span style="color: white">-</span>Chat
+            <span style="color: white">......</span>
+            <span style="font-style: italic; color: #DD8F85">"Speak the language of the planet"</span></p>
           <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
                style="border: 1px solid #86b7fe;width: 1rem; top: 2rem; left: 17%">
             <img class="card-img-top"
@@ -17,15 +20,15 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li *ngIf="!isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 -3 text-primary"
+              <a class="btn rounded btn-outline-primary btn-sm mb-0 -3 text-primary"
                  target="_blank" (click)="login()">{{translate('Log In')}}</a>
             </li>
             <li *ngIf="!isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+              <a class="btn rounded btn-outline-primary btn-sm mb-0 me-3 text-primary"
                  target="_blank" (click)="signup()">{{translate('Sign Up')}}</a>
             </li>
             <li *ngIf="isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3 text-primary"
+              <a class="btn rounded btn-outline-primary btn-sm mb-0 me-2 text-primary"
                  target="_blank" (click)="logOut()">{{translate('Log Out')}}</a>
             </li>
             <li *ngIf="isLoggedIn" class="nav-item d-flex align-items-center">
@@ -44,8 +47,8 @@
                 </div>
               </a>
             </li>
-            <li class="nav-item d-flex align-items-center">
-              <select class="btn btn-link btn-sm mb-0 me-3 text-primary" id="inputGroupSelect01"
+            <li class="nav-item d-flex ml-2 align-items-center">
+              <select class="btn rounded btn-outline-primary btn-link btn-sm mb-0 me-2 text-primary" id="inputGroupSelect01"
                       [value]='' (change)="changeLanguage(selectedLanguage)"
                       [(ngModel)]="selectedLanguage">
                 <option class="text-uppercase text-start" *ngFor="let language of languages"
@@ -60,7 +63,7 @@
 
 
   <div class="row">
-    <div class="col-2 mb-5">
+    <div class="col-2 mb-2">
       <app-category class="mt-5" (selectCategoryEvent)="selectCategory($event)"></app-category>
     </div>
 

@@ -7,13 +7,13 @@
         </div>
       </div>
     </div>
-<!--    Edit Buttons -->
+<!--  Edit Buttons -->
     <div class="my-2 input-group">
-      <button type="button" class="btn btn-info shadow btn-sm rounded"
+      <button type="button" class="btn btn-primary shadow btn-sm rounded"
               (click)="editProfileChange()"
       >{{editProfile ? 'Cancel':'Edit data'}}</button>
 
-      <button type="button" class="ml-2 btn btn-warning shadow btn-sm rounded"
+      <button type="button" class="ml-2 btn btn-rose shadow btn-sm rounded"
               [disabled]="!editProfile"
               [hidden]="!editProfile"
               (click)="passwordRecovery()"
@@ -42,7 +42,6 @@
           {{translate('user name')}}</span>
       </div>
       <input type="text" readonly class="pl-2 form-control rounded " aria-label="Default"
-             [disabled]="!editProfile"
              [(ngModel)]="tmpUserName"
              aria-describedby="inputGroup-sizing-userName">
     </div>
@@ -52,7 +51,6 @@
           {{translate('e-mail')}}</span>
       </div>
       <input type="text" readonly class=" pl-2 form-control rounded" aria-label="Default"
-             [disabled]="!editProfile"
              [(ngModel)]="tmpEmail"
              aria-describedby="inputGroup-sizing-email">
     </div>
@@ -125,7 +123,7 @@
       <button type="button" (click)="save()" class="mx-1 btn btn-success btn-sm"
               [hidden]="!editProfile"
       >{{translate('Save')}}</button>
-      <button type="button" class="mx-1 btn btn-warning btn-sm"
+      <button type="button" class="mx-1 btn btn-rose btn-sm"
               [routerLink]="['']"
       >{{translate('Close')}}</button>
     </div>

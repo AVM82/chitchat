@@ -29,16 +29,8 @@ export class ErrorInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError(err => {
 
-      if (err.status === 403) {
-        //this.tokenService.logOut();
-        this.notificationService.showSnackBar("403");
-        // window.location.reload();
-      }
 
       if (err.status === 401) {
-        //this.tokenService.logOut();
-        this.notificationService.showSnackBar("401");
-        // window.location.reload();
         if (!this.tokenStorageService.getRefreshToken()) {
           console.log('no refresh token');
           this.tokenStorageService.logOut();
@@ -60,7 +52,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
                 }),
                 catchError((error) => {
                   this.isRefreshing = false;
-                  console.log('error of refresh token');
                   this.tokenStorageService.logOut();
                   return throwError(() => error);
                 })
@@ -71,7 +62,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
       }
 
 
-      const error = err.error.message || err.statusText;
+      const error = err.error.error || "Unknown error";
       this.notificationService.showSnackBar(error);
       return throwError(() => error);
     }));
