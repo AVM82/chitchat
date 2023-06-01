@@ -33,14 +33,17 @@
         <div class="form-group pl-2">
           <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
           <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
-          <textarea class="form-control" rows="7">{{oneChitChat.description}}</textarea>
+          <textarea class="form-control" [disabled]="true"  rows="7">{{oneChitChat.description}}</textarea>
         </div>
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
-        <textarea class="form-control w-100" rows="1" aria-label="With textarea"
+        <div>
+          <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+        </div>
+        <div *ngIf="isAuthor">
+          <textarea class="form-control w-100" rows="1" aria-label="With textarea"
                   [readOnly]="!isAuthor"
                   [(ngModel)]="tmpConferenceLink"></textarea>
-        <div *ngIf="isAuthor">
-          <a class="card-link" style="cursor: pointer;"
+          <a class="btn btn-success mx-1" style="cursor: pointer;"
              (click)="addConferenceLink()"
           >{{translate('Save')}}</a>
         </div>
@@ -118,14 +121,18 @@
       <div class="form-group pl-2">
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
-        <textarea class="form-control" rows="7">{{oneChitChat.description}}</textarea>
+        <textarea class="form-control" [disabled]="true" rows="7">{{oneChitChat.description}}</textarea>
       </div>
       <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
-       <textarea class="form-control w-100" rows="1" aria-label="With textarea"
-                    [readOnly]="!isAuthor"
-                    [(ngModel)]="tmpConferenceLink"></textarea>
+      <div>
+        <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+      </div>
           <div *ngIf="isAuthor">
-            <a class="card-link" style="cursor: pointer;"
+                   <textarea class="form-control w-100" rows="1" aria-label="With textarea"
+                             [readOnly]="!isAuthor"
+                             [(ngModel)]="tmpConferenceLink"></textarea>
+
+            <a class="btn btn-success mx-1" style="cursor: pointer;"
                (click)="addConferenceLink()"
             >{{translate('Save')}}</a>
           </div>

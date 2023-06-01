@@ -103,7 +103,7 @@
         <span class="input-group-text" id="inputGroup-sizing-gender">
           {{translate('gender')}}</span>
       </div>
-      <select class="custom-select rounded" id="inputGroupSelect01" [value]="tmpGender"
+      <select class="custom-select rounded" id="inputGroupSelect01"
               [disabled]="!editProfile"
               [(ngModel)]="tmpGender">
         <option class="text-start" *ngFor="let gender of genders"
@@ -117,7 +117,8 @@
       </div>
       <input type="date" class="pl-2 form-control" aria-label="Default"
              [disabled]="!editProfile"
-             [(ngModel)]="tmpDob">
+             [(ngModel)]="tmpDob"
+             max="{{currentDate | date: 'yyyy-MM-dd'}}">
     </div>
     <div class="card-body text-center">
       <button type="button" (click)="save()" class="mx-1 btn btn-success btn-sm"
