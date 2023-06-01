@@ -10,6 +10,7 @@ import {NewChitChatDTO} from "../../model/NewChitChatDTO";
 import {ChitchatService} from "../../service/chitchat.service";
 import {DatePipe} from "@angular/common";
 import {NotificationService} from "../../service/notification.service";
+import {translate} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-add-new-chitchat',
@@ -32,13 +33,13 @@ export class AddNewChitchatComponent {
 
 
   constructor(
-              private categoryService: CategoryService,
-              private languageService: LanguageService,
-              private chitchatService : ChitchatService ,
-              private dialogRef: MatDialogRef<AddNewChitchatComponent>,
-              private notificationService: NotificationService,
-              private tokenStorageService: TokenStorageService,
-              private dialog: MatDialog) {
+      private categoryService: CategoryService,
+      private languageService: LanguageService,
+      private chitchatService: ChitchatService,
+      private dialogRef: MatDialogRef<AddNewChitchatComponent>,
+      private notificationService: NotificationService,
+      private tokenStorageService: TokenStorageService,
+      private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -66,7 +67,7 @@ export class AddNewChitchatComponent {
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
       });
-      this.notificationService.showSnackBar('New ChitChat created successfully!');
+      this.notificationService.showSnackBar(translate('confirm message create'));
       this.dialogRef.close();
     }
   }

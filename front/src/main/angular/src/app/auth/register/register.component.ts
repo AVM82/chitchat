@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 import {NotificationService} from "../../service/notification.service";
 import {MatDialogRef} from "@angular/material/dialog";
+import {translate} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-register',
@@ -38,7 +39,7 @@ export class RegisterComponent {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password
       }).subscribe(data => {
-        this.notificationService.showSnackBar('Successfully Registered!');
+        this.notificationService.showSnackBar(translate('Successfully registered!'));
         this.dialogRef.close();
       }, error => {
         this.notificationService.showSnackBar('Some data errors during registration');
