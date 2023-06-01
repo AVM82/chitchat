@@ -7,7 +7,24 @@ VALUES (DEFAULT, 'testUser2', 'useremail2@gmail.com',
         true, true, true, true),
        (DEFAULT, 'testUser3', 'useremail3@gmail.com',
         '$2a$12$jT.nKuZmve3EWeKLlmuLYeNFCNh9ezb7zSXYSjKrHTwilPSKu.1LS',
-        true, true, true, true);
+        true, true, true, true),
+       (DEFAULT, 'testUser4', 'useremail4@gmail.com',
+       '$2a$12$jT.nKuZmve3EWeKLlmuLYeNFCNh9ezb7zSXYSjKrHTwilPSKu.1LS',
+       true, true, true, true);
+
+INSERT INTO roles
+VALUES (DEFAULT, 'ADMIN'),
+       (DEFAULT, 'USER'),
+       (DEFAULT, 'PRACTITIONER'),
+       (DEFAULT, 'OBSERVER'),
+       (DEFAULT, 'COACH');
+
+
+INSERT INTO users_roles
+VALUES (1, 1),
+       (2, 2),
+       (3, 2),
+       (4, 2);
 
 INSERT INTO languages
 VALUES ('uk', 'українська'),
@@ -21,13 +38,15 @@ VALUES (DEFAULT, 'Computer Science and IT', 10),
 
 INSERT INTO chitchats
 VALUES (DEFAULT, 1, 'test header', 1, 'test description', 'en', 'A1', 10, '2023-05-01T12:00', null),
-       (DEFAULT, 2, 'lets go', 2, 'speak with me', 'de', 'NATIVE', 2, '2023-06-01T12:00', null),
+       (DEFAULT, 2, 'lets go', 2, 'speak with me', 'de', 'NATIVE', 2, '2033-06-01T12:00', null),
        (DEFAULT, 3, 'lets go testing', 3, 'test this chat', 'en', 'A2', 7, '2023-05-21T10:10', null),
        (DEFAULT, 1, 'lets go', 2, 'test me', 'de', 'B1', 2, '2023-05-21T09:10', null);
 
 INSERT INTO chitchat_users
 VALUES (1, 1),
-       (2, 2);
+       (2, 2),
+       (3, 3),
+       (4, 1);
 
 INSERT INTO reminder_data
 VALUES (1, '2023-05-31 14:00:00.000000', 'https://1.11', false, 'en'),
@@ -42,7 +61,8 @@ VALUES (1, 'useremail2@gmail.com'),
 INSERT INTO user_data
 VALUES (1, 'UserForTests', 'TestUser', null, 'MALE', '2023-04-01', 'uk'),
        (2, 'UserUser', 'Tester', null, 'FEMALE', '2023-05-01', 'en'),
-       (3, 'ForTests', 'TesterUser', null, 'MALE', '2023-05-05', 'uk');
+       (3, 'ForTests', 'TesterUser', null, 'MALE', '2023-05-05', 'uk'),
+       (4, 'UserTests', 'TesterTest', null, 'MALE', '2023-05-25', 'de');
 
 INSERT INTO messages
 VALUES (DEFAULT, 3, 2, 'Hello test message!', '2023-05-07 18:15:01.002000', 'CHAT'),

@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
@@ -79,12 +78,6 @@ public class User implements UserDetails {
 
   @Column(name = "is_credentials_non_expired")
   private boolean credentialsNonExpired;
-
-  @PostPersist
-  public void createDefaultValues() {
-    userData = new UserData();
-    userData.setUser(this);
-  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -6,6 +6,7 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import {MessageService} from "../../service/message.service";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-one-chitchat-content',
@@ -27,6 +28,7 @@ export class OneChitchatContentComponent{
       private clipboard: Clipboard,
       private tokenStorageService: TokenStorageService,
       private messageService: MessageService,
+      private notificationService: NotificationService,
   ) {  }
 
   ngOnInit() {
@@ -64,7 +66,8 @@ export class OneChitchatContentComponent{
   }
 
   addConferenceLink() {
-    this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe();
+    this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe(
+        () => this.notificationService.showSnackBar('Link saved'));
   }
 
   copyDataToClipboard(avatarUrl: string) {
