@@ -34,8 +34,10 @@ export class ProfileUserDataComponent implements OnInit {
   requiredFileType: string[] = ['image/png', 'image/jpeg'];
   MAX_AVATAR_SIZE: number = 100 * 1024;
   editProfile: boolean = false;
+  currentDate: Date;
 
   ngOnInit(): void {
+    this.currentDate = new Date();
     this.genders = [Gender.MALE, Gender.FEMALE];
     this.languageService.getAll().subscribe(result => {
       this.languages = result;

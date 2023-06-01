@@ -15,15 +15,15 @@
           </div>
 
           <div class="col-lg-6 mr-0 px-0">
-            <h4 class="py-1 my-0"><span class="badge badge-primary py-1">Language</span>{{"  "
+            <h4 class="py-1 my-0"><span class="badge badge-primary py-1">{{translate('Language')}}</span>{{"  "
             + oneChitChat.languageName}}</h4>
-            <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">Level</span>{{"  "
+            <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">{{translate('Level')}}</span>{{"  "
             + oneChitChat.level}}</h4>
             <h4 class="py-1 my-0"><span
-                class="badge badge-success py-1">Date</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
+                class="badge badge-success py-1">{{translate('Date')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
             </h4>
             <h4 class="py-1 my-0"><span
-                class="badge badge-danger py-1">Time</span>{{oneChitChat.date|date: '  HH:mm'}}
+                class="badge badge-danger py-1">{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
             </h4>
           </div>
         </div>
@@ -31,16 +31,19 @@
           <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
         </ul>
         <div class="form-group pl-2">
-          <h4 class="py-1 my-0"><span class="badge badge-info py-1">Theme</span>{{"    "+oneChitChat.chatName}}</h4>
-          <h4 class="py-1 my-0"><span class="badge badge-info py-1">Description</span></h4>
-          <textarea class="form-control" rows="7">{{oneChitChat.description}}</textarea>
+          <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
+          <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
+          <textarea class="form-control" [disabled]="true"  rows="7">{{oneChitChat.description}}</textarea>
         </div>
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
-        <textarea class="form-control w-100" rows="1" aria-label="With textarea"
+        <div>
+          <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+        </div>
+        <div *ngIf="isAuthor">
+          <textarea class="form-control w-100" rows="1" aria-label="With textarea"
                   [readOnly]="!isAuthor"
                   [(ngModel)]="tmpConferenceLink"></textarea>
-        <div *ngIf="isAuthor">
-          <a class="card-link" style="cursor: pointer;"
+          <a class="btn btn-success mx-1" style="cursor: pointer;"
              (click)="addConferenceLink()"
           >{{translate('Save')}}</a>
         </div>
@@ -48,7 +51,7 @@
 
 
       <div class="col-3 col-md-2" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
-        <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">Participants</span></h4>
+        <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">{{translate('Participants')}}</span></h4>
         <ul class="list-group list-group-flush ml-2 mt-1"
             *ngFor="let user of oneChitChat.usersInChitchat">
           <button type="button" [disabled]="true" class="btn my-0 px-1 btn-outline-info btn-sm">
@@ -66,11 +69,11 @@
       <button class="btn btn-success mx-1" (click)="addToChitchat(oneChitChat)"
               [disabled]="oneChitChat.usersInChitchat.length>=oneChitChat.capacity"
               *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"
-      >Join
+      >{{translate('Join')}}
       </button>
       <button class="btn btn-danger mx-1" (click)="deleteUserFromChitchat(oneChitChat)"
               *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
-      >Leave chat
+      >{{translate('Leave chat')}}
       </button>
       <button  class="btn btn-warning mx-1" (click)="backToStartPage()"
               >{{translate('Close')}}</button>
@@ -100,15 +103,15 @@
         </div>
 
         <div class="col-lg-6 mr-0 px-0">
-          <h4 class="py-1 my-0"><span class="badge badge-primary py-1">Language</span>{{"  "
+          <h4 class="py-1 my-0"><span class="badge badge-primary py-1">{{translate('Language')}}</span>{{"  "
           + oneChitChat.languageName}}</h4>
-          <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">Level</span>{{"  "
+          <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">{{translate('Level')}}</span>{{"  "
           + oneChitChat.level}}</h4>
           <h4 class="py-1 my-0"><span
-              class="badge badge-success py-1">Date</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
+              class="badge badge-success py-1">{{translate('Date')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
           </h4>
           <h4 class="py-1 my-0"><span
-              class="badge badge-danger py-1">Time</span>{{oneChitChat.date|date: '  HH:mm'}}
+              class="badge badge-danger py-1">{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
           </h4>
         </div>
       </div>
@@ -116,16 +119,20 @@
         <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
       </ul>
       <div class="form-group pl-2">
-        <h4 class="py-1 my-0"><span class="badge badge-info py-1">Theme</span>{{"    "+oneChitChat.chatName}}</h4>
-        <h4 class="py-1 my-0"><span class="badge badge-info py-1">Description</span></h4>
-        <textarea class="form-control" rows="7">{{oneChitChat.description}}</textarea>
+        <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
+        <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
+        <textarea class="form-control" [disabled]="true" rows="7">{{oneChitChat.description}}</textarea>
       </div>
       <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
-       <textarea class="form-control w-100" rows="1" aria-label="With textarea"
-                    [readOnly]="!isAuthor"
-                    [(ngModel)]="tmpConferenceLink"></textarea>
+      <div>
+        <a href="{{tmpConferenceLink}}">{{tmpConferenceLink}}</a>
+      </div>
           <div *ngIf="isAuthor">
-            <a class="card-link" style="cursor: pointer;"
+                   <textarea class="form-control w-100" rows="1" aria-label="With textarea"
+                             [readOnly]="!isAuthor"
+                             [(ngModel)]="tmpConferenceLink"></textarea>
+
+            <a class="btn btn-success mx-1" style="cursor: pointer;"
                (click)="addConferenceLink()"
             >{{translate('Save')}}</a>
           </div>
@@ -133,7 +140,7 @@
 
 
     <div class="col-3 col-md-2" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
-      <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">Participants</span></h4>
+      <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">{{translate('Participants')}}</span></h4>
       <ul class="list-group list-group-flush ml-2 mt-1"
           *ngFor="let user of oneChitChat.usersInChitchat">
         <button type="button" [disabled]="true" class="btn my-0 px-1 btn-outline-info btn-sm">
@@ -151,11 +158,11 @@
     <button class="btn btn-success mx-1" (click)="addToChitchat(oneChitChat)"
             [disabled]="oneChitChat.usersInChitchat.length>=oneChitChat.capacity"
             *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"
-    >Join
+    >{{translate('Join')}}
     </button>
     <button class="btn btn-danger mx-1" (click)="deleteUserFromChitchat(oneChitChat)"
             *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
-    >Leave chat
+    >{{translate('Leave chat')}}
     </button>
     <button class="btn btn-warning mx-1" type="reset"
             (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</button>

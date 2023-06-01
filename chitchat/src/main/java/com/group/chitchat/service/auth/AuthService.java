@@ -4,6 +4,7 @@ import com.group.chitchat.exception.TokenNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.RefreshToken;
 import com.group.chitchat.model.User;
+import com.group.chitchat.model.UserData;
 import com.group.chitchat.model.dto.authdto.AuthenticationRequest;
 import com.group.chitchat.model.dto.authdto.AuthenticationResponse;
 import com.group.chitchat.model.dto.authdto.RefreshRequest;
@@ -12,7 +13,7 @@ import com.group.chitchat.repository.RefreshTokenRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
-import com.group.chitchat.service.profile.RoleService;
+import com.group.chitchat.service.profile.DefaultSettingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashSet;
@@ -41,7 +42,7 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final RefreshTokenRepo tokenRepo;
   private final BundlesService bundlesService;
-  private final RoleService roleService;
+  private final DefaultSettingService defaultSettingService;
 
   /**
    * Register method which take data from request and create new user. After all this steps saving
@@ -60,8 +61,10 @@ public class AuthService {
       throw new UserAlreadyExistException(username);
     }
     User user = buildNewUser(username, request.getEmail(), request.getPassword());
-    roleService.setDefaultRole(user);
-    roleService.setDefaultPermission(user);
+    defaultSettingService.setUserData(user);
+    defaultSettingService.setDefaultRole(user);
+    defaultSettingService.setDefaultPermission(user);
+    defaultSettingService.setDefaultLanguage(user);
     userRepository.save(user);
     log.info(user.getRoles());
 
@@ -133,6 +136,7 @@ public class AuthService {
         .enabled(false)
         .roles(new HashSet<>())
         .permissions(new HashSet<>())
+        .userData(new UserData())
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
