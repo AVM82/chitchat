@@ -8,6 +8,8 @@ import {Language} from "../../model/Language";
 import {Level} from "../../model/Level";
 import {Category} from "../../model/Category";
 import {PageEvent} from "@angular/material/paginator";
+import {TokenStorageService} from "../../service/token-storage.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-chitchat',
@@ -22,6 +24,7 @@ export class ChitchatComponent {
   categories: Category[];
   @Input()
   selectedCategory: Category | null;
+  isLoggedIn: boolean = false;
   totalElements: number = 0;
   filteredLanguage: string = "";
   filteredLevel: string = "";
@@ -31,6 +34,8 @@ export class ChitchatComponent {
 
   constructor(
       private chitchatService: ChitchatService,
+      private notificationService: NotificationService,
+      private tokenStorageService: TokenStorageService,
       private dialog: MatDialog
   ) {
   }
@@ -54,13 +59,18 @@ export class ChitchatComponent {
   }
 
   openAddTaskDialog() {
-    this.dialog.open(AddNewChitchatComponent, {
-      data: [this.categories, this.levels, this.languages],
-      hasBackdrop: true,
-      width: "550px",
-      disableClose: true,
-      autoFocus: true,
-    });
+    this.checkUserLogged();
+    if (this.isLoggedIn) {
+      this.dialog.open(AddNewChitchatComponent, {
+        data: [this.categories, this.levels, this.languages],
+        hasBackdrop: true,
+        width: "550px",
+        disableClose: true,
+        autoFocus: true,
+      });
+    } else{
+      this.notificationService.showSnackBar("Forbidden")
+    }
   }
 
   filter(data: any) {
@@ -95,5 +105,14 @@ export class ChitchatComponent {
     request['size'] = event.pageSize.toString();
     request['sort'] = 'date';
     this.getChitchats(request);
+  }
+
+  checkUserLogged() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      if (this.tokenStorageService.tokenExpired(this.tokenStorageService.getToken())) {
+        this.isLoggedIn = false;
+      }
+    }
   }
 }
