@@ -1,19 +1,17 @@
-
 <ng-container *transloco="let translate;">
   <div class="row my-0 ">
-    <div class="col-11">
+    <div class="col-9">
       <app-chitchat-filter [selectedCategory]="selectedCategory"
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
     </div>
     <div class="col py-0 px-0 mx-0">
-        <button (click)="openAddTaskDialog()" class="btn rounded pt-2 mt-0 mx-1 px-1"
-        style="width:70px; height:38px; background-color: #0a53be">
+        <button (click)="openAddTaskDialog()" class="btn rounded mt-0 mx-1 px-2"
+        style="height:38px; background-color: #0a53be">
           {{translate('Add new')}}
         </button>
     </div>
   </div>
 <!--Dashboard-->
-
   <div class="row row-cols-md-4">
     <div class="col" *ngFor="let chitchat of chitchats">
 <!--      Card    -->
@@ -38,7 +36,6 @@
                    src="{{'assets/img/flags/'+chitchat.authorLanguage+'.svg' || 'assets/img/flags/uk.svg'}}"
                    alt="..."/>
             </div>
-
 <!--            End image -->
             <h4 class="fw-bolder my-0 text-truncate">{{chitchat.authorName}}</h4>
             <h4 class="fw-bolder py-1 my-0 text-info text-truncate"><span class="py-0 text-dark text-truncate">{{translate('language:')}}</span>{{"  "
@@ -83,7 +80,6 @@
       <!--      Card    -->
   </div>
   </div>
-
   <!--Dashboard-->
   <div class="shadow rounded mr-2" style ="margin-top: 10px;">
     <mat-paginator [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
