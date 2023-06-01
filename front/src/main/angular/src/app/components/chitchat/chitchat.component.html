@@ -1,4 +1,3 @@
-
 <ng-container *transloco="let translate;">
   <div class="row my-0 ">
     <div class="col-9">
@@ -13,7 +12,6 @@
     </div>
   </div>
 <!--Dashboard-->
-
   <div class="row row-cols-md-4">
     <div class="col" *ngFor="let chitchat of chitchats">
 <!--      Card    -->
@@ -38,7 +36,6 @@
                    src="{{'assets/img/flags/'+chitchat.authorLanguage+'.svg' || 'assets/img/flags/uk.svg'}}"
                    alt="..."/>
             </div>
-
 <!--            End image -->
             <h4 class="fw-bolder my-0 text-truncate">{{chitchat.authorName}}</h4>
             <h4 class="fw-bolder py-1 my-0 text-info text-truncate"><span class="py-0 text-dark text-truncate">language:</span>{{"  "
@@ -83,7 +80,6 @@
       <!--      Card    -->
   </div>
   </div>
-
   <!--Dashboard-->
   <div class="shadow rounded mr-2" style ="margin-top: 10px;">
     <mat-paginator [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
