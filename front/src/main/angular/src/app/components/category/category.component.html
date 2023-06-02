@@ -13,14 +13,14 @@
     <ul class="nav" style="width: 85%">
       <li [class.active]="null === selectedCategory" class="nav-item"
           (click)="selectCategory(null)">
-        <a class="nav-link">
-          <p class="text-truncate text-uppercase">{{translate('All')}}</p>
+        <a class="nav-link" style="border-radius: 30px">
+          <p class="text-truncate text-uppercase" >{{translate('All')}}</p>
         </a>
       </li>
       <li *ngFor="let category of categories" (click)="selectCategory(category)"
           [class.active]="category === selectedCategory" class="nav-item">
-        <a class="nav-link">
-          <p class="text-truncate text-uppercase">{{category.name}}</p>
+        <a class="nav-link" style="border-radius: 30px">
+          <p class="text-truncate rounded text-uppercase">{{category.name}}</p>
         </a>
       </li>
     </ul>
