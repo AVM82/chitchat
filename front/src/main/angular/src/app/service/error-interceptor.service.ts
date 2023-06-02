@@ -32,7 +32,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
       if (err.status === 401) {
         if (!this.tokenStorageService.getRefreshToken()) {
-          console.log('no refresh token');
           this.tokenStorageService.logOut();
         } else { // Checking the type of error required
           if (this.isRefreshing) {
@@ -45,8 +44,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
                 switchMap((value) => {
                   this.tokenStorageService.saveToken(value.token);
                   this.tokenStorageService.saveRefreshToken(value.refreshToken);
-
-                  console.log("resend new request with new token", value.token);
                   this.isRefreshing = false;
                   return next.handle(this.addToken(req)); // Re-invoking a failed request with an updated token
                 }),
@@ -63,7 +60,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
 
       const error = err.error.error || "Unknown error";
-      this.notificationService.showSnackBar(error);
+      // this.notificationService.showSnackBar(error);
       return throwError(() => error);
     }));
   }

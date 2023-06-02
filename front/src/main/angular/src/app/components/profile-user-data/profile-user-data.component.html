@@ -9,16 +9,20 @@
     </div>
 <!--  Edit Buttons -->
     <div class="my-2 input-group">
-      <button type="button" class="btn btn-primary shadow btn-sm rounded"
+      <div class="mx-0 px-0 card-body text-center">
+
+        <button type="button" class="ml-2 btn btn-rose shadow btn-sm btn-round"
+                [disabled]="!editProfile"
+                [hidden]="!editProfile"
+                (click)="passwordRecovery()"
+        >{{translate('Password recovery by e-mail')}}</button>
+
+      <button type="button" class="btn btn-primary shadow btn-sm btn-round"
               (click)="editProfileChange()"
       >{{editProfile ? translate('Cancel'):translate('Edit data')}}</button>
 
-      <button type="button" class="ml-2 btn btn-rose shadow btn-sm rounded"
-              [disabled]="!editProfile"
-              [hidden]="!editProfile"
-              (click)="passwordRecovery()"
-      >{{translate('Password recovery by e-mail')}}</button>
 
+      </div>
       <input type="file" class="file-input"
              [disabled]="!editProfile"
              [hidden]="!editProfile"
@@ -27,7 +31,7 @@
       <div class="file-upload mt-3 ml-3"
            [hidden]="!editProfile">
         {{fileName || translate('Upload avatar: (max') + MAX_AVATAR_SIZE / 1024 + "Kb) "}}
-        <button mat-mini-fab color="primary" class="upload-btn ml-2 mb-1"
+        <button mat-mini-fab color="primary" class="upload-btn btn-round ml-2 mb-1"
                 [disabled]="!editProfile"
                 (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
@@ -121,10 +125,10 @@
              max="{{currentDate | date: 'yyyy-MM-dd'}}">
     </div>
     <div class="card-body text-center">
-      <button type="button" (click)="save()" class="mx-1 btn btn-success btn-sm"
+      <button type="button" (click)="save()" class="mx-1 btn btn-primary btn-round btn-sm"
               [hidden]="!editProfile"
       >{{translate('Save')}}</button>
-      <button type="button" class="mx-1 btn btn-rose btn-sm"
+      <button type="button" class="mx-1 btn btn-rose btn-round btn-sm"
               [routerLink]="['']"
       >{{translate('Close')}}</button>
     </div>
