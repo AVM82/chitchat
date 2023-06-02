@@ -45,16 +45,21 @@ export class ChitchatComponent {
   }
 
   openChitChat(chitchat: Chitchat) {
-    this.chitchatService.get(chitchat.id).subscribe(result => {
-      this.oneChitchat = result;
-      this.dialog.open(OneChitchatComponent, {
-        data: [this.oneChitchat],
-        hasBackdrop: true,
-        width: "65%",
-        disableClose: true,
-        autoFocus: true,
+    this.checkUserLogged();
+    if(this.isLoggedIn) {
+      this.chitchatService.get(chitchat.id).subscribe(result => {
+        this.oneChitchat = result;
+        this.dialog.open(OneChitchatComponent, {
+          data: [this.oneChitchat],
+          hasBackdrop: true,
+          width: "65%",
+          disableClose: true,
+          autoFocus: true,
+        });
       });
-    });
+    } else {
+      this.notificationService.showSnackBar("Please log in before!")
+    }
 
   }
 
@@ -69,14 +74,13 @@ export class ChitchatComponent {
         autoFocus: true,
       });
     } else{
-      this.notificationService.showSnackBar("Forbidden")
+      this.notificationService.showSnackBar("Please log in before!")
     }
   }
 
   filter(data: any) {
     this.chitchats = data.content;
     this.totalElements = data.totalElements;
-
     this.filteredLanguage = data.filteredLanguage;
     this.filteredLevel = data.filteredLevel;
     this.filteredDateFrom = data.filteredDateFrom;

@@ -20,15 +20,15 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li *ngIf="!isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn rounded btn-outline-primary btn-sm mb-0 -3 text-primary"
+              <a class="btn btn-round btn-outline-primary btn-sm mb-0 -3 text-primary"
                  target="_blank" (click)="login()">{{translate('Log In')}}</a>
             </li>
             <li *ngIf="!isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn rounded btn-outline-primary btn-sm mb-0 me-3 text-primary"
+              <a class="btn btn-round btn-outline-primary btn-sm mb-0 me-3 text-primary"
                  target="_blank" (click)="signup()">{{translate('Sign Up')}}</a>
             </li>
             <li *ngIf="isLoggedIn" class="nav-item d-flex align-items-center">
-              <a class="btn rounded btn-outline-primary btn-sm mb-0 me-2 text-primary"
+              <a class="btn btn-round btn-outline-primary btn-sm mb-0 me-2 text-primary"
                  target="_blank" (click)="logOut()">{{translate('Log Out')}}</a>
             </li>
             <li *ngIf="isLoggedIn" class="nav-item d-flex align-items-center">
@@ -48,7 +48,7 @@
               </a>
             </li>
             <li class="nav-item d-flex ml-2 align-items-center">
-              <select class="btn rounded btn-outline-primary btn-link btn-sm mb-0 me-2 text-primary" id="inputGroupSelect01"
+              <select class="btn btn-round btn-outline-primary btn-link btn-sm mb-0 me-2 text-primary" id="inputGroupSelect01"
                       [value]='' (change)="changeLanguage(selectedLanguage)"
                       [(ngModel)]="selectedLanguage">
                 <option class="text-uppercase text-start" *ngFor="let language of languages"

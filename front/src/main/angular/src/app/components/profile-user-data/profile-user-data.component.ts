@@ -71,12 +71,19 @@ export class ProfileUserDataComponent implements OnInit {
   }
 
   save() {
-    let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
-        this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
-        this.tmpDob, this.tmpGender);
-    this.profileService.updateUserData(newUserForEditDto).subscribe(result => {
-      this.notificationService.showSnackBar('Changes saved successfully!');
-    });
+    const dateArray = this.tmpDob.split("-");
+    if ((Number(dateArray[0])<=this.currentDate.getFullYear())&&
+        (Number(dateArray[1])<=this.currentDate.getMonth()+1)&&
+        (Number(dateArray[2])<=this.currentDate.getDate())) {
+      let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
+          this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
+          this.tmpDob, this.tmpGender);
+      this.profileService.updateUserData(newUserForEditDto).subscribe(result => {
+        this.notificationService.showSnackBar('Changes saved successfully!');
+      });
+    }else {
+      this.notificationService.showSnackBar('Date of birth is not correct!');
+    }
   }
 
   onFileSelected(event: any) {
