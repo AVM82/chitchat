@@ -84,7 +84,10 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
   }
 
   private setDataSource(result: Chitchat[]) {
-    result.forEach(value => value.countUnreadMessages = this.countUnreadMessages(value.id))
+    result.forEach(value => {
+      value.date = new Date(value.date+".000Z");
+      value.countUnreadMessages = this.countUnreadMessages(value.id)
+    })
     this.chitchats = result;
     this.dataSource = new MatTableDataSource(this.chitchats);
     this.dataSource.sort = this.sort;
