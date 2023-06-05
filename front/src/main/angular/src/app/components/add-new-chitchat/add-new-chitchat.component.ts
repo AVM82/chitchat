@@ -62,8 +62,12 @@ export class AddNewChitchatComponent {
   addNewChitchat() {
     let datePipe = new DatePipe("en-US");
     let ChitChatDate = datePipe.transform(this.tmpDate, 'yyyy-MM-dd')+'T'+this.tmpTime;
+    let ChitChatDateISO = new Date(ChitChatDate).toISOString();
+    console.log("Local date is "+(new Date(ChitChatDate)))
+    console.log("UTC date is "+(new Date(ChitChatDate)).toISOString())
+
     let newChitchat = new NewChitChatDTO(this.tmpHeader,this.tmpCategory,
-    this.tmpDescription,this.tmpLanguage,this.tmpLevel,this.tmpCapacity,ChitChatDate);
+    this.tmpDescription,this.tmpLanguage,this.tmpLevel,this.tmpCapacity,ChitChatDateISO);
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
       });

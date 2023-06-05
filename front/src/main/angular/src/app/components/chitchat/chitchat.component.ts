@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import { map } from 'rxjs/operators';
 import {Chitchat} from "../../model/Chitchat";
 import {ChitchatService} from "../../service/chitchat.service";
 import {OneChitchatComponent} from "../one-chitchat/one-chitchat.component";
@@ -49,6 +50,7 @@ export class ChitchatComponent {
     if(this.isLoggedIn) {
       this.chitchatService.get(chitchat.id).subscribe(result => {
         this.oneChitchat = result;
+        this.oneChitchat.date =new Date(result.date+".000Z")
         this.dialog.open(OneChitchatComponent, {
           data: [this.oneChitchat],
           hasBackdrop: true,
@@ -58,7 +60,7 @@ export class ChitchatComponent {
         });
       });
     } else {
-      this.notificationService.showSnackBar("Please log in before!")
+      this.notificationService.showSnackBar("Please login before!")
     }
 
   }
@@ -74,7 +76,7 @@ export class ChitchatComponent {
         autoFocus: true,
       });
     } else{
-      this.notificationService.showSnackBar("Please log in before!")
+      this.notificationService.showSnackBar("Please login before!")
     }
   }
 
