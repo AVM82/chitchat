@@ -102,6 +102,9 @@ export class ChitchatComponent {
     .subscribe(data => {
       this.chitchats = data['content'];
       this.totalElements = data['totalElements'];
+      this.chitchats.forEach(value => {
+        value.date = new Date(value.date + ".000Z")
+      })
     });
   }
 

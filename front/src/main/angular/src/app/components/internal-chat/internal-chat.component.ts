@@ -33,6 +33,9 @@ export class InternalChatComponent implements OnInit, OnDestroy {
     this.chitchatId = chitchatId;
     this.messageService.getChitchatAllMessages(this.chitchatId).subscribe(data => {
       this.msg = data.reverse();
+      this.msg.forEach(value => {
+        value.createdTime = new Date(value.createdTime+"Z");
+      })
       this.initializeWebSocketConnection();
     });
   }
@@ -50,7 +53,9 @@ export class InternalChatComponent implements OnInit, OnDestroy {
       that.stompClient.subscribe('/message.' + this.chitchatId.toString(), (message: any) => {
         if (message.body) {
           // @ts-ignore
-          that.msg.unshift(JSON.parse(message.body));
+          let mes = JSON.parse(message.body);
+          mes.createdTime = new Date(mes.createdTime+"Z");
+          that.msg.unshift(mes);
         }
       });
     });

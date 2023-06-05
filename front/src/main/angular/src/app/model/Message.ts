@@ -2,7 +2,7 @@ import {Subscription} from "./Subscription";
 
 export class Message {
   id: number;
-  createdTime: string;
+  createdTime: string | Date;
   authorName: string;
   chitchatId: number;
   message: string;
