@@ -36,7 +36,6 @@ export class OneChitchatContentComponent{
     console.log(this.router.url)
     this.currentUser = this.tokenStorageService.getUser();
     if (this.oneChitChat) {
-      this.oneChitChat.date = new Date(this.oneChitChat.date + ".000Z")
       this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;
       this.tmpConferenceLink = this.oneChitChat.conferenceLink;
     }
