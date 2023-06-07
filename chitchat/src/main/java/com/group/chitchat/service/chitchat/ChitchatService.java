@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Set;
@@ -244,7 +245,9 @@ public class ChitchatService {
       String languageId, String levelStr, String dateFromStr, String dateToStr,
       Integer categoryId, Pageable pageable) {
 
-    Specification<Chitchat> specification = where(dateFromSpecification(LocalDateTime.now()));
+    Specification<Chitchat> specification = where(
+        dateFromSpecification(LocalDateTime.now(ZoneOffset.UTC)));
+    log.info("date, time of default request to db: {}", LocalDateTime.now(ZoneOffset.UTC));
 
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
@@ -259,7 +262,8 @@ public class ChitchatService {
       specification = where(levelSpecification(level)).and(specification);
     }
     if (dateFromStr != null && !dateFromStr.isEmpty()) {
-      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
+      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atTime(LocalTime.now(ZoneOffset.UTC));
+      log.info("date, time of users request to db: {}", dateFrom);
       specification = where(dateFromSpecification(dateFrom)).and(specification);
     }
     if (dateToStr != null && !dateToStr.isEmpty()) {
