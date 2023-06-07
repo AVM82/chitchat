@@ -25,13 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class StorageServiceS3Bucket implements FileStorageService {
 
-  private static final double COEF = 1.2;
   private AmazonS3 s3client;
 
-  @Value("${aws.access.key}")
+  @Value("${s3.access.key}")
   private String accessKey;
 
-  @Value("${aws.secret.key}")
+  @Value("${s3.secret.key}")
   private String secretKey;
 
   @Value("${bucket.name}")
@@ -71,6 +70,6 @@ public class StorageServiceS3Bucket implements FileStorageService {
   @Override
   public void deleteFile(String fileKey) {
     s3client.deleteObject(bucketName, fileKey.replace(
-        "https://chitchatstorage.s3.eu-central-1.amazonaws.com/", ""));
+        "s3.bucket.url", ""));
   }
 }
