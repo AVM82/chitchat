@@ -245,6 +245,7 @@ public class ChitchatService {
       Integer categoryId, Pageable pageable) {
 
     Specification<Chitchat> specification = where(dateFromSpecification(LocalDateTime.now()));
+    log.info("date, time of default request to db: {}", LocalDateTime.now());
 
     if (categoryId != null) {
       Category category = categoryRepo.findById(categoryId).orElseThrow();
@@ -259,7 +260,8 @@ public class ChitchatService {
       specification = where(levelSpecification(level)).and(specification);
     }
     if (dateFromStr != null && !dateFromStr.isEmpty()) {
-      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atStartOfDay();
+      LocalDateTime dateFrom = LocalDate.parse(dateFromStr).atTime(LocalTime.now());
+      log.info("date, time of users request to db: {}", dateFrom);
       specification = where(dateFromSpecification(dateFrom)).and(specification);
     }
     if (dateToStr != null && !dateToStr.isEmpty()) {
