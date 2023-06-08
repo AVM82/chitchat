@@ -61,14 +61,17 @@ export class AddNewChitchatComponent {
 
   addNewChitchat() {
     let datePipe = new DatePipe("en-US");
-    let ChitChatDate = datePipe.transform(this.tmpDate, 'yyyy-MM-dd')+'T'+this.tmpTime;
+    let ChitChatDate = new Date(datePipe.transform(this.tmpDate, 'yyyy-MM-dd')+'T'+this.tmpTime).toISOString();
     let newChitchat = new NewChitChatDTO(this.tmpHeader,this.tmpCategory,
     this.tmpDescription,this.tmpLanguage,this.tmpLevel,this.tmpCapacity,ChitChatDate);
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
+        this.notificationService.showSnackBar(translate('confirm message create'));
+        this.dialogRef.close();
+      }, error => {
+        console.error(error.error)
+        this.notificationService.showSnackBar(error.getMessage());
       });
-      this.notificationService.showSnackBar(translate('confirm message create'));
-      this.dialogRef.close();
     }
   }
 
