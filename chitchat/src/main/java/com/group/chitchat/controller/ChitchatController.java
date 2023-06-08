@@ -11,6 +11,7 @@ import com.group.chitchat.service.internationalization.LocaleResolverConfig;
 import com.group.chitchat.service.messagechat.MessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -182,9 +183,10 @@ public class ChitchatController {
    * @param response             object that sets the locale.
    * @return response about the status of creating a new chat.
    */
+
   @PostMapping()
   public ResponseEntity<ChitchatForResponseDto> addChitchat(
-      @RequestBody ForCreateChitchatDto forCreateChitchatDto,
+      @Valid @RequestBody ForCreateChitchatDto forCreateChitchatDto,
       HttpServletRequest requestHeader, HttpServletResponse response) {
     localeResolverConfig.setLocale(requestHeader, response, null);
 

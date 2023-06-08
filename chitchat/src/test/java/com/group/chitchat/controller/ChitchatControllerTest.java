@@ -206,7 +206,6 @@ class ChitchatControllerTest {
   @Test
   @WithMockUser("testUser2")
   void addChitchatTest() throws Exception {
-
     String addChitchat = "{"
         + "    \"chatHeader\":\"testChat\","
         + "    \"categoryId\":2,"
@@ -214,7 +213,7 @@ class ChitchatControllerTest {
         + "    \"languageId\":\"en\","
         + "    \"level\":\"B1\","
         + "    \"capacity\":4,"
-        + "    \"date\":\"2023-05-27T12:16:29.834\""
+        + "    \"date\":\"2053-05-27T12:16:29.834\""
         + "    }";
 
     String expectedResult = "{"
@@ -227,7 +226,7 @@ class ChitchatControllerTest {
         + "\"languageName\":\"english\","
         + "\"level\":\"B1\","
         + "\"capacity\":4,"
-        + "\"date\":\"2023-05-27T12:16:29.834\","
+        + "\"date\":\"2053-05-27T12:16:29.834\","
         + "\"usersInChitchat\":[\"testUser2\"],"
         + "\"avatarUrl\":null,"
         + "\"conferenceLink\":null"

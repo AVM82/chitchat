@@ -23,7 +23,6 @@ import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.CalendarService;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.email.ReminderPlanner;
-import com.group.chitchat.service.internationalization.BundlesService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +56,6 @@ public class ChitchatService {
    */
   private static final String CONFIRM_CREATE_MESSAGE_KEY = "email_confirm_create_chat";
   TranslationRepo translationRepo;
-  private final BundlesService bundlesService;
 
   private static final String CONFIRM_PARTICIPATION_MESSAGE_KEY =
       "email_confirm_participate_chitchat";
