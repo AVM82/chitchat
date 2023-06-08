@@ -81,9 +81,8 @@ class ChitchatServiceTest {
     emailServiceMock = TestEnvironment.createMockEmailService();
     reminderPlannerMock = TestEnvironment.createMockReminderPlanner();
     chitchatRepoMock = TestEnvironment.createMockChitchatRepo();
-    chitchatService = new ChitchatService(chitchatRepoMock,
-        userRepoMock, languageRepoMock, categoryRepoMock, reminderPlannerMock, translationRepoMock,
-        bundlesServiceMock, emailServiceMock);
+    chitchatService = new ChitchatService(chitchatRepoMock, userRepoMock, languageRepoMock,
+        categoryRepoMock, reminderPlannerMock, translationRepoMock, emailServiceMock);
 
     chitchatUrl = new StringBuffer("testUrl");
     Mockito.when(requestMock.getRequestURL()).thenReturn(chitchatUrl);

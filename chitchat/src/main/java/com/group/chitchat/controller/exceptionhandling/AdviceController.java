@@ -1,5 +1,6 @@
 package com.group.chitchat.controller.exceptionhandling;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -13,11 +14,15 @@ import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.exception.UserNotFoundException;
 import com.group.chitchat.service.internationalization.BundlesService;
 import io.jsonwebtoken.ExpiredJwtException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -138,6 +143,25 @@ public class AdviceController {
     ex.printStackTrace();
     return ErrorResponse.create(ex, INTERNAL_SERVER_ERROR, logInfoAndGiveMessage(
         bundlesService.getMessForLocale(MESSAGE_ERROR, Locale.getDefault())));
+  }
 
+  /**
+   * Exception handler when data are not valid.
+   *
+   * @param ex MethodArgumentNotValidException
+   * @return a response with the value of this exception.
+   */
+  @ResponseBody
+  @ExceptionHandler({MethodArgumentNotValidException.class})
+  public ErrorResponse handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+
+    List<String> list = new ArrayList<>();
+    for (ObjectError objectError : ex.getBindingResult().getAllErrors()) {
+      String defaultMessage = objectError.getDefaultMessage();
+      list.add(defaultMessage);
+    }
+    String errorMessage = list.toString();
+
+    return ErrorResponse.create(ex, BAD_REQUEST, logInfoAndGiveMessage(errorMessage));
   }
 }
