@@ -66,11 +66,10 @@ export class AddNewChitchatComponent {
     this.tmpDescription,this.tmpLanguage,this.tmpLevel,this.tmpCapacity,ChitChatDate);
     if(this.tmpDate!=undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
-        this.notificationService.showSnackBar(translate('confirm message create'));
+        this.notificationService.showSnackBar(translate('Confirm message create'));
         this.dialogRef.close();
       }, error => {
-        console.error(error.error)
-        this.notificationService.showSnackBar(error.getMessage());
+        this.notificationService.showSnackBar(translate('Error create message'));
       });
     }
   }
