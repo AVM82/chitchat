@@ -33,7 +33,6 @@ export class OneChitchatContentComponent{
 
   ngOnInit() {
     this.isRouting = this.router.url.includes("chitchat?id=");
-    console.log(this.router.url)
     this.currentUser = this.tokenStorageService.getUser();
     if (this.oneChitChat) {
       this.isAuthor = this.tokenStorageService.getUser() === this.oneChitChat.authorName;

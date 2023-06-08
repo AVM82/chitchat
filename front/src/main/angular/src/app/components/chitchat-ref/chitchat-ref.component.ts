@@ -23,6 +23,7 @@ export class ChitchatRefComponent {
   ) {
     this.oneChitChatSubject.subscribe((val) => {
       this.oneChitChat = val;
+      this.oneChitChat.date = new Date(this.oneChitChat.date + ".000Z");
     });
     this.querySubscription = route.queryParams.subscribe(
         (queryParam: any) => {
