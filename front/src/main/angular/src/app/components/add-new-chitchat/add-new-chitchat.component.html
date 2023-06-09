@@ -66,17 +66,16 @@
     <!--    календар -->
     <div class="input-group">
 
-      <mat-form-field>
+      <mat-form-field >
 
-        <input style="width: 160px"
+        <input style="width: 160px;"
                #inputDate (click)="picker.open()" [(ngModel)]="tmpDate"
                [matDatepicker]="picker"
-
                matInput
                placeholder="Set the date"
-               data-background-color="light"
+               data-background-color="#eccccf"
                readonly="true">
-        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker-toggle  [for]="picker" matSuffix></mat-datepicker-toggle>
 
         <mat-datepicker #picker></mat-datepicker>
 
