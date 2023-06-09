@@ -13,8 +13,8 @@ import {Category} from "../../model/Category";
 export class ChitchatFilterComponent implements OnInit {
   filteredLanguage: string = "";
   filteredLevel: string = "";
-  filteredDateFrom: string = "";
-  filteredDateTo: string = "";
+  filteredDateFrom: string = new Date().toISOString().split('T')[0];
+  filteredDateTo: string = new Date(new Date().setMonth(new Date().getMonth() + 24)).toISOString().split('T')[0];
   languages: Language[] = [];
   levels: Level[] = [];
   data: any;
@@ -27,6 +27,7 @@ export class ChitchatFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(navigator.languages)
     this.languageService.getAll().subscribe(result => {
       this.languages = result;
     });
