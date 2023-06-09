@@ -63,6 +63,7 @@
   "Participants": "Participants",
   "Join": "Join",
   "Leave chat": "Leave chat",
-  "confirm message create": "New ChitChat created successfully! Please go to your email and follow a few simple steps",
-  "Successfully registered!": "Registration successful! To confirm your registration, please follow the link you received in your email"
+  "Confirm message create": "New ChitChat created successfully! Please go to your email and follow a few simple steps",
+  "Successfully registered!": "Registration successful! To confirm your registration, please follow the link you received in your email",
+  "Error create message": "Please ensure that all fields are filled correctly"
 }

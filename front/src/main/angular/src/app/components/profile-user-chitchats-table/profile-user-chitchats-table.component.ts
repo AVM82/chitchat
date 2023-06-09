@@ -107,6 +107,7 @@ export class ProfileUserChitchatsTableComponent implements OnInit, AfterViewInit
     //this.router.navigate(['/one_chitchat', { id: chitchatId }]);
     this.chitchatService.get(chitchatId).subscribe(result => {
       let oneChitchat = result;
+      oneChitchat.date = new Date(oneChitchat.date + ".000Z");
       this.dialog.open(OneChitchatComponent, {
         data: [oneChitchat],
         width: "65%",

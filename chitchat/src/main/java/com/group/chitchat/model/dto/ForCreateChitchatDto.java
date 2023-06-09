@@ -2,6 +2,8 @@ package com.group.chitchat.model.dto;
 
 import com.group.chitchat.model.enums.Levels;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,12 +18,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ForCreateChitchatDto {
 
+  @NotNull(message = "{notNull}")
+  @NotEmpty(message = "{notEmpty}")
   private String chatHeader;
   private Integer categoryId;
   private String description;
   private String languageId;
   private Levels level;
   private int capacity;
-  @Future(message = "{v.future_date}")
+  @Future(message = "{future}")
   private LocalDateTime date;
 }
