@@ -1,9 +1,21 @@
 <ng-container *transloco="let translate;">
   <div class="sidebar rounded ml-2" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
     <div class="logo text-center" style="font-size: 20px; color: #0a53be">
-      <span class="nav-title text-center text-uppercase"> {{translate('Category')}}</span>
+      <span class="nav-title mt-2 text-center text-uppercase"> {{translate('Category')}}</span>
+      <img class="card-img-top position-absolute mb-3" style="width: 60%; top: 0.5rem; left: 3rem"
+           src="assets/img/path32.svg"
+           alt="..."/>
+      <img class="card-img-top position-absolute mb-3" style="width: 20%; top: 1.7rem; left: 0.5rem"
+           src="assets/img/cat_cat.png"
+           alt="..."/>
+
     </div>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper mt-4">
+
+      <img class="card-img-top position-absolute mb-3" style="width: 100px; bottom: 0rem; right: 0.1rem"
+           src="assets/img/cats.png"
+           alt="..."/>
+
       <ul class="nav">
         <li  [class.active]="selectedCategory === null"
              (click)="selectCategory(null)"
@@ -14,7 +26,7 @@
           </a>
         </li>
         <!-- Line -->
-        <div class="line"></div>
+
 
         <li *ngFor="let category of categories" (click)="selectCategory(category)"
                [class.active]="category === selectedCategory" class="nav-item"
