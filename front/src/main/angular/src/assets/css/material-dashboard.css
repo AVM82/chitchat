@@ -15354,13 +15354,13 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .logo:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 15px;
-    height: 1px;
-    width: calc(100% - 30px);
-    background-color: rgba(180, 180, 180, 0.3);
+    /*content: '';*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*right: 15px;*/
+    /*height: 1px;*/
+    /*width: calc(100% - 30px);*/
+    /*background-color: rgba(180, 180, 180, 0.3);*/
 }
 
 .sidebar .logo p {
