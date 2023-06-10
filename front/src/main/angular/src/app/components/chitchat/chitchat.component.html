@@ -1,6 +1,6 @@
 <ng-container *transloco="let translate;">
   <div class="row my-0">
-    <div class="col-10 ml-2">
+    <div class="col-10 pr-0 mr-0 ml-2">
       <app-chitchat-filter [selectedCategory]="selectedCategory"
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
     </div>
@@ -41,6 +41,10 @@
             + chitchat.languageName}}</h4>
             <h4 class="fw-bolder py-0 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('level:')}}</span>{{"  "
             + chitchat.level}}</h4>
+
+            <img class="card-img-top position-absolute" style="width:70px; bottom: 0rem; left: 0rem"
+                 src="assets/img/cat_left.png"
+                 alt="..."/>
           </div>
           <div class="col w-50 pl-1 pr-0 m-0">
             <h4 class="py-1 my-0"><span
