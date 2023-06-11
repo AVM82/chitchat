@@ -1,14 +1,30 @@
 <ng-container *transloco="let translate;">
   <form [formGroup]="loginForm">
 
-    <div class="container">
-      <label><b>{{translate('Username')}}</b></label>
-      <input type="text" formControlName="username" placeholder="{{translate('Enter Username')}}" required>
+    <div class="align-items-center container">
+      <div class="ratio ratio-1x1 rounded-circle overflow-hidden"
+           style="margin-left: calc(50% - 40px); border: 2px solid #86b7fe;width: 80px; height: 80px">
+        <img class="card-img-top" style="margin-left: 10px; margin-top: 10px; width: 60px; height: 60px"
+             src="assets/img/cat_logo.svg"
+             alt="..."/>
+      </div>
 
-      <label><b>{{translate('Password')}}</b></label>
-      <input type="password" formControlName="password" placeholder="{{translate('Enter Password')}}" required>
+      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
+      <input class="rounded mt-1" type="text" formControlName="username"
+             style="background-color: #f8d7da"
+             placeholder="{{translate('Enter Username')}}" required>
 
-      <button type="submit" (click)="login()">{{translate('Login')}}</button>
+      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
+      <input class="rounded mt-1" type="password"
+             style="background-color: #f8d7da"
+             formControlName="password" placeholder="{{translate('Enter Password')}}" required>
+      <div class="text-center">
+        <button type="button" (click)="login()" class="w-25 mx-1 btn btn-primary btn-round"
+        >{{translate('Login')}}</button>
+
+        <button type="button" (click)="closeDialog()" class="w-25 mx-1 btn btn-round btn-rose"
+        >{{translate('Close')}}</button>
+      </div>
     </div>
   </form>
 </ng-container>
