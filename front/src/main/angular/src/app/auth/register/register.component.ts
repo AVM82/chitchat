@@ -46,4 +46,8 @@ export class RegisterComponent {
       });
     }
   }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

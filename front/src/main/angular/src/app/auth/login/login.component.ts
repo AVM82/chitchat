@@ -49,4 +49,8 @@ export class LoginComponent {
       this.dialogRef.close(false);
     });
   }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }
