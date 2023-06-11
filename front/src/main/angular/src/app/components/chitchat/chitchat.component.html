@@ -5,7 +5,7 @@
                            (chitchatsEvent)="filter($event)"></app-chitchat-filter>
     </div>
     <div class="col py-0 ">
-        <button (click)="openAddTaskDialog()" class="btn btn-round btn-primary mt-0">
+        <button (click)="openAddTaskDialog()" class="btn btn-round shadow btn-primary mt-0">
           {{translate('Add new')}}
         </button>
     </div>
@@ -88,7 +88,7 @@
   </div>
   <!--Dashboard-->
 
-    <mat-paginator class = "ml-2 mt-2" style="color: #0a53be;font-size: 16px; border-radius: 30px"
+    <mat-paginator class = "bg-transparent ml-2 mt-2 shadow " style="color: #0a53be;font-size: 16px; border-radius: 30px"
                    [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
                    [hidePageSize]="true"
                    [showFirstLastButtons] = "true"

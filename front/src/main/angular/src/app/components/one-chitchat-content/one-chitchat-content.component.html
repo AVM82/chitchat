@@ -1,5 +1,24 @@
-<div class="row rounded mt-lg-5" style="background-color: white; width: 65%; margin: auto"
+<div class="row rounded px-3" style=" height: 100vh; width: 100%;"
      *ngIf="isRouting">
+  <div class="row mx-2 px-0">
+    <nav aria-label="" class="navbar rounded navbar-expand-xl px-0 py-0 mt-2 shadow border-radius-xl">
+      <div class="container-fluid py-0 px-2">
+        <nav aria-label="breadcrumb">
+          <p style="margin-left: 3rem; color: #0a53be; font-weight: bold; font-size: 250%">Chit
+            <span style="color: white">-</span>Chat
+            <span style="margin-left: 150px; font-style: italic; color: #DD8F85">"Speak the language of the planet"</span></p>
+          <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
+               style="border: 1px solid #86b7fe;width: 1rem; top: 2rem; left: 7.7rem">
+            <img class="card-img-top"
+                 src="assets/img/flags/uk.svg"
+                 alt="..."/>
+          </div>
+          <!--          -->
+
+        </nav>
+      </div>
+    </nav>
+  </div>
   <ng-container *transloco="let translate;">
     <div class="row px-0 py-2 mx-0">
       <div class="col-6 col-md-4 pr-0">
@@ -50,8 +69,14 @@
         </div>
       </div>
 
+      <div class="col-6" *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)">
+        <h2 style="margin-top: 150px">WE ALL LIVE IN A YELLOW SUBMARINE!</h2>
+      </div>
 
-      <div class="col-3 col-md-2" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
+      <div class="col-3 col-md-2" >
+
+
+        <div *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
         <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">{{translate('Participants')}}</span></h4>
         <ul class="list-group list-group-flush ml-2 mt-1"
             *ngFor="let user of oneChitChat.usersInChitchat">
@@ -59,6 +84,7 @@
             {{user}}
           </button>
         </ul>
+        </div>
       </div>
 
 
