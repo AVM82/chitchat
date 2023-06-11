@@ -37,24 +37,27 @@
             </div>
 <!--            End image -->
             <h4 class="fw-bolder my-0 text-truncate">{{chitchat.authorName}}</h4>
-            <h4 class="fw-bolder py-1 my-0 text-info text-truncate"><span class="py-0 text-dark text-truncate">{{translate('language:')}}</span>{{"  "
+            <h4 class="fw-bolder py-1 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('language:')}}</span>{{"  "
             + chitchat.languageName}}</h4>
             <h4 class="fw-bolder py-0 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('level:')}}</span>{{"  "
             + chitchat.level}}</h4>
-
-            <img class="card-img-top position-absolute" style="width:70px; bottom: 0rem; left: 0rem"
-                 src="assets/img/cat_left.png"
-                 alt="..."/>
           </div>
           <div class="col w-50 pl-1 pr-0 m-0">
             <h4 class="py-1 my-0"><span
-                class="badge badge-success py-1">{{translate('When')}}</span>{{chitchat.date|date: '  dd/MM/yyyy'}}
+                class="badge badge-rose py-1"
+            style="transform: rotate(-10deg)"
+            >{{translate('When')}}</span>{{chitchat.date|date: '  dd/MM/yyyy'}}
             </h4>
             <h4 class="fw-bolder pt-0 my-0"><span
-                class="badge badge-danger py-1">{{translate('Time')}}</span>{{chitchat.date|date: '  HH:mm'}}
+                class="badge badge-rose py-1"
+                style="transform: rotate(-10deg)"
+            >{{translate('Time')}}</span>{{chitchat.date|date: '  HH:mm'}}
             </h4>
-            <h4 class="pt-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
-            <textarea class="form-control mt-0" [disabled]="true" style="font-size: 11px" rows="11">{{"   "+chitchat.description}}</textarea>
+            <h4 class="pt-1 my-0"><span class="badge badge-info py-1"
+            >{{translate('Description')}}</span></h4>
+            <textarea class="form-control pb-0 pr-1 mt-0" [disabled]="true"
+                      style="overflow-y: hidden; font-size: 11px" rows="7">
+              {{"   "+chitchat.description}}</textarea>
           </div>
         </div>
       </div>
