@@ -5661,6 +5661,11 @@ button.close {
     background-color: #4caf50;
 }
 
+.badge-rose {
+    color: #2c3034;
+    background-color: #e5c7ca;
+}
+
 .badge-success[href]:hover,
 .badge-success[href]:focus {
     color: #ffffff;
@@ -5669,8 +5674,8 @@ button.close {
 }
 
 .badge-info {
-    color: #ffffff;
-    background-color: #00bcd4;
+    color: #212529;
+    background-color: #9acffa;
 }
 
 .badge-info[href]:hover,
@@ -15316,6 +15321,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     margin: 10px 15px 0;
     border-radius: 3px;
     color: #3C4858;
+    background-color: #e5c7ca;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
@@ -15814,7 +15820,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .fixed-plugin .badge-rose {
-    background-color: #e91e63;
+    background-color: #e5c7ca;
 }
 
 .fixed-plugin h5 {
