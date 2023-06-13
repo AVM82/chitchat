@@ -13,6 +13,9 @@ import {translate} from "@ngneat/transloco";
 })
 export class RegisterComponent {
   public registerForm: FormGroup | any;
+  public loginError: boolean = false;
+  public emailError: boolean = false;
+  public passwordEqualsError: boolean = false;
 
   constructor(
       private authService: AuthService,
@@ -33,17 +36,28 @@ export class RegisterComponent {
       });
   }
   register() {
-    if (this.registerForm.value.password == this.registerForm.value.confirmPassword) {
-      this.authService.register({
-        username: this.registerForm.value.username,
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password
-      }).subscribe(data => {
-        this.notificationService.showSnackBar(translate('Successfully registered!'));
-        this.dialogRef.close();
-      }, error => {
-        this.notificationService.showSnackBar('Some data errors during registration');
-      });
+    this.loginError = false;
+    this.emailError =  false;
+    this.passwordEqualsError = false;
+    if (this.registerForm.value.username.length<3){this.loginError=true}
+    if (!this.registerForm.value.email.includes('@') ||
+        !this.registerForm.value.email.includes(".")){this.emailError=true}
+    if (this.registerForm.value.password.length<6 ||
+        this.registerForm.value.password!=this.registerForm.value.confirmPassword)
+    {this.passwordEqualsError=true}
+    if (!this.loginError && !this.emailError && !this.passwordEqualsError) {
+      if (this.registerForm.value.password == this.registerForm.value.confirmPassword) {
+        this.authService.register({
+          username: this.registerForm.value.username,
+          email: this.registerForm.value.email,
+          password: this.registerForm.value.password
+        }).subscribe(data => {
+          this.notificationService.showSnackBar(translate('Successfully registered!'));
+          this.dialogRef.close();
+        }, error => {
+          this.notificationService.showSnackBar('Some data errors during registration');
+        });
+      }
     }
   }
 

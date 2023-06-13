@@ -15,18 +15,22 @@
 
       <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
       <input class="rounded mt-1" type="text" formControlName="username"
+             [class.border-danger]="loginError"
              style="background-color: #f8d7da"
              placeholder="{{translate('Enter Username')}}" required>
       <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Email')}}</b></label>
       <input class="rounded mt-1" type="text" formControlName="email"
+             [class.border-danger]="emailError"
              style="background-color: #f8d7da"
              placeholder="{{translate('Enter Email')}}" required>
       <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
       <input class="rounded mt-1" type="password" formControlName="password"
+             [class.border-danger]="passwordEqualsError"
              style="background-color: #f8d7da"
              placeholder="{{translate('Enter Password')}}" required>
       <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Confirm password')}}</b></label>
       <input class="rounded mt-1" type="password" formControlName="confirmPassword"
+             [class.border-danger]="passwordEqualsError"
              style="background-color: #f8d7da"
              placeholder="{{translate('Confirm Password')}}"
              required>
