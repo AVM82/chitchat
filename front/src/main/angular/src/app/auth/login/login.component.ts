@@ -13,8 +13,8 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class LoginComponent {
   public loginForm: FormGroup | any;
-  public loginError: boolean;
-  public passwordError: boolean;
+  public loginError: boolean = false;
+  public passwordError: boolean = false;
 
   constructor(
       private authService: AuthService,
@@ -50,6 +50,8 @@ export class LoginComponent {
         this.notificationService.showSnackBar('Successfully logged in');
         this.dialogRef.close(true);
       }, error => {
+        this.loginError=true
+        this.passwordError=true
         this.notificationService.showSnackBar('Login or password is incorrect!');
       });
     }
