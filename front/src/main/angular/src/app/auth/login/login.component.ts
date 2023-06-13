@@ -38,8 +38,8 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.value.username.length<3){this.loginError=true}
-    if (this.loginForm.value.password.length<3){this.passwordError=true}
-    if (this.loginError && this.passwordError) {
+    if (this.loginForm.value.password.length<6){this.passwordError=true}
+    if (!this.loginError && !this.passwordError) {
       this.authService.login({
         username: this.loginForm.value.username,
         password: this.loginForm.value.password
