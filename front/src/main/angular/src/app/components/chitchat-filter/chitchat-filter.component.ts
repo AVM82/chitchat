@@ -27,7 +27,6 @@ export class ChitchatFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(navigator.languages)
     this.languageService.getAll().subscribe(result => {
       this.languages = result;
     });

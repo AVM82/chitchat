@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 import {TokenStorageService} from "../../service/token-storage.service";
@@ -13,6 +13,8 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class LoginComponent {
   public loginForm: FormGroup | any;
+  public loginError: boolean = false;
+  public passwordError: boolean = false;
 
   constructor(
       private authService: AuthService,
@@ -29,25 +31,30 @@ export class LoginComponent {
 
   createLoginForm(): FormGroup {
     return this.fb.group({
-      username: ['', Validators.compose([Validators.required, Validators.email])],
+      username: ['', Validators.compose([Validators.required])],
       password: ['', Validators.compose([Validators.required])],
     });
   }
 
   login() {
-    this.authService.login({
-      username: this.loginForm.value.username,
-      password: this.loginForm.value.password
-    }).subscribe(data => {
-      this.tokenStorage.saveToken(data.token);
-      this.tokenStorage.saveRefreshToken(data.refreshToken);
-      this.tokenStorage.saveUser();
-      this.notificationService.showSnackBar('Successfully logged in');
-      this.dialogRef.close(true);
-    }, error => {
-      this.notificationService.showSnackBar('Error data for login');
-      this.dialogRef.close(false);
-    });
+    if (this.loginForm.value.username.length<3){this.loginError=true}
+    if (this.loginForm.value.password.length<3){this.passwordError=true}
+    if (this.loginError && this.passwordError) {
+      this.authService.login({
+        username: this.loginForm.value.username,
+        password: this.loginForm.value.password
+      }).subscribe(data => {
+        this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveRefreshToken(data.refreshToken);
+        this.tokenStorage.saveUser();
+        this.notificationService.showSnackBar('Successfully logged in');
+        this.dialogRef.close(true);
+      }, error => {
+        this.loginError=true
+        this.passwordError=true
+        this.notificationService.showSnackBar('Login or password is incorrect!');
+      });
+    }
   }
 
   closeDialog() {
