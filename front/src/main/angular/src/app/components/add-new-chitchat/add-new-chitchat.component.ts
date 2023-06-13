@@ -22,8 +22,8 @@ export class AddNewChitchatComponent {
   newLanguage: Language[];
   newLevel: Level[];
   newCategory: Category[];
-  tmpHeader: string ="";
-  tmpDescription: string ="";
+  tmpHeader: string = "";
+  tmpDescription: string = "";
   tmpCategory: number = 1;
   tmpLanguage: string = 'en';
   tmpDate: Date | null;
@@ -40,7 +40,7 @@ export class AddNewChitchatComponent {
       private notificationService: NotificationService,
       private tokenStorageService: TokenStorageService,
       private dialog: MatDialog) {
-  }
+  };
 
   ngOnInit() {
     this.categoryService.getAll().subscribe(result => {
@@ -61,10 +61,10 @@ export class AddNewChitchatComponent {
 
   addNewChitchat() {
     let datePipe = new DatePipe("en-US");
-    let ChitChatDate = new Date(datePipe.transform(this.tmpDate, 'yyyy-MM-dd')+'T'+this.tmpTime).toISOString();
-    let newChitchat = new NewChitChatDTO(this.tmpHeader,this.tmpCategory,
-    this.tmpDescription,this.tmpLanguage,this.tmpLevel,this.tmpCapacity,ChitChatDate);
-    if(this.tmpDate!=undefined) {
+    let ChitChatDate = new Date(datePipe.transform(this.tmpDate, 'yyyy-MM-dd') + 'T' + this.tmpTime).toISOString();
+    let newChitchat = new NewChitChatDTO(this.tmpHeader, this.tmpCategory,
+        this.tmpDescription, this.tmpLanguage, this.tmpLevel, this.tmpCapacity, ChitChatDate);
+    if (this.tmpDate != undefined) {
       this.chitchatService.add(newChitchat).subscribe(data => {
         this.notificationService.showSnackBar(translate('Confirm message create'));
         this.dialogRef.close();
@@ -77,4 +77,5 @@ export class AddNewChitchatComponent {
   closeDialog() {
     this.dialogRef.close();
   }
+
 }

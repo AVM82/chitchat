@@ -71,7 +71,7 @@ export class MainComponent implements OnInit {
       data: ['Login in system'],
       hasBackdrop: true,
       width: "40%",
-      disableClose: false,
+      disableClose: true,
       autoFocus: true,
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -97,7 +97,7 @@ export class MainComponent implements OnInit {
       data: ['Register in system'],
       hasBackdrop: true,
       width: "40%",
-      disableClose: false,
+      disableClose: true,
       autoFocus: true,
     });
   }
