@@ -1,14 +1,15 @@
 <div class="row rounded px-3" style=" height: 100vh; width: 100%;"
      *ngIf="isRouting">
   <div class="row mx-2 px-0">
-    <nav aria-label="" class="navbar rounded navbar-expand-xl px-0 py-0 mt-2 shadow border-radius-xl">
-      <div class="container-fluid py-0 px-2">
-        <nav aria-label="breadcrumb">
+    <nav aria-label=""
+         class="navbar rounded navbar-expand-xl px-0 py-0 mt-2 shadow border-radius-xl">
+      <div class="container-fluid py-0 px-2 pt-2">
+        <nav aria-label="breadcrumb pt-2">
           <p style="margin-left: 3rem; color: #0a53be; font-weight: bold; font-size: 250%">Chit
             <span style="color: white">-</span>Chat
             <span style="margin-left: 150px; font-style: italic; color: #DD8F85">"Speak the language of the planet"</span></p>
           <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
-               style="border: 1px solid #86b7fe;width: 1rem; top: 2rem; left: 7.7rem">
+               style="border: 1px solid #86b7fe;width: 1rem; top: 1.7rem; left: 7.7rem">
             <img class="card-img-top"
                  src="assets/img/flags/uk.svg"
                  alt="..."/>
@@ -22,38 +23,56 @@
   <ng-container *transloco="let translate;">
     <div class="row px-0 py-2 mx-0">
       <div class="col-6 col-md-4 pr-0">
-        <div class="row mx-0">
-          <div class="col-6 px-1 ">
-            <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"
-                 style="width: 7rem">
-              <img class="card-img-top" src={{oneChitChat.avatarUrl}} alt="..."/>
-            </div>
-            <div class="badge-success text-light position-absolute"
-                 style="font-size:16px; top: 0.5rem; left: 0.5rem">{{oneChitChat.authorName}}
+<!--        New Card -->
+        <div class="card shadow border-success pl-0 pt-0 pb-0 mb-1" style="width: 25rem;">
+          <!--      Header -->
+          <div class="card-header shadow pl-5 pt-1 m-2 rounded border-success text-truncate"
+               style="background-color: #eccccf; height: 25px; font-size: 14px"
+          >{{oneChitChat.chatName}}</div>
+          <!--      Header -->
+          <div class="card-body text-dark">
+            <div class="row">
+              <div class="col w-50 pl-1 pr-0">
+                <!--            Avatar image -->
+                <div class="ml-3 shadow ratio ratio-1x1 rounded-circle overflow-hidden"
+                     style="border: 1px solid #86b7fe;width: 6rem">
+                  <img class="card-img-top" src="{{oneChitChat.avatarUrl || 'assets/img/user.png'}}"
+                       alt="..."/>
+                </div>
+                <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
+                     style="border: 1px solid #86b7fe;width: 1rem; top: 0.3rem; left: 5.8rem">
+                  <img class="card-img-top"
+                       src="{{'assets/img/flags/'+oneChitChat.authorLanguage+'.svg' || 'assets/img/flags/uk.svg'}}"
+                       alt="..."/>
+                </div>
+                <!--            End image -->
+                <h4 class="fw-bolder my-0 text-truncate">{{oneChitChat.authorName}}</h4>
+                <h4 class="fw-bolder py-1 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('language:')}}</span>{{"  "
+                + oneChitChat.languageName}}</h4>
+                <h4 class="fw-bolder py-0 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('level:')}}</span>{{"  "
+                + oneChitChat.level}}</h4>
+              </div>
+              <div class="col w-50 pl-1 pr-0 m-0">
+                <h4 class="py-1 my-0"><span
+                    class="badge badge-rose py-1"
+                    style="transform: rotate(-10deg)"
+                >{{translate('When')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
+                </h4>
+                <h4 class="fw-bolder pt-0 my-0"><span
+                    class="badge badge-rose py-1"
+                    style="transform: rotate(-10deg)"
+                >{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
+                </h4>
+                <h4 class="pt-1 my-0"><span class="badge badge-info py-1"
+                >{{translate('Description')}}</span></h4>
+                <textarea class="form-control pb-0 pr-1 mt-0" [disabled]="true"
+                          style="overflow-y: hidden; font-size: 11px" rows="11">
+              {{"   "+oneChitChat.description}}</textarea>
+              </div>
             </div>
           </div>
-
-          <div class="col-lg-6 mr-0 px-0">
-            <h4 class="py-1 my-0"><span class="badge badge-primary py-1">{{translate('Language')}}</span>{{"  "
-            + oneChitChat.languageName}}</h4>
-            <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">{{translate('Level')}}</span>{{"  "
-            + oneChitChat.level}}</h4>
-            <h4 class="py-1 my-0"><span
-                class="badge badge-success py-1">{{translate('Date')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
-            </h4>
-            <h4 class="py-1 my-0"><span
-                class="badge badge-danger py-1">{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
-            </h4>
-          </div>
         </div>
-        <ul class="list-group py-0 my-0 list-group-flush">
-          <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
-        </ul>
-        <div class="form-group pl-2">
-          <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
-          <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
-          <textarea class="form-control" [disabled]="true"  rows="7">{{oneChitChat.description}}</textarea>
-        </div>
+<!--      End  New card -->
         <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
         <div *ngIf="!isAuthor && oneChitChat.usersInChitchat.includes(currentUser)">
           <a href="{{tmpConferenceLink}}"
@@ -69,9 +88,9 @@
         </div>
       </div>
 
-      <div class="col-6" *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)">
-        <h2 style="margin-top: 150px">WE ALL LIVE IN A YELLOW SUBMARINE!</h2>
-      </div>
+      <img class="card-img-top position-absolute" src="assets/img/earth.svg" alt="..."
+           style="width: 60vh; top: 17%; left: 40%"
+           *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"/>
 
       <div class="col-3 col-md-2" >
 
@@ -116,40 +135,59 @@
      *ngIf="!isRouting">
 <ng-container *transloco="let translate;">
 
-  <div class="row px-0 py-2 mx-0">
-    <div class="col-6 col-md-4 pr-0">
-      <div class="row mx-0">
-        <div class="col-6 px-1 ">
-          <div class="ratio  ml-2 mt-2 ratio-1x1 rounded-circle overflow-hidden"
-               style="width: 7rem">
-            <img class="card-img-top" src={{oneChitChat.avatarUrl}} alt="..."/>
-          </div>
-          <div class="badge-success text-light position-absolute"
-               style="font-size:16px; top: 0.5rem; left: 0.5rem">{{oneChitChat.authorName}}
-          </div>
-        </div>
+  <div class="row px-0 py-1 mx-0">
+    <div class="col-6 col-md-4 ml-0 pl-0 pr-0" >
+<!--      New card-->
 
-        <div class="col-lg-6 mr-0 px-0">
-          <h4 class="py-1 my-0"><span class="badge badge-primary py-1">{{translate('Language')}}</span>{{"  "
-          + oneChitChat.languageName}}</h4>
-          <h4 class="py-1 my-0"><span class="badge badge-warning text-dark py-1">{{translate('Level')}}</span>{{"  "
-          + oneChitChat.level}}</h4>
-          <h4 class="py-1 my-0"><span
-              class="badge badge-success py-1">{{translate('Date')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
-          </h4>
-          <h4 class="py-1 my-0"><span
-              class="badge badge-danger py-1">{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
-          </h4>
+      <div class="card shadow border-success pl-0 pt-0 pb-0 mb-1" style="width: 20rem;">
+        <!--      Header -->
+        <div class="card-header shadow pl-5 pt-1 m-2 rounded border-success text-truncate"
+             style="background-color: #eccccf; height: 25px; font-size: 14px"
+        >{{oneChitChat.chatName}}</div>
+        <!--      Header -->
+        <div class="card-body text-dark">
+          <div class="row">
+            <div class="col w-50 pl-1 pr-0">
+              <!--            Avatar image -->
+              <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden"
+                   style="border: 1px solid #86b7fe;width: 6rem">
+                <img class="card-img-top" src="{{oneChitChat.avatarUrl || 'assets/img/user.png'}}"
+                     alt="..."/>
+              </div>
+              <div class="shadow ratio ratio-1x1 rounded-circle overflow-hidden position-absolute"
+                   style="border: 1px solid #86b7fe;width: 1rem; top: 0.3rem; right: 3.7rem">
+                <img class="card-img-top"
+                     src="{{'assets/img/flags/'+oneChitChat.authorLanguage+'.svg' || 'assets/img/flags/uk.svg'}}"
+                     alt="..."/>
+              </div>
+              <!--            End image -->
+              <h4 class="fw-bolder my-0 text-truncate">{{oneChitChat.authorName}}</h4>
+              <h4 class="fw-bolder py-1 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('language:')}}</span>{{"  "
+              + oneChitChat.languageName}}</h4>
+              <h4 class="fw-bolder py-0 my-0 text-primary text-truncate"><span class="py-0 text-dark text-truncate">{{translate('level:')}}</span>{{"  "
+              + oneChitChat.level}}</h4>
+            </div>
+            <div class="col w-50 pl-1 pr-0 m-0">
+              <h4 class="py-1 my-0"><span
+                  class="badge badge-rose py-1"
+                  style="transform: rotate(-10deg)"
+              >{{translate('When')}}</span>{{oneChitChat.date|date: '  dd/MM/yyyy'}}
+              </h4>
+              <h4 class="fw-bolder pt-0 my-0"><span
+                  class="badge badge-rose py-1"
+                  style="transform: rotate(-10deg)"
+              >{{translate('Time')}}</span>{{oneChitChat.date|date: '  HH:mm'}}
+              </h4>
+              <h4 class="pt-1 my-0"><span class="badge badge-info py-1"
+              >{{translate('Description')}}</span></h4>
+              <textarea class="form-control pb-0 pr-1 mt-0" [disabled]="true"
+                        style="overflow-y: hidden; font-size: 11px" rows="11">
+              {{"   "+oneChitChat.description}}</textarea>
+            </div>
+          </div>
         </div>
       </div>
-      <ul class="list-group py-0 my-0 list-group-flush">
-        <li class="list-group-item py-0 my-1">{{oneChitChat.categoryName}}</li>
-      </ul>
-      <div class="form-group pl-2">
-        <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Theme')}}</span>{{"    "+oneChitChat.chatName}}</h4>
-        <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Description')}}</span></h4>
-        <textarea class="form-control" [disabled]="true" rows="7">{{oneChitChat.description}}</textarea>
-      </div>
+
       <h4 class="py-1 my-0"><span class="badge badge-info py-1">{{translate('Link:')}}</span></h4>
       <div *ngIf="!isAuthor && oneChitChat.usersInChitchat.includes(currentUser)">
         <a href="{{tmpConferenceLink}}"
@@ -166,6 +204,9 @@
           </div>
     </div>
 
+    <img class="card-img-top position-absolute" src="assets/img/earth.svg" alt="..."
+         style="width: 60vh; top: 5%; left: 40%"
+         *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"/>
 
     <div class="col-3 col-md-2" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
       <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">{{translate('Participants')}}</span></h4>
