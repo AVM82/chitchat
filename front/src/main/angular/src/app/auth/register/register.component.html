@@ -2,12 +2,14 @@
   <form [formGroup]="registerForm">
 
     <div class="container rounded">
-      <img class="card-img-top position-absolute" style="margin-left: calc(50% - 180px);  margin-top: 0px; width: 60px; height: 60px"
+      <img class="card-img-top position-absolute"
+           style="margin-left: calc(50% - 180px);  margin-top: 0px; width: 60px; height: 60px"
            src="assets/img/hello.png"
            alt="..."/>
       <div class="ratio ratio-1x1 rounded-circle overflow-hidden"
            style="background-color: #dddddd; margin-left: calc(50% - 40px); border: 2px solid #86b7fe;width: 80px; height: 80px">
-        <img class="card-img-top" style="margin-left: 10px; margin-top: 10px; width: 60px; height: 60px"
+        <img class="card-img-top"
+             style="margin-left: 10px; margin-top: 10px; width: 60px; height: 60px"
              src="assets/img/cat_logo.svg"
              alt="..."/>
       </div>
@@ -28,7 +30,8 @@
              [class.border-danger]="passwordEqualsError"
              style="background-color: #f8d7da"
              placeholder="{{translate('Enter Password')}}" required>
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Confirm password')}}</b></label>
+      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate(
+          'Confirm password')}}</b></label>
       <input class="rounded mt-1" type="password" formControlName="confirmPassword"
              [class.border-danger]="passwordEqualsError"
              style="background-color: #f8d7da"
@@ -39,14 +42,24 @@
         <mat-checkbox #agreement class="example-margin" [checked]="true"></mat-checkbox>
         <a>I agree to share my personal data</a>
       </section>
+      <!--Spinner-->
+      <div class="d-flex justify-content-center"
+           *ngIf="isLoading">
+        <div class="spinner-border position-absolute" style="top: 50%" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <!--      End Spinner -->
 
       <div class="text-center">
         <button type="button" (click)="register()"
-                [disabled]="!agreement.checked"
+                [disabled]="!agreement.checked ||  isLoading"
                 class="w-25 mx-1 btn btn-primary btn-round"
         > {{translate('Register')}}</button>
 
-        <button type="button" (click)="closeDialog()" class="w-25 mx-1 btn btn-round btn-rose"
+        <button type="button" (click)="closeDialog()"
+                [disabled]="isLoading"
+                class="w-25 mx-1 btn btn-round btn-rose"
         >{{translate('Close')}}</button>
       </div>
     </div>
