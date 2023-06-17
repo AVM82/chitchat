@@ -15,6 +15,7 @@ export class LoginComponent {
   public loginForm: FormGroup | any;
   public loginError: boolean = false;
   public passwordError: boolean = false;
+  public isLoading: boolean = false;
 
   constructor(
       private authService: AuthService,
@@ -37,9 +38,14 @@ export class LoginComponent {
   }
 
   login() {
-    if (this.loginForm.value.username.length<3){this.loginError=true}
-    if (this.loginForm.value.password.length<6){this.passwordError=true}
+    if (this.loginForm.value.username.length < 3) {
+      this.loginError = true
+    }
+    if (this.loginForm.value.password.length < 6) {
+      this.passwordError = true
+    }
     if (!this.loginError && !this.passwordError) {
+      this.isLoading = true;
       this.authService.login({
         username: this.loginForm.value.username,
         password: this.loginForm.value.password
@@ -48,11 +54,13 @@ export class LoginComponent {
         this.tokenStorage.saveRefreshToken(data.refreshToken);
         this.tokenStorage.saveUser();
         this.notificationService.showSnackBar('Successfully logged in');
+        this.isLoading = false;
         this.dialogRef.close(true);
       }, error => {
-        this.loginError=true
-        this.passwordError=true
+        this.loginError = true
+        this.passwordError = true
         this.notificationService.showSnackBar('Login or password is incorrect!');
+        this.isLoading = false;
       });
     }
   }
