@@ -76,7 +76,7 @@ public class ChitchatService {
   }
 
   /**
-   * Creating a new chitchat and saving into DB.
+   * Creating a new chitchat and saving into DB
    *
    * @param chitchatDto Dto for create chitchat.
    * @return response with info of chitchat.
