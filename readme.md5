@@ -16,5 +16,3 @@
 1. НЕ ЗМІНЮВАТИ в корені проекта pom.xml, а також ./front/pom.xml
 2. Вся розробка по java в ./chitchat/src/main/java/com/group/chitchat
 3. Всі необхідні для розробки залежності додавати ./chitchat/pom.xml
-
-підключено доменне ім'я chitchatplanet.com
