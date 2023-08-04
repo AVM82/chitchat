@@ -51,7 +51,7 @@ export class RegisterComponent {
         !this.registerForm.value.email.includes(".")) {
       this.emailError = true
     }
-    if (this.registerForm.value.password.length < 6 ||
+    if (this.registerForm.value.password.length < 5 ||
         this.registerForm.value.password != this.registerForm.value.confirmPassword) {
       this.passwordEqualsError = true
     }
