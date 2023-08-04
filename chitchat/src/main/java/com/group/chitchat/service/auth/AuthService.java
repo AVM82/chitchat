@@ -1,5 +1,6 @@
 package com.group.chitchat.service.auth;
 
+import com.group.chitchat.exception.NotValidTranslationKeyException;
 import com.group.chitchat.exception.TokenNotFoundException;
 import com.group.chitchat.exception.UserAlreadyExistException;
 import com.group.chitchat.model.RefreshToken;
@@ -10,6 +11,7 @@ import com.group.chitchat.model.dto.authdto.AuthenticationResponse;
 import com.group.chitchat.model.dto.authdto.RefreshRequest;
 import com.group.chitchat.model.dto.authdto.RegisterRequest;
 import com.group.chitchat.repository.RefreshTokenRepo;
+import com.group.chitchat.repository.TranslationRepo;
 import com.group.chitchat.repository.UserRepo;
 import com.group.chitchat.service.email.EmailService;
 import com.group.chitchat.service.internationalization.BundlesService;
@@ -43,6 +45,7 @@ public class AuthService {
   private final RefreshTokenRepo tokenRepo;
   private final BundlesService bundlesService;
   private final DefaultSettingService defaultSettingService;
+  private final TranslationRepo translationRepo;
 
   /**
    * Register method which take data from request and create new user. After all this steps saving
@@ -72,8 +75,14 @@ public class AuthService {
     // Log info about user who had registered in db.
     log.info("User register with username {} successfully.", username);
     String url = httpRequest.getRequestURL().toString()
-        .replace("/api/v1/auth/register", "/click?click=");
-    sendEmail(user, url + jwtEmailToken);
+        .replace("/api/v1/auth/register", "/click?click=") + jwtEmailToken;
+    String confirmMessage = String.format(
+        translationRepo.findByMessageKeyAndLocale("mail_registration", Locale.getDefault())
+            .orElseThrow(() -> new NotValidTranslationKeyException("mail_registration"))
+            .getMessage(),
+        url);
+
+    sendEmail(user, confirmMessage);
 
     return buildNewTokens(user);
   }
