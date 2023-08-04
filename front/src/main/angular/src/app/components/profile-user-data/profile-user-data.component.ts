@@ -72,9 +72,8 @@ export class ProfileUserDataComponent implements OnInit {
 
   save() {
     const dateArray = this.tmpDob.split("-");
-    if ((Number(dateArray[0])<=this.currentDate.getFullYear())&&
-        (Number(dateArray[1])<=this.currentDate.getMonth()+1)&&
-        (Number(dateArray[2])<=this.currentDate.getDate())) {
+
+    if (Number(dateArray[0])<=this.currentDate.getFullYear()) {
       let newUserForEditDto = new UserForEditDto(this.tmpFirstname, this.tmpLastname,
           this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
           this.tmpDob, this.tmpGender);
