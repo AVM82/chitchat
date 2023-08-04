@@ -41,7 +41,7 @@ export class LoginComponent {
     if (this.loginForm.value.username.length < 3) {
       this.loginError = true
     }
-    if (this.loginForm.value.password.length < 6) {
+    if (this.loginForm.value.password.length < 5) {
       this.passwordError = true
     }
     if (!this.loginError && !this.passwordError) {

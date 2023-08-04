@@ -21,6 +21,7 @@ import {translate} from "@ngneat/transloco";
 export class AddNewChitchatComponent {
   newLanguage: Language[];
   newLevel: Level[];
+  creatingBuzy: boolean = false;
   newCategory: Category[];
   tmpHeader: string = "";
   tmpDescription: string = "";
@@ -65,13 +66,17 @@ export class AddNewChitchatComponent {
     let newChitchat = new NewChitChatDTO(this.tmpHeader, this.tmpCategory,
         this.tmpDescription, this.tmpLanguage, this.tmpLevel, this.tmpCapacity, ChitChatDate);
     if (this.tmpDate != undefined) {
+      this.creatingBuzy = true;
       this.chitchatService.add(newChitchat).subscribe(data => {
         this.notificationService.showSnackBar(translate('Confirm message create'));
+        this.creatingBuzy = false;
         this.dialogRef.close();
       }, error => {
+        this.creatingBuzy = false;
         this.notificationService.showSnackBar(translate('Error create message'));
       });
     }
+
   }
 
   closeDialog() {

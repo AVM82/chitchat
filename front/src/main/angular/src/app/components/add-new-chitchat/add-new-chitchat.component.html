@@ -99,7 +99,9 @@
     </div>
 
     <div class="card-body text-center">
-      <button type="button" (click)="addNewChitchat()" class="mx-1 btn btn-primary btn-round"
+      <button type="button" (click)="addNewChitchat()"
+              class="mx-1 btn btn-primary btn-round"
+              [disabled]="creatingBuzy"
       >{{translate('Create')}}</button>
 
       <button type="button" (click)="closeDialog()" class="mx-1 btn btn-round btn-rose"
