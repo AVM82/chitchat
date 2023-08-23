@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("api/v1/profile")
 @RequiredArgsConstructor
+//@CrossOrigin("*")
 public class ProfileController {
 
   private final ProfileService profileService;
