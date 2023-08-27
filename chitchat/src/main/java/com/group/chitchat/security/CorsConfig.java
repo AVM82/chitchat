@@ -1,11 +1,10 @@
 package com.group.chitchat.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 class CorsConfig {
   @Bean
   WebMvcConfigurer corsConfigurer() {

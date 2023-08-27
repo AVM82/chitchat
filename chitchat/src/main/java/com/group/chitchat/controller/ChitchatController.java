@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/chitchats")
 @RequiredArgsConstructor
 @Log4j2
-@CrossOrigin("https://chitchatplanet.com/*")
+@CrossOrigin("https://chitchatplanet.com")
 public class ChitchatController {
 
   private final ChitchatService chitchatService;
