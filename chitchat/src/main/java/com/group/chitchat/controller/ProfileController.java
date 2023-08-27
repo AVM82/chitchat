@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("api/v1/profile")
 @RequiredArgsConstructor
-@CrossOrigin("https://chitchatplanet.com/*")
+@CrossOrigin("https://chitchatplanet.com")
 public class ProfileController {
 
   private final ProfileService profileService;
