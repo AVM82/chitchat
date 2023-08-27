@@ -317,13 +317,17 @@ public class ChitchatService {
           userName, chitchat.getId());
       throw new LinkAdditionNotAllowedException(userName);
     }
-
     String inputLink = simpleDto.getValue();
-    int startIndex = inputLink.indexOf("https://");
-    String outputLink = inputLink.substring(startIndex);
+    try {
+      int startIndex = inputLink.indexOf("https://");
+      String outputLink = inputLink.substring(startIndex);
 
-    chitchat.setConferenceLink(outputLink);
-    chitchat.getRemindersData().setLink(outputLink);
+      chitchat.setConferenceLink(outputLink);
+      chitchat.getRemindersData().setLink(outputLink);
+    } catch (RuntimeException e) {
+      chitchat.setConferenceLink(inputLink);
+      chitchat.getRemindersData().setLink(inputLink);
+    }
 
     return simpleDto;
   }
