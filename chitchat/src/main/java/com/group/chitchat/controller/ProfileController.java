@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("api/v1/profile")
 @RequiredArgsConstructor
-@CrossOrigin("https://chitchatplanet.com")
+//@CrossOrigin("https://chitchatplanet.com")
 public class ProfileController {
 
   private final ProfileService profileService;
