@@ -13,7 +13,8 @@ class CorsConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOriginPatterns("*")
+            .allowedOrigins("https://chitchatplanet.com/**")
+
             .allowedMethods("*")
             .allowedHeaders("*");
       }
