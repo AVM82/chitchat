@@ -1,0 +1,36 @@
+.top-menu{
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.top-menu>ul{
+  margin: 0;
+  padding: 5px ;
+  display: flex;
+  list-style: none;
+}
+
+.menu-div{
+  display: inline-flex;
+  height: 50px;
+}
+.main-div{
+  display: flex;
+  background-color: white;
+  opacity: 0.95;
+  box-shadow: 5px 5px 5px lightgrey;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+@media (max-width: 1200px) {
+  .main-div {
+    display: block;
+  text-align: center;
+  }
+  .top-menu{
+    justify-content: center;
+  }
+
+}

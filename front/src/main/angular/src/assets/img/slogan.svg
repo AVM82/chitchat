@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="375mm"
+   height="30mm"
+   viewBox="0 0 375 30"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="slogan.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.72515432"
+     inkscape:cx="592.28772"
+     inkscape:cy="97.220685"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient12432"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#0e1fff;stop-opacity:1;"
+         offset="0"
+         id="stop12430" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient12374"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#0e1fff;stop-opacity:1;"
+         offset="0"
+         id="stop12372" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1738"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#0071ff;stop-opacity:1;"
+         offset="0"
+         id="stop1736" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter27428"
+       x="-0.0032985143"
+       y="-0.062544078"
+       width="1.0126443"
+       height="1.3075083">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood27418" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite27420" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="0.5"
+         result="blur"
+         id="feGaussianBlur27422" />
+      <feOffset
+         dx="2.2"
+         dy="3.5"
+         result="offset"
+         id="feOffset27424" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite27426" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter2864"
+       x="-0.025633862"
+       y="-0.41036713"
+       width="1.0555978"
+       height="1.8717575">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood2854" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite2856" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3.7"
+         result="blur"
+         id="feGaussianBlur2858" />
+      <feOffset
+         dx="1.5"
+         dy="1.1041"
+         result="offset"
+         id="feOffset2860" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite2862" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#1818ce;stroke-width:1.59396;stroke-dasharray:none;stroke-opacity:1"
+       d=""
+       id="path17888"
+       transform="scale(0.26458333)" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#1818ce;stroke-width:1.59396;stroke-dasharray:none;stroke-opacity:1"
+       d=""
+       id="path17890"
+       transform="scale(0.26458333)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.35px;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#2965b8;fill-opacity:1;stroke:none;stroke-width:1.87596;filter:url(#filter2864)"
+       x="5.6478324"
+       y="22.091545"
+       id="text1112"
+       transform="scale(1.037801,0.96357585)"><tspan
+         sodipodi:role="line"
+         id="tspan1110"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.35px;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#2965b8;fill-opacity:1;stroke:none;stroke-width:1.87596"
+         x="5.6478324"
+         y="22.091545">speak the language of the planet</tspan></text>
+  </g>
+</svg>
