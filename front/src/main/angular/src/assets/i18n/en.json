@@ -65,5 +65,11 @@
   "Leave chat": "Leave chat",
   "Confirm message create": "New ChitChat created successfully! Please go to your email and follow a few simple steps",
   "Successfully registered!": "Registration successful! To confirm your registration, please follow the link you received in your email",
-  "Error create message": "Please ensure that all fields are filled correctly"
+  "Error create message": "Please ensure that all fields are filled correctly",
+  "Computer Science and IT": "Computer Science and IT",
+  "Casual Conversation": "Casual Conversation",
+  "Literature": "Literature",
+  "Science": "Science",
+  "Politics": "Politics",
+  "Childhood upbringing": "Childhood upbringing"
 }
