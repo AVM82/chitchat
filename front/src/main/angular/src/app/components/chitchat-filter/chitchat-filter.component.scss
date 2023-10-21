@@ -1,3 +1,18 @@
 .filter-div{
   display: inline-block;
+  margin: 2px;
+}
+
+.category-div{
+  display: inline-flex;
+  visibility: hidden;
+  width: 5px;
+}
+
+@media (max-width: 1450px) {
+  .category-div {
+    padding-right: 5px;
+    visibility: visible;
+    width: 280px;
+  }
 }

@@ -4,6 +4,7 @@ import {LanguageService} from "../../service/language.service";
 import {ChitchatService} from "../../service/chitchat.service";
 import {Level} from "../../model/Level";
 import {Category} from "../../model/Category";
+import {CategoryService} from "../../service/category.service";
 
 @Component({
   selector: 'app-chitchat-filter',
@@ -16,6 +17,7 @@ export class ChitchatFilterComponent implements OnInit {
   filteredDateFrom: string = new Date().toISOString().split('T')[0];
   filteredDateTo: string = new Date(new Date().setMonth(new Date().getMonth() + 24)).toISOString().split('T')[0];
   languages: Language[] = [];
+  categories: Category[] ;
   levels: Level[] = [];
   data: any;
   @Output()
@@ -23,7 +25,9 @@ export class ChitchatFilterComponent implements OnInit {
   filteredCategory: Category | null;
   private page = {page: "0", size: "6", sort: "date"};
 
-  constructor(private languageService: LanguageService, private chitchatService: ChitchatService) {
+  constructor(private languageService: LanguageService
+              , private chitchatService: ChitchatService
+  ,private categoryService: CategoryService) {
   }
 
   ngOnInit(): void {
@@ -32,6 +36,9 @@ export class ChitchatFilterComponent implements OnInit {
     });
     this.languageService.getLevels().subscribe(result => {
       this.levels = result;
+    });
+    this.categoryService.getAll().subscribe(result=>{
+      this.categories = result;
     });
   }
 

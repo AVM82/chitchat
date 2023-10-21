@@ -8,13 +8,19 @@
   background-color: #0a53be;
   color: white;
 }
-
-.edit-category-icon-area {
-  width: 15%;
-  display: inline-block;
-  text-align: left;
-  font-size: 13px
+@media (max-width: 1460px) {
+  .sidebar {
+    visibility: hidden;
+    width: 0px;
+  }
 }
+
+//.edit-category-icon-area {
+//  width: 15%;
+//  display: inline-block;
+//  text-align: left;
+//  font-size: 13px
+//}
 
 .category-title {
   width: 80%;

@@ -9,6 +9,9 @@
   display: flex;
   list-style: none;
 }
+.body-div{
+  display: flex;
+}
 
 .menu-div{
   display: inline-flex;
@@ -24,7 +27,12 @@
   padding: 5px;
   border-radius: 10px;
 }
-@media (max-width: 1200px) {
+
+.slogan{
+  max-width: 100%;
+  height: auto;
+}
+@media (max-width: 1450px) {
   .main-div {
     display: block;
   text-align: center;
