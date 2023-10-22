@@ -5,9 +5,17 @@
   display: flex;
   align-items: center;
 }
+@media (max-width: 700px) {
+  .filter-div{
+    display: block;
+    align-items: center;
+  }
+  .addnew{
+    margin-top: 10px;
+  }
 
+}
 .addnew{
-  margin: 0;
   position: relative;
   margin-left: 5px;
   top: 50%;
