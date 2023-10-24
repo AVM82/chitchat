@@ -9,7 +9,7 @@
     </button>
   </div>
   <!--Dashboard-->
-  <div class="row ml-2 row-cols-md-4">
+  <div class="row ml-1 row-cols-md-4">
     <div class="col" *ngFor="let chitchat of chitchats">
       <!--      Card    -->
       <div class="card shadow border-success mb-3" style="width: 20rem;">
@@ -89,7 +89,7 @@
   </div>
   <!--Dashboard-->
 
-  <mat-paginator class="bg-transparent ml-1 mt-3 shadow "
+  <mat-paginator class="bg-transparent mx-1 mt-3 shadow "
                  style="color: #0a53be;font-size: 16px; border-radius: 30px"
                  [pageSizeOptions]="[6]" [pageSize]="6" [length]="totalElements"
                  [hidePageSize]="true"

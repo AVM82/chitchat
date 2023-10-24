@@ -1,4 +1,4 @@
-<ng-container *transloco="let translate;">
+<div *transloco="let translate;">
   <!--  HEADER MENU -->
   <div class="main-div">
     <div class="menu-div">
@@ -51,12 +51,12 @@
     </nav>
   </div>
 
-  <div class="body-div pr-1">
-    <div>
+  <div class="body-div">
+    <div class="category-div">
       <app-category class="mt-5" (selectCategoryEvent)="selectCategory($event)"></app-category>
     </div>
     <div>
         <app-chitchat class="mt-5" [selectedCategory]="selectedCategory"></app-chitchat>
     </div>
   </div>
-</ng-container>
+</div>

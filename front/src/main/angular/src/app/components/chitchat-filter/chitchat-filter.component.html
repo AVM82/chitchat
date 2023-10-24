@@ -2,7 +2,7 @@
 <ng-container *transloco="let translate;">
   <div class="bg-transparent d-flex flex-column pb-1 ml-1 mr-0 shadow"
        style="border-radius: 30px; background-color: white">
-    <div class="rounded flex-column pl-2 pt-2">
+    <div class="rounded flex-column mr-2 pl-2 pt-2">
       <div class="filter-div">
         <img alt="" src="assets/img/filter.svg" style="height: 25px;">
         <span class="badge shadow" style="margin-left: 10px; background-color: #eccccf; color:#24292e;
@@ -27,7 +27,7 @@
                 [(ngModel)]="filteredLevel">
           <option [ngValue]="''">{{translate('All')}}</option>
           <option *ngFor="let level of levels"
-                  [ngValue]="level">{{level}}</option>
+                  [ngValue]="level">{{translate(level.toString())}}</option>
         </select>
       </div>
       <div class="filter-div">
@@ -56,7 +56,7 @@
                 [(ngModel)]="filteredCategory">
           <option [ngValue]="''">{{translate('All')}}</option>
           <option *ngFor="let category of categories"
-                  [ngValue]="category">{{category.name}}</option>
+                  [ngValue]="category">{{translate(category.name)}}</option>
         </select>
 
       </div>
