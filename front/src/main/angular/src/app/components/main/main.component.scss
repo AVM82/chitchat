@@ -1,24 +1,29 @@
-.top-menu{
+.top-menu {
   margin: 0;
   padding: 0;
   display: flex;
 }
-.top-menu>ul{
+
+.top-menu > ul {
   margin: 0;
-  padding: 5px ;
+  padding: 5px;
   display: flex;
   list-style: none;
 }
-.body-div{
+
+.body-div {
   display: flex;
 }
 
-.menu-div{
+.menu-div {
   display: inline-flex;
   height: 50px;
+  margin: auto;
 }
-.main-div{
+
+.main-div {
   display: flex;
+  text-align: center;
   background-color: white;
   opacity: 0.95;
   box-shadow: 5px 5px 5px lightgrey;
@@ -28,16 +33,26 @@
   border-radius: 10px;
 }
 
-.slogan{
+.slogan {
   max-width: 100%;
   height: auto;
 }
+
 @media screen and (max-width: 1450px) {
+  .menu-div {
+    display: flex;
+    justify-content: center;
+  }
+  .category-div{
+    width: 0;
+  }
   .main-div {
     display: block;
-  text-align: center;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
   }
-  .top-menu{
+  .top-menu {
     justify-content: center;
   }
 

@@ -70,7 +70,8 @@ export class MainComponent implements OnInit {
     let dialogRef = this.dialog.open(LoginComponent, {
       data: ['Login in system'],
       hasBackdrop: true,
-      width: "40%",
+      width: "95%",
+      maxWidth: "550px",
       disableClose: true,
       autoFocus: true,
     });
@@ -96,7 +97,8 @@ export class MainComponent implements OnInit {
     let dialogRef = this.dialog.open(RegisterComponent, {
       data: ['Register in system'],
       hasBackdrop: true,
-      width: "40%",
+      width: "95%",
+      maxWidth: "550px",
       disableClose: true,
       autoFocus: true,
     });

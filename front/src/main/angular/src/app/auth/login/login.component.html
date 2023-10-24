@@ -9,33 +9,37 @@
              src="assets/img/cat_logo.svg"
              alt="..."/>
       </div>
-
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
-      <input class="rounded mt-1" type="text" formControlName="username"
-             [class.border-danger]="loginError"
-             style="background-color: #f8d7da"
-             placeholder="{{translate('Enter Username')}}" required>
-
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
-      <input class="rounded mt-1" type="password"
-             [class.border-danger]="passwordError"
-             style="background-color: #f8d7da"
-             formControlName="password" placeholder="{{translate('Enter Password')}}" required>
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
+        <input class="rounded mt-1" type="text" formControlName="username"
+               [class.border-danger]="loginError"
+               style="background-color: #f8d7da"
+               placeholder="{{translate('Enter Username')}}" required>
+      </div>
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
+        <input class="rounded mt-1" type="password"
+               [class.border-danger]="passwordError"
+               style="background-color: #f8d7da"
+               formControlName="password" placeholder="{{translate('Enter Password')}}" required>
+      </div>
       <div class="d-flex justify-content-center"
            *ngIf="isLoading">
         <div class="spinner-border position-absolute" style="top: 50%" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
+
+
       <div class="text-center">
         <button type="button" (click)="login()"
                 [disabled]="isLoading"
-                class="w-25 mx-1 btn btn-primary btn-round"
+                class="mx-1 btn btn-primary btn-round"
         >{{translate('Login')}}</button>
 
         <button type="button" (click)="closeDialog()"
                 [disabled]="isLoading"
-                class="w-25 mx-1 btn btn-round btn-rose"
+                class="mx-1 btn btn-round btn-rose"
         >{{translate('Close')}}</button>
       </div>
     </div>

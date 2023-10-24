@@ -2,8 +2,8 @@
   <form [formGroup]="registerForm">
 
     <div class="container rounded">
-      <img class="card-img-top position-absolute"
-           style="margin-left: calc(50% - 180px);  margin-top: 0px; width: 60px; height: 60px"
+      <img class="hello position-absolute"
+           style="margin-left: calc(50% - 135px);  margin-top: 0px; width: 60px; height: 60px"
            src="assets/img/hello.png"
            alt="..."/>
       <div class="ratio ratio-1x1 rounded-circle overflow-hidden"
@@ -54,12 +54,12 @@
       <div class="text-center">
         <button type="button" (click)="register()"
                 [disabled]="!agreement.checked ||  isLoading"
-                class="w-25 mx-1 btn btn-primary btn-round"
+                class="mx-1 btn btn-primary btn-round"
         > {{translate('Register')}}</button>
 
         <button type="button" (click)="closeDialog()"
                 [disabled]="isLoading"
-                class="w-25 mx-1 btn btn-round btn-rose"
+                class="mx-1 btn btn-round btn-rose"
         >{{translate('Close')}}</button>
       </div>
     </div>

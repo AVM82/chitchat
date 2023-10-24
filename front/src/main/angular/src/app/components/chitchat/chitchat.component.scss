@@ -5,11 +5,14 @@
   display: flex;
   align-items: center;
 }
+
 @media (max-width: 1450px) {
   .filter-div{
     display: block;
     align-items: center;
+    margin-right: 5px;
   }
+
   .addnew{
     margin-top: 10px;
   }
