@@ -8,9 +8,10 @@ export class NotificationService {
 
   constructor(private snackbar: MatSnackBar) { }
 
-  public showSnackBar(message: string): void {
+  public showSnackBar(message: string,status:string | "info"): void {
     this.snackbar.open(message, undefined, {
-      duration: 4000,
+      duration: 2000,
+      panelClass:[status],
       verticalPosition: 'top',
       horizontalPosition: 'right'
     });

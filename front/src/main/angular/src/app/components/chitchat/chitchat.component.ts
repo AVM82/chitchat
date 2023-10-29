@@ -54,13 +54,13 @@ export class ChitchatComponent {
         this.dialog.open(OneChitchatComponent, {
           data: [this.oneChitchat],
           hasBackdrop: true,
-          width: "65%",
+          width: "58%",
           disableClose: true,
           autoFocus: true,
         });
       });
     } else {
-      this.notificationService.showSnackBar("Please login before!")
+      this.notificationService.showSnackBar("Please login before!",'info')
     }
 
   }
@@ -71,12 +71,13 @@ export class ChitchatComponent {
       this.dialog.open(AddNewChitchatComponent, {
         data: [this.categories, this.levels, this.languages],
         hasBackdrop: true,
-        width: "550px",
+        width: "95%",
+        maxWidth: "550px",
         disableClose: true,
         autoFocus: true,
       });
     } else{
-      this.notificationService.showSnackBar("Please login before!")
+      this.notificationService.showSnackBar("Please login before!",'info')
     }
   }
 

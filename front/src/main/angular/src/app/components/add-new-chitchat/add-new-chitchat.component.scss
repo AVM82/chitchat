@@ -1,0 +1,10 @@
+.time-block{
+  display: flex;
+}
+
+@media (max-width: 800px) {
+  .time-block{
+    margin-top: 0;
+    margin-left: 0;
+  }
+}

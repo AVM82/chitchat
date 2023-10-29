@@ -63,12 +63,12 @@ export class RegisterComponent {
           email: this.registerForm.value.email,
           password: this.registerForm.value.password
         }).subscribe(data => {
-          this.notificationService.showSnackBar(translate('Successfully registered!'));
+          this.notificationService.showSnackBar(translate('Successfully registered!'),'succes');
           this.isLoading = false;
           this.dialogRef.close();
         }, error => {
           this.isLoading = false;
-          this.notificationService.showSnackBar('Some data errors during registration');
+          this.notificationService.showSnackBar('Some data errors during registration','error');
         });
       }
     }

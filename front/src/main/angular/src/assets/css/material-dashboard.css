@@ -35,6 +35,20 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.mat-mdc-snack-bar-container.error {
+    --mdc-snackbar-supporting-text-color: white;
+    --mdc-snackbar-container-color: #f23a2f;
+}
+.mat-mdc-snack-bar-container.succes {
+    --mdc-snackbar-supporting-text-color: white;
+    --mdc-snackbar-container-color: green;
+}
+.mat-mdc-snack-bar-container.info {
+    --mdc-snackbar-supporting-text-color: white;
+    --mdc-snackbar-container-color: #0a6ebd;
+}
+
+
 @-ms-viewport {
     width: device-width;
 }

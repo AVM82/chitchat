@@ -53,13 +53,13 @@ export class LoginComponent {
         this.tokenStorage.saveToken(data.token);
         this.tokenStorage.saveRefreshToken(data.refreshToken);
         this.tokenStorage.saveUser();
-        this.notificationService.showSnackBar('Successfully logged in');
+        this.notificationService.showSnackBar('Successfully logged in',"succes");
         this.isLoading = false;
         this.dialogRef.close(true);
       }, error => {
         this.loginError = true
         this.passwordError = true
-        this.notificationService.showSnackBar('Login or password is incorrect!');
+        this.notificationService.showSnackBar('Login or password is incorrect!',"error");
         this.isLoading = false;
       });
     }

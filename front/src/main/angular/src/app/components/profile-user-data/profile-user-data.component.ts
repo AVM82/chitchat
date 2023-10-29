@@ -78,10 +78,10 @@ export class ProfileUserDataComponent implements OnInit {
           this.tmpRole, this.tmpAvatar, this.tmpNativeLanguage?.codeIso || '',
           this.tmpDob, this.tmpGender);
       this.profileService.updateUserData(newUserForEditDto).subscribe(result => {
-        this.notificationService.showSnackBar('Changes saved successfully!');
+        this.notificationService.showSnackBar('Changes saved successfully!','succes');
       });
     }else {
-      this.notificationService.showSnackBar('Date of birth is not correct!');
+      this.notificationService.showSnackBar('Date of birth is not correct!','error');
     }
   }
 
@@ -93,7 +93,7 @@ export class ProfileUserDataComponent implements OnInit {
       formData.append("avatar", file);
       this.fileUploadService.uploadAvatar(formData).subscribe(result => {
         if (result.url !== this.tmpAvatar) {
-          this.notificationService.showSnackBar('Avatar changed successfully!');
+          this.notificationService.showSnackBar('Avatar changed successfully!','succes');
         }
         this.tmpAvatar = result.url;
       });
@@ -105,7 +105,7 @@ export class ProfileUserDataComponent implements OnInit {
         && (file.type.toLowerCase() === "image/png" ||
             file.type.toLowerCase() === "image/jpeg");
     if (!result) {
-      this.notificationService.showSnackBar('Wrong size or type file of avatar!');
+      this.notificationService.showSnackBar('Wrong size or type file of avatar!','error');
     }
     return result;
   }
@@ -117,9 +117,9 @@ export class ProfileUserDataComponent implements OnInit {
   passwordRecovery() {
     this.authService.passwordRecoverySendEmail().subscribe(data => {
       console.log(data);
-      this.notificationService.showSnackBar('Link for password recovery sent by e-mail !');
+      this.notificationService.showSnackBar('Link for password recovery sent by e-mail !','info');
     }, error => {
-      this.notificationService.showSnackBar('Some errors');
+      this.notificationService.showSnackBar('Some errors','error');
     });
   }
 }
