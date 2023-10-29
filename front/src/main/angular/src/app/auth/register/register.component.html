@@ -1,7 +1,7 @@
 <ng-container *transloco="let translate;">
   <form [formGroup]="registerForm">
 
-    <div class="container rounded">
+    <div class="align-items-center container">
       <img class="hello position-absolute"
            style="margin-left: calc(50% - 135px);  margin-top: 0px; width: 60px; height: 60px"
            src="assets/img/hello.png"
@@ -14,29 +14,38 @@
              alt="..."/>
       </div>
 
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
+        <input class="rounded mt-1" type="text" formControlName="username"
+               [class.border-danger]="loginError"
+               style="background-color: #f8d7da"
+               placeholder="{{translate('Enter Username')}}" required>
+      </div>
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Email')}}</b></label>
+        <input class="rounded mt-1" type="text" formControlName="email"
+               [class.border-danger]="emailError"
+               style="background-color: #f8d7da"
+               placeholder="{{translate('Enter Email')}}" required>
+      </div>
 
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Username')}}</b></label>
-      <input class="rounded mt-1" type="text" formControlName="username"
-             [class.border-danger]="loginError"
-             style="background-color: #f8d7da"
-             placeholder="{{translate('Enter Username')}}" required>
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Email')}}</b></label>
-      <input class="rounded mt-1" type="text" formControlName="email"
-             [class.border-danger]="emailError"
-             style="background-color: #f8d7da"
-             placeholder="{{translate('Enter Email')}}" required>
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
-      <input class="rounded mt-1" type="password" formControlName="password"
-             [class.border-danger]="passwordEqualsError"
-             style="background-color: #f8d7da"
-             placeholder="{{translate('Enter Password')}}" required>
-      <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate(
-          'Confirm password')}}</b></label>
-      <input class="rounded mt-1" type="password" formControlName="confirmPassword"
-             [class.border-danger]="passwordEqualsError"
-             style="background-color: #f8d7da"
-             placeholder="{{translate('Confirm Password')}}"
-             required>
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate('Password')}}</b></label>
+        <input class="rounded mt-1" type="password" formControlName="password"
+               [class.border-danger]="passwordEqualsError"
+               style="background-color: #f8d7da"
+               placeholder="{{translate('Enter Password')}}" required>
+      </div>
+
+      <div class="input-div">
+        <label style="color: #0a58ca;margin-bottom: 0.1rem"><b>{{translate(
+            'Confirm password')}}</b></label>
+        <input class="rounded mt-1" type="password" formControlName="confirmPassword"
+               [class.border-danger]="passwordEqualsError"
+               style="background-color: #f8d7da"
+               placeholder="{{translate('Confirm Password')}}"
+               required>
+      </div>
 
       <section class="example-section text-success ">
         <mat-checkbox #agreement class="example-margin" [checked]="true"></mat-checkbox>

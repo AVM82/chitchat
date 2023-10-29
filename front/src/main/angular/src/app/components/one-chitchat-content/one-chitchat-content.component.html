@@ -131,11 +131,11 @@
 
 <!--In modal window-->
 
-<div class="col"
+<div class="modal-dev"
      *ngIf="!isRouting">
 <ng-container *transloco="let translate;">
 
-  <div class="row px-0 py-1 mx-0">
+<!--  <div class="row px-0 py-1 mx-0">-->
     <div class="col-6 col-md-4 ml-0 pl-0 pr-0" >
 <!--      New card-->
 
@@ -208,7 +208,7 @@
          style="width: 60vh; top: 5%; left: 40%"
          *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"/>
 
-    <div class="col-3 col-md-2" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
+    <div class="col-3" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
       <h4 class="py-1 my-0"><span class="badge badge-primary py-1 mr-3">{{translate('Participants')}}</span></h4>
       <ul class="list-group list-group-flush ml-2 mt-1"
           *ngFor="let user of oneChitChat.usersInChitchat">
@@ -229,22 +229,24 @@
     </div>
 
 
-    <div class="col-6 col-md-6" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
+    <div class = "col-6" *ngIf="oneChitChat.usersInChitchat.includes(currentUser)">
       <app-internal-chat [oneChitChat]="oneChitChat"></app-internal-chat>
     </div>
-  </div>
-  <div class="text-center">
-    <button class="btn btn-round btn-primary mx-1" (click)="addToChitchat(oneChitChat)"
-            [disabled]="oneChitChat.usersInChitchat.length>=oneChitChat.capacity"
-            *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"
-    >{{translate('Join')}}
-    </button>
-    <button class="btn btn-danger btn-round mx-1" (click)="deleteUserFromChitchat(oneChitChat)"
-            *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
-    >{{translate('Leave chat')}}
-    </button>
-    <button class="btn btn-rose btn-round mx-1" type="reset"
-            (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</button>
-  </div>
+<!--  </div>-->
+
 </ng-container>
+</div>
+<div class="text-center" *transloco="let translate;">
+  <button class="btn btn-round btn-primary mx-1" (click)="addToChitchat(oneChitChat)"
+          [disabled]="oneChitChat.usersInChitchat.length>=oneChitChat.capacity"
+          *ngIf="!oneChitChat.usersInChitchat.includes(currentUser)"
+  >{{translate('Join')}}
+  </button>
+  <button class="btn btn-danger btn-round mx-1" (click)="deleteUserFromChitchat(oneChitChat)"
+          *ngIf="oneChitChat.usersInChitchat.includes(currentUser)"
+          [disabled]="isAuthor"
+  >{{translate('Leave chat')}}
+  </button>
+  <button class="btn btn-primary btn-round mx-1" type="reset"
+          (click)="markAsReadUserMessagesOfChitchat()">{{translate('Close')}}</button>
 </div>

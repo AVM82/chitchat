@@ -66,7 +66,7 @@ export class OneChitchatContentComponent{
 
   addConferenceLink() {
     this.chitchatService.addChitchatLink(this.oneChitChat, this.tmpConferenceLink).subscribe(
-        () => this.notificationService.showSnackBar('Link saved'));
+        () => this.notificationService.showSnackBar('Link saved','succes'));
   }
 
   copyDataToClipboard(avatarUrl: string) {

@@ -66,7 +66,7 @@
     <!--    календар -->
     <div class="input-group">
 
-      <mat-form-field >
+      <mat-form-field>
 
         <input style="width: 160px;"
                #inputDate (click)="picker.open()" [(ngModel)]="tmpDate"
@@ -75,7 +75,7 @@
                placeholder="Set the date"
                data-background-color="#eccccf"
                readonly="true">
-        <mat-datepicker-toggle  [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
 
         <mat-datepicker #picker></mat-datepicker>
 
@@ -92,19 +92,20 @@
         </button>
 
       </mat-form-field>
-
-      <label class="ml-3 mt-4 text-dark " style="font-size: 16px" for="itme">{{translate('Time')}}</label>
-      <input class="form-control mt-3 ml-4" style=" font-size: 16px; width: 100px; height: 40px"
-             type="time" id="itme" name="itme" [(ngModel)]="tmpTime">
+      <div class="time-block">
+        <label class="ml-3 mt-4 text-dark " style="font-size: 16px" for="itme">{{translate(
+            'Time')}}</label>
+        <input class="form-control mt-3 ml-4" style=" font-size: 16px; width: 100px; height: 40px"
+               type="time" id="itme" name="itme" [(ngModel)]="tmpTime">
+      </div>
     </div>
-
     <div class="card-body text-center">
       <button type="button" (click)="addNewChitchat()"
-              class="mx-1 btn btn-primary btn-round"
+              class="mr-2 btn btn-primary btn-round"
               [disabled]="creatingBuzy"
       >{{translate('Create')}}</button>
 
-      <button type="button" (click)="closeDialog()" class="mx-1 btn btn-round btn-rose"
+      <button type="button" (click)="closeDialog()" class="ml-2 btn btn-round btn-rose"
       >{{translate('Close')}}</button>
     </div>
 

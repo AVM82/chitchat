@@ -60,7 +60,7 @@ export class MainComponent implements OnInit {
         data => {
           this.totalCountUnreadUserMessages = data.value;
           if (this.totalCountUnreadUserMessages > 0) {
-            this.notificationService.showSnackBar('You have unread chat messages.')
+            this.notificationService.showSnackBar('You have unread chat messages.','info')
           }
         });
     this.selectedLanguage = this.translocoService.getActiveLang();

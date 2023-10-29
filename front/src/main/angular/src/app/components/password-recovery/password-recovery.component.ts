@@ -33,12 +33,12 @@ export class PasswordRecoveryComponent {
       this.authService.passwordRecoveryEmailConfirm(this.clickToken, this.newPassword)
       .subscribe(value => {
         this.clickToken = value;
-        this.notificationService.showSnackBar("The password was changed!");
+        this.notificationService.showSnackBar("The password was changed!",'succes');
         this.newPassword = '';
         this.newPasswordConfirmation = '';
       });
     } else {
-      this.notificationService.showSnackBar("The entered passwords do not match!");
+      this.notificationService.showSnackBar("The entered passwords do not match!",'error');
     }
   }
 }
